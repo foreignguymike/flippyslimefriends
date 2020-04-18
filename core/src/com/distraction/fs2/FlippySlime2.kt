@@ -29,7 +29,7 @@ class FlippySlime2 : ApplicationAdapter() {
         assets.setLoader(FreeTypeFontGenerator::class.java, FreeTypeFontGeneratorLoader(resolver))
         assets.setLoader(BitmapFont::class.java, ".ttf", FreetypeFontLoader(resolver))
 
-        assets.load("sandboxpack.atlas", TextureAtlas::class.java)
+        assets.load("fs2.atlas", TextureAtlas::class.java)
 
         assets.finishLoading()
 

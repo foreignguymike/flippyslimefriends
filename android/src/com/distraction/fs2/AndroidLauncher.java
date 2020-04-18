@@ -1,10 +1,9 @@
-package com.distraction.sandbox;
+package com.distraction.fs2;
 
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.distraction.fs2.FlippySlime2;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

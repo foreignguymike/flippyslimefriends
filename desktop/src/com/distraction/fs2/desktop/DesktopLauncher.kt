@@ -1,4 +1,4 @@
-package com.distraction.sandbox.desktop
+package com.distraction.fs2.desktop
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration

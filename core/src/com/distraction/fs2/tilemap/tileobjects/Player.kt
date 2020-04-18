@@ -20,7 +20,7 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
 
     private val animationSet = AnimationSet()
 
-    private val speed = 32f * 2
+    private val speed = TileMap.TILE_WIDTH * 2
     private val jumpHeight = 20f
     private var totalDist = 0f
     private var moving = false

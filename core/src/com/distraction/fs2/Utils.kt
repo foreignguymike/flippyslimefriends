@@ -18,7 +18,7 @@ class Utils {
     }
 }
 
-fun AssetManager.getAtlas(str: String = "sandboxpack.atlas"): TextureAtlas = get(str, TextureAtlas::class.java)
+fun AssetManager.getAtlas(str: String = "fs2.atlas"): TextureAtlas = get(str, TextureAtlas::class.java)
 
 fun log(str: String) = Gdx.app.log("tag", str)
 
