@@ -1,0 +1,2 @@
+include ':LevelMaker'
+include 'desktop', 'android', 'core'
