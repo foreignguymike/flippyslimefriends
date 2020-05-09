@@ -1,5 +1,6 @@
 package com.distraction.fs2.tilemap
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Vector3
@@ -23,10 +24,13 @@ class Tile(val context: Context, val value: Int, var active: Boolean = false) {
 class TileMap(private val context: Context, val levelData: TileMapDataModel) {
 
     companion object {
-        const val TILE_WIDTH = 32f
-        const val TILE_IWIDTH = 16f
-        const val TILE_IHEIGHT = 8f
+        const val TILE_WIDTH = 60f
+        const val TILE_IWIDTH = 30f
+        const val TILE_IHEIGHT = 15f
     }
+
+    private val pixel = context.assets.getAtlas().findRegion("pixel")
+    private val pv = Vector3()
 
     private val p = Vector3()
     private val grid = Array(levelData.grid.size) {
@@ -79,7 +83,12 @@ class TileMap(private val context: Context, val levelData: TileMapDataModel) {
                 val tile = getTile(row, col)
                 if (tile.value != 0) {
                     toIsometric(col * TILE_WIDTH, row * TILE_WIDTH, p)
-                    sb.draw(tile.getImage(), p.x - TILE_WIDTH / 2, p.y - TILE_IHEIGHT * 2)
+                    sb.draw(tile.getImage(), p.x - TILE_IWIDTH / 2, p.y - TILE_IHEIGHT / 2)
+
+                    toIsometric(col * TILE_WIDTH, row * TILE_WIDTH, pv)
+                    sb.color = Color.RED
+                    sb.draw(pixel, p.x, p.y)
+                    sb.color = Color.WHITE
                 }
                 tile.objects.forEach {
                     it.render(sb)

@@ -1,0 +1,293 @@
+
+fs2.png
+size: 512,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+0
+  rotate: false
+  xy: 505, 243
+  size: 5, 7
+  orig: 5, 7
+  offset: 0, 0
+  index: -1
+1
+  rotate: false
+  xy: 328, 5
+  size: 3, 7
+  orig: 3, 7
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 498, 229
+  size: 5, 7
+  orig: 5, 7
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 505, 234
+  size: 5, 7
+  orig: 5, 7
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 505, 225
+  size: 5, 7
+  orig: 5, 7
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 498, 220
+  size: 5, 7
+  orig: 5, 7
+  offset: 0, 0
+  index: -1
+6
+  rotate: false
+  xy: 505, 216
+  size: 5, 7
+  orig: 5, 7
+  offset: 0, 0
+  index: -1
+7
+  rotate: false
+  xy: 442, 194
+  size: 5, 7
+  orig: 5, 7
+  offset: 0, 0
+  index: -1
+8
+  rotate: false
+  xy: 338, 44
+  size: 5, 7
+  orig: 5, 7
+  offset: 0, 0
+  index: -1
+9
+  rotate: false
+  xy: 449, 194
+  size: 5, 7
+  orig: 5, 7
+  offset: 0, 0
+  index: -1
+arrow
+  rotate: false
+  xy: 429, 194
+  size: 11, 7
+  orig: 11, 7
+  offset: 0, 0
+  index: -1
+arrowbutton
+  rotate: false
+  xy: 329, 84
+  size: 17, 17
+  orig: 17, 17
+  offset: 0, 0
+  index: -1
+back
+  rotate: false
+  xy: 429, 221
+  size: 48, 15
+  orig: 48, 15
+  offset: 0, 0
+  index: -1
+best
+  rotate: false
+  xy: 304, 5
+  size: 22, 7
+  orig: 22, 7
+  offset: 0, 0
+  index: -1
+bgs
+  rotate: false
+  xy: 338, 53
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+complete
+  rotate: false
+  xy: 421, 238
+  size: 82, 12
+  orig: 82, 12
+  offset: 0, 0
+  index: -1
+dot
+  rotate: false
+  xy: 351, 133
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+pixel
+  rotate: false
+  xy: 351, 133
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+goal
+  rotate: false
+  xy: 349, 104
+  size: 21, 7
+  orig: 21, 7
+  offset: 0, 0
+  index: -1
+levelcheck
+  rotate: false
+  xy: 333, 103
+  size: 14, 11
+  orig: 14, 11
+  offset: 0, 0
+  index: -1
+levelicon
+  rotate: false
+  xy: 304, 80
+  size: 23, 23
+  orig: 23, 23
+  offset: 0, 0
+  index: -1
+levelselect
+  rotate: false
+  xy: 304, 238
+  size: 115, 12
+  orig: 115, 12
+  offset: 0, 0
+  index: -1
+levelselectarrow
+  rotate: false
+  xy: 417, 192
+  size: 10, 11
+  orig: 10, 11
+  offset: 0, 0
+  index: -1
+moves
+  rotate: false
+  xy: 304, 14
+  size: 27, 7
+  orig: 27, 7
+  offset: 0, 0
+  index: -1
+newrecord
+  rotate: false
+  xy: 429, 203
+  size: 53, 7
+  orig: 53, 7
+  offset: 0, 0
+  index: -1
+next
+  rotate: false
+  xy: 367, 188
+  size: 48, 15
+  orig: 48, 15
+  offset: 0, 0
+  index: -1
+numbers
+  rotate: false
+  xy: 429, 212
+  size: 48, 7
+  orig: 48, 7
+  offset: 0, 0
+  index: -1
+playercrouch
+  rotate: false
+  xy: 333, 116
+  size: 16, 18
+  orig: 16, 18
+  offset: 0, 0
+  index: -1
+playercrouchr
+  rotate: false
+  xy: 351, 113
+  size: 16, 18
+  orig: 16, 18
+  offset: 0, 0
+  index: -1
+playeridle
+  rotate: false
+  xy: 304, 40
+  size: 32, 18
+  orig: 32, 18
+  offset: 0, 0
+  index: -1
+playeridler
+  rotate: false
+  xy: 304, 60
+  size: 32, 18
+  orig: 32, 18
+  offset: 0, 0
+  index: -1
+playerjump
+  rotate: false
+  xy: 338, 64
+  size: 13, 18
+  orig: 13, 18
+  offset: 0, 0
+  index: -1
+playerjumpr
+  rotate: false
+  xy: 354, 133
+  size: 13, 18
+  orig: 13, 18
+  offset: 0, 0
+  index: -1
+restart
+  rotate: false
+  xy: 304, 136
+  size: 48, 15
+  orig: 48, 15
+  offset: 0, 0
+  index: -1
+superjump
+  rotate: false
+  xy: 304, 23
+  size: 29, 15
+  orig: 29, 15
+  offset: 0, 0
+  index: -1
+teleport
+  rotate: false
+  xy: 479, 218
+  size: 17, 18
+  orig: 17, 18
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 367, 205
+  size: 60, 31
+  orig: 60, 31
+  offset: 0, 0
+  index: -1
+tilea
+  rotate: false
+  xy: 304, 153
+  size: 60, 31
+  orig: 60, 31
+  offset: 0, 0
+  index: -1
+tilelight
+  rotate: false
+  xy: 304, 105
+  size: 27, 29
+  orig: 27, 29
+  offset: 0, 0
+  index: -1
+tilemap1
+  rotate: false
+  xy: 2, 2
+  size: 300, 248
+  orig: 300, 248
+  offset: 0, 0
+  index: -1
+title
+  rotate: false
+  xy: 304, 186
+  size: 61, 50
+  orig: 61, 50
+  offset: 0, 0
+  index: -1
