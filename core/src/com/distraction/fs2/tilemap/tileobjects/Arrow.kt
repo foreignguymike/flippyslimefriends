@@ -19,7 +19,6 @@ class Arrow(context: Context, tileMap: TileMap, row: Int, col: Int, val directio
 
     override fun render(sb: SpriteBatch) {
         tileMap.toIsometric(p.x, p.y, isop)
-        tileMap.toIsometric(p.x, p.y, isop)
         when (direction) {
             Direction.RIGHT -> sb.draw(image, isop.x - image.regionWidth / 2, isop.y - image.regionHeight / 2 + tileHeight3d)
             Direction.DOWN -> sb.drawHFlip(image, isop.x + image.regionWidth / 2, isop.y - image.regionHeight / 2 + tileHeight3d)

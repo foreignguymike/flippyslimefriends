@@ -6,24 +6,19 @@ import com.distraction.fs2.getAtlas
 class GameData(val context: Context) {
 
     val mapData = arrayOf(
-            MapData(8, 8, intArrayOf(
-                    2, 2, 2, 2, 2, 2, 2, 2,
-                    2, 2, 2, 2, 2, 2, 2, 2,
-                    2, 2, 0, 0, 0, 0, 2, 2,
-                    2, 2, 0, 2, 2, 0, 2, 2,
-                    2, 2, 0, 2, 2, 0, 2, 2,
-                    2, 2, 0, 0, 0, 0, 2, 2,
-                    2, 2, 2, 2, 2, 2, 2, 2,
-                    2, 2, 2, 2, 2, 2, 2, 2
-            ), 2, 2, arrayListOf(
-                    ArrowData(2, 4, Direction.RIGHT),
-                    ArrowData(4, 5, Direction.DOWN),
-                    ArrowData(5, 3, Direction.LEFT),
-                    ArrowData(3, 2, Direction.UP),
-                    SuperJumpData(2, 3),
-                    TeleportData(2, 5, 5, 5),
-                    TeleportData(5, 5, 2, 5)
-            ))
+            MapData(
+                    4,
+                    4,
+                    intArrayOf(
+                            0, 0, E, 0,
+                            0, E, E, 0,
+                            0, E, E, 0,
+                            0, E, 0, 0
+                    ),
+                    0,
+                    0,
+                    path = arrayOf(TilePoint(3, 2), TilePoint(0, 2))
+            )
     )
 
     val tileset = arrayOf(
@@ -33,6 +28,10 @@ class GameData(val context: Context) {
             context.assets.getAtlas().findRegion("tilebluegraycheckeredfloor")
     )
 
+    companion object {
+        const val E = -1
+    }
+
 }
 
 class MapData(
@@ -41,9 +40,13 @@ class MapData(
         var map: IntArray,
         val startRow: Int,
         val startCol: Int,
-        val objects: ArrayList<TileObjectData> = arrayListOf())
+        val objects: ArrayList<TileObjectData> = arrayListOf(),
+        val path: Array<TilePoint>? = null
+)
 
 abstract class TileObjectData(val row: Int, val col: Int)
 class ArrowData(row: Int, col: Int, val direction: Direction) : TileObjectData(row, col)
 class SuperJumpData(row: Int, col: Int) : TileObjectData(row, col)
 class TeleportData(row: Int, col: Int, val destRow: Int, val destCol: Int) : TileObjectData(row, col)
+
+class TilePoint(var row: Int = 0, var col: Int = 0)

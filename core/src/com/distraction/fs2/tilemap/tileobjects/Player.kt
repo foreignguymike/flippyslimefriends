@@ -4,9 +4,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.Direction
+import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 
-class Player(context: Context, tileMap: TileMap, private val moveListener: MoveListener?) : TileObject(context, tileMap) {
+class Player(context: Context, tileMap: TileMap, private val moveListener: MoveListener?) : TileObject(context, tileMap), Tile.TileMoveListener {
 
     interface MoveListener {
         fun onMoved()
@@ -26,6 +27,8 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
     private var justTeleported = false
     private var teleportSpeed = 0f
     private var direction = Direction.RIGHT
+
+    var currentTile = tileMap.getTile(row, col)
 
     init {
         setPositionFromTile(tileMap.mapData.startRow, tileMap.mapData.startCol)
@@ -55,6 +58,9 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         // ignore movement to invalid tiles
         if (!superjump && !tileMap.isValidTile(row + rowdx, col + coldx)) return
 
+        // ignore while on moving tile
+        if (currentTile?.moving == true) return
+
         // valid tiles
         if (!teleporting) {
             when {
@@ -73,6 +79,11 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         totalDist = getRemainingDistance()
         moving = true
         justTeleported = false
+
+        currentTile?.moveListeners?.remove(this)
+        tileMap.getTile(row, col)?.let { tile ->
+            tile.lock = true
+        }
     }
 
     private fun getRemainingDistance() = Utils.dist(pdest.x, pdest.y, p.x, p.y)
@@ -99,11 +110,16 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
                 teleporting = false
             }
             addTileLight()
+            currentTile = tileMap.getTile(row, col)
+            currentTile?.let { tile ->
+                tile.lock = false
+                tile.moveListeners.add(this)
+            }
         }
     }
 
     private fun handleTileObjects(row: Int, col: Int) {
-        tileMap.getTile(row, col).objects.forEach {
+        tileMap.getTile(row, col)?.objects?.forEach {
             when {
                 it is Arrow -> {
                     sliding = true
@@ -155,7 +171,7 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
     private fun updateAnimations(dt: Float) {
         if (sliding) {
             animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "crouch" else "crouchr")
-        } else if (p.x == pdest.x && p.y == pdest.y) {
+        } else if (atDestination()) {
             if ((animationSet.currentAnimationKey == "jump" || animationSet.currentAnimationKey == "jumpr")) {
                 animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "crouch" else "crouchr")
             } else if (animationSet.currentAnimation.hasPlayedOnce()) {
@@ -171,18 +187,43 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         animationSet.update(dt)
     }
 
+    override fun onTileMoved(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
+        super.setPositionFromTile(newRow, newCol)
+        pdest.set(p)
+        log("set row and col to $row $col")
+    }
+
     override fun update(dt: Float) {
+        currentTile?.let {
+            if (it.moving) {
+                p.set(it.p.x, it.p.y, p.z)
+                pdest.set(p)
+                updateAnimations(dt)
+                return
+            }
+        }
         moveToDest((if (teleporting && justTeleported) teleportSpeed else speed) * dt * (if (sliding) 4f else if (superjump) 2f else 1f))
 
         if (atDestination()) {
-            if (!tileMap.isValidTile(row, col)) {
+            if (currentTile?.isMovingTile() == true) {
+
+            } else if (!tileMap.isValidTile(row, col)) {
                 moveListener?.onIllegal()
+                log("illegal")
                 return
             }
 
             handleJustMoved(row, col)
             handleTileObjects(row, col)
         }
+
+//        tileMap.getTile(row, col)?.let { tile ->
+//            if (tile.isMovingTile() && tile.moving) {
+//                log("following moving tile")
+//                p.set(tile.p)
+//                pdest.set(p)
+//            }
+//        }
 
         updateBounceHeight()
         updateAnimations(dt)
