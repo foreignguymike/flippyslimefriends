@@ -54,7 +54,7 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
                         getTileImage(index))
                         .apply {
                             mapData.path?.let { path ->
-                                if (row == path[0].row && col == path[0].col) {
+                                if (row == path[0].tilePoint.row && col == path[0].tilePoint.col) {
                                     this.path = mapData.path
                                     moveListeners.add(tileMap)
                                 }
@@ -177,7 +177,7 @@ class Tile(
     // moving tile params
     var prevRow = row
     var prevCol = col
-    var path: Array<TilePoint>? = null
+    var path: Array<PathData>? = null
     var moveListeners = ArrayList<TileMoveListener>()
     val speed = 100f
     val stayTime = 2f
@@ -208,7 +208,7 @@ class Tile(
             if (pathIndex == path.size) {
                 pathIndex = 0
             }
-            tileMap.toPosition(path[pathIndex].row, path[pathIndex].col, pdest)
+            tileMap.toPosition(path[pathIndex].tilePoint.row, path[pathIndex].tilePoint.col, pdest)
         }
     }
 
@@ -245,7 +245,7 @@ class Tile(
         path?.let {
             if (!moving) {
                 stayTimer += dt
-                if (stayTimer >= stayTime && !lock) {
+                if (stayTimer >= it[pathIndex].time && !lock) {
                     goNext()
                     moving = true
                     stayTimer = 0f
@@ -253,8 +253,8 @@ class Tile(
             } else {
                 moveToDest(speed * dt)
                 if (p.x == pdest.x && p.y == pdest.y) {
-                    row = it[pathIndex].row
-                    col = it[pathIndex].col
+                    row = it[pathIndex].tilePoint.row
+                    col = it[pathIndex].tilePoint.col
                     moveListeners.forEach {  it.onTileMoved(this, prevRow, prevCol, row, col) }
                     moving = false
                     prevRow = row

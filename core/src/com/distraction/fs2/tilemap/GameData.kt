@@ -8,16 +8,21 @@ class GameData(val context: Context) {
     val mapData = arrayOf(
             MapData(
                     4,
-                    4,
+                    3,
                     intArrayOf(
-                            0, 0, E, 0,
-                            0, E, E, 0,
-                            0, E, E, 0,
-                            0, E, 0, 0
+                            0, 0, 0,
+                            0, E, E,
+                            0, E, E,
+                            0, E, E
                     ),
                     0,
                     0,
-                    path = arrayOf(TilePoint(3, 2), TilePoint(0, 2))
+                    path = arrayOf(
+                            PathData(TilePoint(0, 2), 2f),
+                            PathData(TilePoint(3, 2)),
+                            PathData(TilePoint(3, 1), 2f),
+                            PathData(TilePoint(3, 2))
+                    )
             )
     )
 
@@ -41,7 +46,7 @@ class MapData(
         val startRow: Int,
         val startCol: Int,
         val objects: ArrayList<TileObjectData> = arrayListOf(),
-        val path: Array<TilePoint>? = null
+        val path: Array<PathData>? = null
 )
 
 abstract class TileObjectData(val row: Int, val col: Int)
@@ -50,3 +55,4 @@ class SuperJumpData(row: Int, col: Int) : TileObjectData(row, col)
 class TeleportData(row: Int, col: Int, val destRow: Int, val destCol: Int) : TileObjectData(row, col)
 
 class TilePoint(var row: Int = 0, var col: Int = 0)
+class PathData(val tilePoint: TilePoint, val time: Float = 0f)
