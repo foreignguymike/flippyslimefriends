@@ -16,11 +16,13 @@ class GameData(val context: Context) {
                     2, 2, 2, 2, 2, 2, 2, 2,
                     2, 2, 2, 2, 2, 2, 2, 2
             ), 2, 2, arrayListOf(
-                    TileObjectData.Arrow(2, 4, Direction.RIGHT),
-                    TileObjectData.Arrow(4, 5, Direction.DOWN),
-                    TileObjectData.Arrow(5, 3, Direction.LEFT),
-                    TileObjectData.Arrow(3, 2, Direction.UP),
-                    TileObjectData.SuperJump(2, 3)
+                    ArrowData(2, 4, Direction.RIGHT),
+                    ArrowData(4, 5, Direction.DOWN),
+                    ArrowData(5, 3, Direction.LEFT),
+                    ArrowData(3, 2, Direction.UP),
+                    SuperJumpData(2, 3),
+                    TeleportData(2, 5, 5, 5),
+                    TeleportData(5, 5, 2, 5)
             ))
     )
 
@@ -41,7 +43,7 @@ class MapData(
         val startCol: Int,
         val objects: ArrayList<TileObjectData> = arrayListOf())
 
-abstract class TileObjectData(val row: Int, val col: Int) {
-    class Arrow(row: Int, col: Int, val direction: Direction) : TileObjectData(row, col)
-    class SuperJump(row: Int, col: Int) : TileObjectData(row, col)
-}
+abstract class TileObjectData(val row: Int, val col: Int)
+class ArrowData(row: Int, col: Int, val direction: Direction) : TileObjectData(row, col)
+class SuperJumpData(row: Int, col: Int) : TileObjectData(row, col)
+class TeleportData(row: Int, col: Int, val destRow: Int, val destCol: Int) : TileObjectData(row, col)

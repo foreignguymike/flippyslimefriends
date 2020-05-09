@@ -8,6 +8,7 @@ import com.distraction.fs2.getAtlas
 import com.distraction.fs2.log
 import com.distraction.fs2.tilemap.tileobjects.Arrow
 import com.distraction.fs2.tilemap.tileobjects.SuperJump
+import com.distraction.fs2.tilemap.tileobjects.Teleport
 import com.distraction.fs2.tilemap.tileobjects.TileObject
 
 class TileMap(val context: Context, level: Int) {
@@ -23,6 +24,7 @@ class TileMap(val context: Context, level: Int) {
 
     val mapData = context.gameData.mapData[level]
     val tileset = context.gameData.tileset
+    val otherObjects = arrayListOf<TileObject>()
 
     val numRows = mapData.numRows
     val numCols = mapData.numCols
@@ -30,8 +32,6 @@ class TileMap(val context: Context, level: Int) {
 
     private val p = Vector3()
     private val pv = Vector3()
-
-    val otherObjects = arrayListOf<TileObject>()
 
     val pixel = context.assets.getAtlas().findRegion("pixel")
 
@@ -46,10 +46,9 @@ class TileMap(val context: Context, level: Int) {
                     .filter { objData -> objData.row == row && objData.col == col }
                     .map { objData ->
                         when (objData) {
-                            is TileObjectData.Arrow -> Arrow(context, this, row, col, objData.direction)
-                            is TileObjectData.SuperJump -> {
-                                log("yo"); SuperJump(context, this, row, col)
-                            }
+                            is ArrowData -> Arrow(context, this, row, col, objData.direction)
+                            is SuperJumpData -> SuperJump(context, this, row, col)
+                            is TeleportData -> Teleport(context, this, row, col, objData.destRow, objData.destCol)
                             else -> throw IllegalArgumentException("incorrect tile object data")
                         }
                     }

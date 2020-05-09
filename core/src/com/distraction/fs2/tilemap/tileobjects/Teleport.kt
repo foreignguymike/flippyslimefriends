@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
 import com.distraction.fs2.getAtlas
+import com.distraction.fs2.log
 import com.distraction.fs2.tilemap.TileMap
 
 class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) : TileObject(context, tileMap) {
@@ -20,7 +21,7 @@ class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) : Ti
 
     init {
         setPositionFromTile(row, col)
-        p.z = -2f
+        p.z = 8f
         height = 16f
     }
 
@@ -45,7 +46,7 @@ class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) : Ti
 
     override fun render(sb: SpriteBatch) {
         tileMap.toIsometric(p.x, p.y, isop)
-        sb.draw(image, isop.x - image.regionWidth / 2, isop.y - image.regionHeight / 2 + 5 + p.z)
+        sb.draw(image, isop.x - image.regionWidth / 2, isop.y - image.regionHeight / 2 + p.z + tileHeight3d)
         val c = sb.color
         sb.color = color
         particles.forEach {
@@ -62,10 +63,8 @@ class Teleport(context: Context, tileMap: TileMap, row: Int, col: Int, val row2:
 
     init {
         setPositionFromTile(row, col)
-        p.z = -2f
         tileMap.toPosition(row2, col2, p2)
         tileMap.otherObjects.add(TeleportLight(context, tileMap, row, col))
-        tileMap.otherObjects.add(TeleportLight(context, tileMap, row2, col2))
     }
 
     override fun update(dt: Float) {
