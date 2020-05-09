@@ -2,6 +2,7 @@ package com.distraction.fs2.states
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
@@ -62,8 +63,10 @@ class TestState(context: Context) : GameState(context), Player.MoveListener {
             tileMap.render(sb)
             player.render(sb)
 
-            tileMap.toIsometric(-2f, -2f, pixelp)
+            tileMap.toIsometric(60f, 62f, pixelp)
+            sb.color = Color.RED
             sb.draw(pixel, pixelp, 4f, 4f)
+            sb.color = Color.WHITE
         }
     }
 }

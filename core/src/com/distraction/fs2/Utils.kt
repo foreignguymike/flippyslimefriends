@@ -18,7 +18,7 @@ class Utils {
     }
 }
 
-fun AssetManager.getAtlas(str: String = "fs2.atlas"): TextureAtlas = get(str, TextureAtlas::class.java)
+fun AssetManager.getAtlas(): TextureAtlas = get("fs2.atlas", TextureAtlas::class.java)
 
 fun log(str: Any) = Gdx.app.log("FS2", str.toString())
 

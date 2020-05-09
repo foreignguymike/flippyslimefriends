@@ -22,7 +22,7 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
 
     private val animationSet = AnimationSet()
 
-    private val speed = TileMap.TILE_WIDTH * 2
+    private val speed = TileMap.TILE_SIZE * 2
     private val jumpHeight = 20f
     private var totalDist = 0f
     private var moving = false
@@ -37,6 +37,7 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         setPositionFromTile(tileMap.mapData.startRow, tileMap.mapData.startCol)
         p.z = 4f
         pdest.set(p)
+        isoHeight = 4f
 
         animationSet.addAnimation("idle", Animation(context.assets.getAtlas().findRegion("playeridle").split(16, 18)[0], 1f / 2f))
         animationSet.addAnimation("idler", Animation(context.assets.getAtlas().findRegion("playeridler").split(16, 18)[0], 1f / 2f))
@@ -198,12 +199,12 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         tileMap.toIsometric(p.x, p.y, isop)
         if (!teleporting) {
             if (direction == Player.Direction.RIGHT || direction == Player.Direction.UP) {
-                sb.draw(animationSet.getImage(), isop.x - animationSet.getImage().regionWidth / 2, isop.y - animationSet.getImage().regionHeight / 2 + p.z)
+                sb.draw(animationSet.getImage(), isop.x - animationSet.getImage().regionWidth / 2, isop.y - isoHeight / 2 + p.z)
             } else {
                 sb.draw(
                         animationSet.getImage(),
                         isop.x + animationSet.getImage().regionWidth / 2,
-                        isop.y - animationSet.getImage().regionHeight / 2 + p.z,
+                        isop.y - isoHeight / 2 + p.z,
                         -animationSet.getImage().regionWidth * 1f,
                         animationSet.getImage().regionHeight * 1f)
             }

@@ -1,18 +1,20 @@
 package com.distraction.fs2.tilemap
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
+import com.distraction.fs2.draw
+import com.distraction.fs2.getAtlas
 import com.distraction.fs2.tilemap.tileobjects.TileObject
 
 class TileMap(val context: Context, level: Int) {
 
     companion object {
-        const val TILE_WIDTH = 60f
-        const val TILE_HEIGHT = 15f
-        const val TILE_IWIDTH = 30f
-        const val TILE_IHEIGHT = 15f
+        const val TILE_SIZE = 30f
+        const val TILE_IWIDTH = 60f
+        const val TILE_IHEIGHT = 31f
 
         val VALID_TILES = IntArray(2) { it }
     }
@@ -28,6 +30,8 @@ class TileMap(val context: Context, level: Int) {
     private val pv = Vector3()
 
     val otherObjects = arrayListOf<TileObject>()
+
+    val pixel = context.assets.getAtlas().findRegion("pixel")
 
     private fun parseMap(map: IntArray): Array<Tile2> {
         return Array(map.size) {
@@ -52,18 +56,18 @@ class TileMap(val context: Context, level: Int) {
     fun getTileImage(tileIndex: Int) = tileset[tileIndex]
 
     fun toIsometric(x: Float, y: Float, p: Vector3) {
-        val xo = x / TILE_WIDTH
-        val yo = y / TILE_WIDTH
-        p.x = (xo - yo) * TILE_IWIDTH
-        p.y = (-xo - yo) * TILE_IHEIGHT
+        val xo = x / TILE_SIZE
+        val yo = y / TILE_SIZE
+        p.x = (xo - yo) * TILE_IWIDTH / 2
+        p.y = (-xo - yo) * TILE_IHEIGHT / 2
     }
 
     fun toPosition(row: Int, col: Int, p: Vector3) {
-        p.x = col * TILE_WIDTH
-        p.y = row * TILE_WIDTH
+        p.x = col * TILE_SIZE
+        p.y = row * TILE_SIZE
     }
 
-    fun toPosition(tile: Int) = tile * TILE_WIDTH
+    fun toPosition(tile: Int) = tile * TILE_SIZE
 
     fun isValidTile(row: Int, col: Int): Boolean {
         if (row !in 0 until numRows || col !in 0 until numCols) return false
@@ -91,13 +95,14 @@ class TileMap(val context: Context, level: Int) {
             for (col in 0 until mapData.numCols) {
                 val tile = getTile(row, col)
                 if (tile.index >= 0) {
-                    toIsometric(col * TILE_WIDTH, row * TILE_WIDTH, p)
-                    sb.draw(tile.image, p.x - TILE_WIDTH / 2, p.y - TILE_HEIGHT / 2)
+                    toIsometric(col * TILE_SIZE, row * TILE_SIZE, p)
+                    sb.draw(tile.image, p.x - TILE_IWIDTH / 2, p.y - TILE_IHEIGHT / 2)
+//                    sb.draw(pixel, p)
 
-//                    toIsometric(col * TILE_WIDTH, row * TILE_WIDTH, pv)
+//                    toIsometric(col * TILE_SIZE, row * TILE_SIZE, pv)
 //                    sb.color = Color.RED
-//                    sb.draw(pixel, p.x, p.y)
-//                    sb.color = Color.WHITE1
+//                    sb.draw(pixel, p.x, p.y, TILE_IWIDTH, TILE_IHEIGHT)
+//                    sb.color = Color.WHITE
                 }
                 tile.objects.forEach {
                     it.render(sb)
