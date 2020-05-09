@@ -20,12 +20,20 @@ class Utils {
 
 fun AssetManager.getAtlas(str: String = "fs2.atlas"): TextureAtlas = get(str, TextureAtlas::class.java)
 
-fun log(str: String) = Gdx.app.log("tag", str)
+fun log(str: Any) = Gdx.app.log("FS2", str.toString())
 
 inline fun SpriteBatch.use(action: () -> Unit) {
     begin()
     action()
     end()
+}
+
+fun SpriteBatch.draw(textureRegion: TextureRegion, v: Vector3) {
+    draw(textureRegion, v.x, v.y)
+}
+
+fun SpriteBatch.draw(textureRegion: TextureRegion, v: Vector3, w: Float, h: Float) {
+    draw(textureRegion, v.x, v.y, w, h)
 }
 
 fun SpriteBatch.drawRotated(region: TextureRegion, x: Float, y: Float, rotation: Float) {
@@ -40,7 +48,7 @@ fun SpriteBatch.drawButton(button: Button, hflip: Boolean = false) {
     }
 }
 
-fun clearScreen(r: Int = 255, g: Int = 255, b: Int = 255, a: Int = 255) {
+fun clearScreen(r: Int = 0, g: Int = 0, b: Int = 0, a: Int = 0) {
     Gdx.gl.glClearColor(r / 255f, g / 255f, b / 255f, a / 255f)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 }

@@ -4,7 +4,7 @@ class AnimationSet {
 
     val set = hashMapOf<String, Animation>()
     var currentAnimationKey: String? = null
-    var currentAnimation: Animation? = null
+    lateinit var currentAnimation: Animation
 
     fun addAnimation(key: String, value: Animation) {
         set[key] = value
@@ -14,13 +14,17 @@ class AnimationSet {
         if (key == currentAnimationKey) {
             return
         }
-        currentAnimationKey = key
-        currentAnimation = set[key]
-        currentAnimation?.reset()
+        set[key]?.let {
+            currentAnimationKey = key
+            currentAnimation = it
+            currentAnimation.reset()
+        } ?: run {
+            throw IllegalArgumentException()
+        }
     }
 
-    fun update(dt: Float) = currentAnimation?.update(dt)
+    fun update(dt: Float) = currentAnimation.update(dt)
 
-    fun getImage() = currentAnimation?.getImage()
+    fun getImage() = currentAnimation.getImage()
 
 }
