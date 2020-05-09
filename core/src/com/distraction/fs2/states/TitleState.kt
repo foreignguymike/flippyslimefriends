@@ -5,13 +5,8 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.*
-import com.distraction.fs2.tilemap.TileMap
-import com.distraction.fs2.tilemap.TileMapDataModel
-import com.distraction.fs2.tilemap.tileobjects.Player
 
 class TitleState(context: Context) : GameState(context) {
-    private val tileMap = TileMap(context, TileMapDataModel(3, 3, IntArray(9) { 1 }, goal = 0))
-    private val player = Player(context, tileMap, null)
     private val title = context.assets.getAtlas().findRegion("title")
     private val hudCam = OrthographicCamera().apply {
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
@@ -36,11 +31,8 @@ class TitleState(context: Context) : GameState(context) {
             }
         }
 
-        player.update(dt)
-
         hudCam.position.set(hudCam.position.lerp(Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 0.1f))
         hudCam.update()
-        camera.position.set(camera.position.lerp(player.pp.x, player.pp.y + Constants.HEIGHT / 4, player.pp.z, 0.03f))
         camera.update()
     }
 
@@ -51,8 +43,6 @@ class TitleState(context: Context) : GameState(context) {
             sb.draw(title, (Constants.WIDTH - title.regionWidth) / 2f, 60f)
 
             sb.projectionMatrix = camera.combined
-            tileMap.render(sb)
-            player.render(sb)
         }
     }
 }

@@ -1,12 +1,14 @@
-package com.distraction.fs2.tilemap
+package com.distraction.fs2.tilemap.tileobjects
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
+import com.distraction.fs2.tilemap.TileMap
 
-abstract class TileObject(protected val context: Context, val tileMap: TileMap) {
+abstract class TileObject(val context: Context, val tileMap: TileMap) {
+
     val p = Vector3()
-    val pp = Vector3()
+    val isop = Vector3()
     val pdest = Vector3()
 
     var row = 0
@@ -15,7 +17,7 @@ abstract class TileObject(protected val context: Context, val tileMap: TileMap) 
     var height = 0f
     var remove = false
 
-    open fun setTile(row: Int, col: Int) {
+    open fun setPositionFromTile(row: Int, col: Int) {
         this.row = row
         this.col = col
         tileMap.toPosition(row, col, p)
@@ -51,4 +53,3 @@ abstract class TileObject(protected val context: Context, val tileMap: TileMap) 
     abstract fun update(dt: Float)
     abstract fun render(sb: SpriteBatch)
 }
-

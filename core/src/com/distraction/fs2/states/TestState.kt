@@ -6,14 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.*
-import com.distraction.fs2.tilemap.TileMap2
-import com.distraction.fs2.tilemap.tileobjects.Player2
+import com.distraction.fs2.tilemap.TileMap
+import com.distraction.fs2.tilemap.tileobjects.Player
 
-class TestState(context: Context) : GameState(context), Player2.MoveListener {
+class TestState(context: Context) : GameState(context), Player.MoveListener {
 
-    private val tileMap = TileMap2(context, 0)
+    private val tileMap = TileMap(context, 0)
 
-    private val player: Player2 = Player2(context, tileMap, this)
+    private val player: Player = Player(context, tileMap, this)
 
     private val cameraOffset = Vector2(0f, 0f)
 
@@ -52,7 +52,7 @@ class TestState(context: Context) : GameState(context), Player2.MoveListener {
 
         tileMap.update(dt)
         player.update(dt)
-        camera.position.set(camera.position.lerp(player.tilep.x + cameraOffset.x, player.tilep.y + cameraOffset.y, 0f, 0.1f))
+        camera.position.set(camera.position.lerp(player.isop.x + cameraOffset.x, player.isop.y + cameraOffset.y, 0f, 0.1f))
         camera.update()
     }
 

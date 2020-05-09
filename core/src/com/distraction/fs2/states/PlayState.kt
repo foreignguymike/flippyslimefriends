@@ -11,15 +11,9 @@ import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.TileMapData
 import com.distraction.fs2.tilemap.tileobjects.Player
 
-interface MoveListener {
-    fun onMoved()
-    fun onToggled()
-    fun onIllegal()
-}
+class PlayState(context: Context, private val level: Int) : GameState(context), Player.MoveListener, ButtonListener {
 
-class PlayState(context: Context, private val level: Int) : GameState(context), MoveListener, ButtonListener {
-
-    private val tileMap = TileMap(context, TileMapData.levelData[level - 1])
+    private val tileMap = TileMap(context, level - 1)
     private val player = Player(context, tileMap, this)
     private val bg = Background(context)
     private val bgCam = OrthographicCamera().apply {
@@ -31,7 +25,7 @@ class PlayState(context: Context, private val level: Int) : GameState(context), 
     private val cameraOffset = Vector2(0f, 0f)
 
     init {
-        camera.position.set(-100f, player.pp.y + cameraOffset.y, 0f)
+        camera.position.set(-100f, player.isop.y + cameraOffset.y, 0f)
         camera.update()
 
         hud.setGoal(TileMapData.levelData[level - 1].goal)
@@ -104,7 +98,7 @@ class PlayState(context: Context, private val level: Int) : GameState(context), 
             tileMap.toIsometric(player.pdest.x, player.pdest.y, tp)
             camera.position.set(camera.position.lerp(tp.x + cameraOffset.x, tp.y + cameraOffset.y, 0f, 0.1f))
         } else {
-            camera.position.set(camera.position.lerp(player.pp.x + cameraOffset.x, player.pp.y + cameraOffset.y, 0f, 0.1f))
+            camera.position.set(camera.position.lerp(player.isop.x + cameraOffset.x, player.isop.y + cameraOffset.y, 0f, 0.1f))
         }
         camera.update()
 
