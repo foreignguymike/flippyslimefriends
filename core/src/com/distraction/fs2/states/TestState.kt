@@ -62,11 +62,7 @@ class TestState(context: Context) : GameState(context), Player.MoveListener {
         sb.use {
             tileMap.render(sb)
             player.render(sb)
-
-            tileMap.toIsometric(60f, 62f, pixelp)
-            sb.color = Color.RED
-            sb.draw(pixel, pixelp, 4f, 4f)
-            sb.color = Color.WHITE
+            tileMap.renderOther(sb)
         }
     }
 }

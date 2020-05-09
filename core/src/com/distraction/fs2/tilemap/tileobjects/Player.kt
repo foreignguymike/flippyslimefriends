@@ -3,6 +3,7 @@ package com.distraction.fs2.tilemap.tileobjects
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.distraction.fs2.*
+import com.distraction.fs2.tilemap.Direction
 import com.distraction.fs2.tilemap.TileMap
 
 class Player(context: Context, tileMap: TileMap, private val moveListener: MoveListener?) : TileObject(context, tileMap) {
@@ -11,13 +12,6 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         fun onMoved()
         fun onToggled()
         fun onIllegal()
-    }
-
-    enum class Direction {
-        UP,
-        RIGHT,
-        LEFT,
-        DOWN
     }
 
     private val animationSet = AnimationSet()
@@ -31,13 +25,12 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
     var teleporting = false
     private var justTeleported = false
     private var teleportSpeed = 0f
-    private var direction = Player.Direction.RIGHT
+    private var direction = Direction.RIGHT
 
     init {
         setPositionFromTile(tileMap.mapData.startRow, tileMap.mapData.startCol)
         p.z = 4f
         pdest.set(p)
-        isoHeight = 4f
 
         animationSet.addAnimation("idle", Animation(context.assets.getAtlas().findRegion("playeridle").split(16, 18)[0], 1f / 2f))
         animationSet.addAnimation("idler", Animation(context.assets.getAtlas().findRegion("playeridler").split(16, 18)[0], 1f / 2f))
@@ -65,10 +58,10 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         // valid tiles
         if (!teleporting) {
             when {
-                coldx > 0 -> direction = Player.Direction.RIGHT
-                coldx < 0 -> direction = Player.Direction.LEFT
-                rowdx > 0 -> direction = Player.Direction.DOWN
-                rowdx < 0 -> direction = Player.Direction.UP
+                coldx > 0 -> direction = Direction.RIGHT
+                coldx < 0 -> direction = Direction.LEFT
+                rowdx > 0 -> direction = Direction.DOWN
+                rowdx < 0 -> direction = Direction.UP
             }
         }
 
@@ -138,10 +131,10 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
             var r = 0
             var c = 0
             when (direction) {
-                Player.Direction.UP -> r = -dist2
-                Player.Direction.LEFT -> c = -dist2
-                Player.Direction.RIGHT -> c = dist2
-                Player.Direction.DOWN -> r = dist2
+                Direction.UP -> r = -dist2
+                Direction.LEFT -> c = -dist2
+                Direction.RIGHT -> c = dist2
+                Direction.DOWN -> r = dist2
             }
             moving = false
             if (superjump) {
@@ -161,18 +154,18 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
 
     private fun updateAnimations(dt: Float) {
         if (sliding) {
-            animationSet.setAnimation(if (direction == Player.Direction.RIGHT || direction == Player.Direction.DOWN) "crouch" else "crouchr")
+            animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "crouch" else "crouchr")
         } else if (p.x == pdest.x && p.y == pdest.y) {
             if ((animationSet.currentAnimationKey == "jump" || animationSet.currentAnimationKey == "jumpr")) {
-                animationSet.setAnimation(if (direction == Player.Direction.RIGHT || direction == Player.Direction.DOWN) "crouch" else "crouchr")
+                animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "crouch" else "crouchr")
             } else if (animationSet.currentAnimation.hasPlayedOnce()) {
-                animationSet.setAnimation(if (direction == Player.Direction.RIGHT || direction == Player.Direction.DOWN) "idle" else "idler")
+                animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "idle" else "idler")
             }
         } else {
             if ((animationSet.currentAnimationKey == "idle" || animationSet.currentAnimationKey == "idler")) {
-                animationSet.setAnimation(if (direction == Player.Direction.RIGHT || direction == Player.Direction.DOWN) "crouch" else "crouchr")
+                animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "crouch" else "crouchr")
             } else {
-                animationSet.setAnimation(if (direction == Player.Direction.RIGHT || direction == Player.Direction.DOWN) "jump" else "jumpr")
+                animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "jump" else "jumpr")
             }
         }
         animationSet.update(dt)
@@ -198,13 +191,13 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
     override fun render(sb: SpriteBatch) {
         tileMap.toIsometric(p.x, p.y, isop)
         if (!teleporting) {
-            if (direction == Player.Direction.RIGHT || direction == Player.Direction.UP) {
-                sb.draw(animationSet.getImage(), isop.x - animationSet.getImage().regionWidth / 2, isop.y - isoHeight / 2 + p.z)
+            if (direction == Direction.RIGHT || direction == Direction.UP) {
+                sb.draw(animationSet.getImage(), isop.x - animationSet.getImage().regionWidth / 2, isop.y - isoHeight / 2 + p.z + tileHeight3d)
             } else {
                 sb.draw(
                         animationSet.getImage(),
                         isop.x + animationSet.getImage().regionWidth / 2,
-                        isop.y - isoHeight / 2 + p.z,
+                        isop.y - isoHeight / 2 + p.z + tileHeight3d,
                         -animationSet.getImage().regionWidth * 1f,
                         animationSet.getImage().regionHeight * 1f)
             }

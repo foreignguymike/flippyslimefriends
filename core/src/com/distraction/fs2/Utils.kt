@@ -36,8 +36,29 @@ fun SpriteBatch.draw(textureRegion: TextureRegion, v: Vector3, w: Float, h: Floa
     draw(textureRegion, v.x, v.y, w, h)
 }
 
-fun SpriteBatch.drawRotated(region: TextureRegion, x: Float, y: Float, rotation: Float) {
-    draw(region, x, y, region.regionWidth / 2f, region.regionHeight / 2f, 1f * region.regionWidth, 1f * region.regionHeight, 1f, 1f, rotation)
+fun SpriteBatch.drawHFlip(textureRegion: TextureRegion, x: Float, y: Float) {
+    draw(textureRegion, x, y, -textureRegion.regionWidth.toFloat(), textureRegion.regionHeight.toFloat())
+}
+
+fun SpriteBatch.drawVFlip(textureRegion: TextureRegion, x: Float, y: Float) {
+    draw(textureRegion, x, y, textureRegion.regionWidth.toFloat(), -textureRegion.regionHeight.toFloat())
+}
+
+fun SpriteBatch.drawVHFlip(textureRegion: TextureRegion, x: Float, y: Float) {
+    draw(textureRegion, x, y, -textureRegion.regionWidth.toFloat(), -textureRegion.regionHeight.toFloat())
+}
+
+fun SpriteBatch.drawRotated(textureRegion: TextureRegion, x: Float, y: Float, degrees: Float) {
+    draw(textureRegion,
+            x,
+            y,
+            textureRegion.regionWidth / 2f,
+            textureRegion.regionHeight / 2f,
+            1f * textureRegion.regionWidth,
+            1f * textureRegion.regionHeight,
+            1f,
+            1f,
+            degrees)
 }
 
 fun SpriteBatch.drawButton(button: Button, hflip: Boolean = false) {

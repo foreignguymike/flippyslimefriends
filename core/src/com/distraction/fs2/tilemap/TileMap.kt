@@ -1,12 +1,13 @@
 package com.distraction.fs2.tilemap
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
-import com.distraction.fs2.draw
 import com.distraction.fs2.getAtlas
+import com.distraction.fs2.log
+import com.distraction.fs2.tilemap.tileobjects.Arrow
+import com.distraction.fs2.tilemap.tileobjects.SuperJump
 import com.distraction.fs2.tilemap.tileobjects.TileObject
 
 class TileMap(val context: Context, level: Int) {
@@ -14,7 +15,8 @@ class TileMap(val context: Context, level: Int) {
     companion object {
         const val TILE_SIZE = 30f
         const val TILE_IWIDTH = 60f
-        const val TILE_IHEIGHT = 31f
+        const val TILE_IHEIGHT = 30f
+        const val TILE_HEIGHT_3D = 5
 
         val VALID_TILES = IntArray(2) { it }
     }
@@ -24,7 +26,7 @@ class TileMap(val context: Context, level: Int) {
 
     val numRows = mapData.numRows
     val numCols = mapData.numCols
-    val map = parseMap(mapData.map)
+    val map = parseMapData(mapData.map)
 
     private val p = Vector3()
     private val pv = Vector3()
@@ -33,22 +35,40 @@ class TileMap(val context: Context, level: Int) {
 
     val pixel = context.assets.getAtlas().findRegion("pixel")
 
-    private fun parseMap(map: IntArray): Array<Tile2> {
+    private fun parseMapData(map: IntArray): Array<Tile> {
         return Array(map.size) {
             val index = map[it]
-            Tile2(index, getTileImage(index))
+            val tile = Tile(index, getTileImage(index))
+
+            val row = it / numCols
+            val col = it % numCols
+            mapData.objects
+                    .filter { objData -> objData.row == row && objData.col == col }
+                    .map { objData ->
+                        when (objData) {
+                            is TileObjectData.Arrow -> Arrow(context, this, row, col, objData.direction)
+                            is TileObjectData.SuperJump -> {
+                                log("yo"); SuperJump(context, this, row, col)
+                            }
+                            else -> throw IllegalArgumentException("incorrect tile object data")
+                        }
+                    }
+                    .forEach { tileObject ->
+                        tile.objects.add(tileObject)
+                    }
+            tile
         }
     }
 
     fun toggleTile(row: Int, col: Int) {
         when (getTile(row, col).index) {
-            0 -> updateTile(row, col, 1)
-            1 -> updateTile(row, col, 0)
+            0 -> setTileType(row, col, 1)
+            1 -> setTileType(row, col, 0)
         }
     }
 
-    fun updateTile(row: Int, col: Int, index: Int) {
-        getTile(row, col).update(index, getTileImage(index))
+    fun setTileType(row: Int, col: Int, index: Int) {
+        getTile(row, col).setType(index, getTileImage(index))
     }
 
     fun getTile(row: Int, col: Int) = map[row * numCols + col]
@@ -87,7 +107,11 @@ class TileMap(val context: Context, level: Int) {
     }
 
     fun update(dt: Float) {
-
+        map.forEach {
+            it.update(dt)
+        }
+        otherObjects.forEach { it.update(dt) }
+        otherObjects.removeAll { it.remove }
     }
 
     fun render(sb: SpriteBatch) {
@@ -97,12 +121,6 @@ class TileMap(val context: Context, level: Int) {
                 if (tile.index >= 0) {
                     toIsometric(col * TILE_SIZE, row * TILE_SIZE, p)
                     sb.draw(tile.image, p.x - TILE_IWIDTH / 2, p.y - TILE_IHEIGHT / 2)
-//                    sb.draw(pixel, p)
-
-//                    toIsometric(col * TILE_SIZE, row * TILE_SIZE, pv)
-//                    sb.color = Color.RED
-//                    sb.draw(pixel, p.x, p.y, TILE_IWIDTH, TILE_IHEIGHT)
-//                    sb.color = Color.WHITE
                 }
                 tile.objects.forEach {
                     it.render(sb)
@@ -119,10 +137,14 @@ class TileMap(val context: Context, level: Int) {
 
 }
 
-class Tile2(var index: Int, var image: TextureRegion) {
+class Tile(var index: Int, var image: TextureRegion, val height3d: Float = 0f) {
     val objects = arrayListOf<TileObject>()
-    fun update(index: Int, image: TextureRegion) {
+    fun setType(index: Int, image: TextureRegion) {
         this.index = index
         this.image = image
+    }
+
+    fun update(dt: Float) {
+        objects.forEach { it.update(dt) }
     }
 }

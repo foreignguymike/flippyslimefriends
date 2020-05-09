@@ -7,8 +7,8 @@ import com.distraction.fs2.tilemap.TileMap
 
 class SuperJumpLight(context: Context, tileMap: TileMap, row: Int, col: Int) : TileObject(context, tileMap) {
     private val image = context.assets.getAtlas().findRegion("superjump")
-    private val speed = 10f
-    private val duration = 1f
+    private val speed = 15f
+    private val duration = 1.5f
     private var time = 0f
 
     init {
@@ -26,12 +26,12 @@ class SuperJumpLight(context: Context, tileMap: TileMap, row: Int, col: Int) : T
 
     override fun render(sb: SpriteBatch) {
         tileMap.toIsometric(p.x, p.y, isop)
-        sb.draw(image, isop.x - image.regionWidth / 2, isop.y - image.regionHeight / 2 + p.z)
+        sb.draw(image, isop.x - image.regionWidth / 2, isop.y - image.regionHeight / 2 + p.z + tileHeight3d)
     }
 }
 
 class SuperJump(context: Context, tileMap: TileMap, row: Int, col: Int) : TileObject(context, tileMap) {
-    private val interval = 0.4f
+    private val interval = 0.6f
     private var time = interval
 
     init {
@@ -42,7 +42,7 @@ class SuperJump(context: Context, tileMap: TileMap, row: Int, col: Int) : TileOb
         time += dt
         while (time > interval) {
             time -= interval
-            tileMap.otherObjects.add(SuperJumpLight(context, tileMap, row, col))
+            tileMap.otherObjects.add(SuperJumpLight(context, tileMap, row, col)) // render order
         }
     }
 

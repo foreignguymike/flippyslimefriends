@@ -14,7 +14,7 @@ import com.distraction.fs2.tilemap.tileobjects.Player
 class PlayState(context: Context, private val level: Int) : GameState(context), Player.MoveListener, ButtonListener {
 
     private val tileMap = TileMap(context, level - 1)
-    private val player = Player(context, tileMap, this)
+    private val player = Player(context, tileMap,this)
     private val bg = Background(context)
     private val bgCam = OrthographicCamera().apply {
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)

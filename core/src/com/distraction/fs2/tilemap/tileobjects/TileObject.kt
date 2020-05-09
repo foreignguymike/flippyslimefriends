@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
 import com.distraction.fs2.getAtlas
+import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 
 abstract class TileObject(val context: Context, val tileMap: TileMap) {
@@ -18,6 +19,7 @@ abstract class TileObject(val context: Context, val tileMap: TileMap) {
     var height = 0f
     var remove = false
     var isoHeight = 0f
+    var tileHeight3d = TileMap.TILE_HEIGHT_3D
 
     val pixel = context.assets.getAtlas().findRegion("pixel")
 
