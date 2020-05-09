@@ -18,9 +18,9 @@ class GameData(val context: Context) {
                     0,
                     0,
                     path = arrayOf(
-                            PathData(TilePoint(0, 2), 2f),
+                            PathData(TilePoint(0, 2), 0f),
                             PathData(TilePoint(3, 2)),
-                            PathData(TilePoint(3, 1), 2f),
+                            PathData(TilePoint(3, 1), 0f),
                             PathData(TilePoint(3, 2))
                     )
             )

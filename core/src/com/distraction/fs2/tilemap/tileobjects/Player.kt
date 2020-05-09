@@ -190,12 +190,11 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
     override fun onTileMoved(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
         super.setPositionFromTile(newRow, newCol)
         pdest.set(p)
-        log("set row and col to $row $col")
     }
 
     override fun update(dt: Float) {
         currentTile?.let {
-            if (it.moving) {
+            if (!moving && it.moving) {
                 p.set(it.p.x, it.p.y, p.z)
                 pdest.set(p)
                 updateAnimations(dt)
@@ -209,21 +208,12 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
 
             } else if (!tileMap.isValidTile(row, col)) {
                 moveListener?.onIllegal()
-                log("illegal")
                 return
             }
 
             handleJustMoved(row, col)
             handleTileObjects(row, col)
         }
-
-//        tileMap.getTile(row, col)?.let { tile ->
-//            if (tile.isMovingTile() && tile.moving) {
-//                log("following moving tile")
-//                p.set(tile.p)
-//                pdest.set(p)
-//            }
-//        }
 
         updateBounceHeight()
         updateAnimations(dt)

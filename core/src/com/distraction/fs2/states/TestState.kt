@@ -2,13 +2,15 @@ package com.distraction.fs2.states
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
-import com.distraction.fs2.*
+import com.distraction.fs2.Context
+import com.distraction.fs2.getAtlas
+import com.distraction.fs2.lerp
 import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.tileobjects.Player
+import com.distraction.fs2.use
 
 class TestState(context: Context) : GameState(context), Player.MoveListener {
 
