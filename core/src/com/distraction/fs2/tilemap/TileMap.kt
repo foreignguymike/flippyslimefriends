@@ -9,7 +9,6 @@ import com.distraction.fs2.tilemap.tileobjects.Arrow
 import com.distraction.fs2.tilemap.tileobjects.SuperJump
 import com.distraction.fs2.tilemap.tileobjects.Teleport
 import com.distraction.fs2.tilemap.tileobjects.TileObject
-import java.lang.IllegalStateException
 import kotlin.math.max
 import kotlin.math.min
 
@@ -29,9 +28,9 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
     val numRows = mapData.numRows
     val numCols = mapData.numCols
     val map = parseMapData(mapData.map)
+    val bgMap = mapData.bgMap
 
-    private val p = Vector3()
-    private val pv = Vector3()
+    private val bgp = Vector3()
 
     val pixel = context.assets.getAtlas().findRegion("pixel")
 
@@ -108,7 +107,8 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
 
     fun getTile(row: Int, col: Int) = map[toIndex(row, col)]
 
-    fun getTileImage(tileIndex: Int) = tileset[tileIndex] ?: throw IllegalStateException("invalid tile index")
+    fun getTileImage(tileIndex: Int) = tileset[tileIndex]
+            ?: throw IllegalStateException("invalid tile index: $tileIndex")
 
     fun toIsometric(x: Float, y: Float, p: Vector3) {
         val xo = x / TILE_SIZE
@@ -159,7 +159,6 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
             }
         }
         otherObjects.forEach {
-//            log("tile object : $it, currentTile = ${it.currentTile}")
             it.currentTile?.let { tile ->
                 if (tile.isMovingTile()) {
                     it.setPosition(tile.p.x, tile.p.y)
@@ -170,7 +169,19 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
         otherObjects.removeAll { it.remove }
     }
 
+    private fun renderBg(sb: SpriteBatch) {
+        for (row in 0 until numRows) {
+            for (col in 0 until numCols) {
+                val image = getTileImage(bgMap[toIndex(row, col)])
+                toPosition(row, col, bgp)
+                toIsometric(bgp.x, bgp.y, bgp)
+                sb.draw(image, bgp.x - TileMap.TILE_IWIDTH / 2, bgp.y - TileMap.TILE_IHEIGHT / 2 - 5)
+            }
+        }
+    }
+
     fun render(sb: SpriteBatch) {
+        renderBg(sb)
         for (diag in 0 until (numRows + numCols)) {
             val startCol = max(0, diag - numRows)
             val count = min(diag, min(numCols - startCol, numRows))

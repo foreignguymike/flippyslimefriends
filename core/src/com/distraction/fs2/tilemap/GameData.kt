@@ -7,18 +7,23 @@ import com.distraction.fs2.getAtlas
 class GameData(val context: Context) {
 
     val mapData = arrayOf(
+//            MapData(numRows = 4, numCols = 4,
+//            map = intArrayOf(
+//                    0,0,0,0,
+//                    0,e,e,0,
+//                    0,e,e,0,
+//                    0,0,0,0
+//            ), startRow = 0, startCol = 0),
             MapData(
-                    numRows = 5,
-                    numCols = 5,
+                    numRows = 5, numCols = 5,
                     map = intArrayOf(
                             0, 0, 0, e, e,
-                            0, e, 4, e, e,
-                            0, e, 4, e, 0,
+                            0, e, 3, e, e,
+                            0, e, 3, e, 0,
                             e, e, e, e, 0,
                             e, e, 0, 0, 0
                     ),
-                    startRow = 2,
-                    startCol = 2,
+                    startRow = 2, startCol = 2,
                     path = arrayListOf(
                             arrayListOf(
                                     PathPointData(1, 2, 2f),
@@ -86,13 +91,16 @@ class GameData(val context: Context) {
             4 to context.assets.getAtlas().findRegion("tileperm3"),
 
             100 to context.assets.getAtlas().findRegion("tilegrayfloor"),
-            101 to context.assets.getAtlas().findRegion("tilebluegraycheckeredfloor")
+            101 to context.assets.getAtlas().findRegion("tilebluegraycheckeredfloor"),
+            102 to context.assets.getAtlas().findRegion("tilebluecheckeredfloor")
     )
 
     fun isWalkableTile(index: Int) = index < 100
 
     companion object {
         const val e = -1
+        const val g = 100
+        const val c = 101
     }
 
 }
@@ -101,7 +109,7 @@ class MapData(
         val numRows: Int,
         val numCols: Int,
         var map: IntArray,
-        var bgMap: IntArray = IntArray(map.size) { 3 },
+        var bgMap: IntArray = IntArray(map.size) { 102 },
         val startRow: Int,
         val startCol: Int,
         val objects: ArrayList<TileObjectData> = arrayListOf(),
