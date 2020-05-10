@@ -54,12 +54,19 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
                         index,
                         getTileImage(index))
                         .apply {
-                            mapData.path?.let { path ->
-                                if (row == path[0].tilePoint.row && col == path[0].tilePoint.col) {
-                                    this.path = mapData.path
+                            mapData.path?.forEach { ppd ->
+                                if (row == ppd[0].tilePoint.row && col == ppd[0].tilePoint.col) {
+                                    this.path = ppd
                                     moveListeners.add(tileMap)
                                 }
                             }
+
+//                            mapData.path?.let { path ->
+//                                if (row == path[0].tilePoint.row && col == path[0].tilePoint.col) {
+//                                    this.path = mapData.path
+//                                    moveListeners.add(tileMap)
+//                                }
+//                            }
                         }
 
                 mapData.objects
@@ -196,7 +203,7 @@ class Tile(
     // moving tile params
     var prevRow = row
     var prevCol = col
-    var path: ArrayList<PathData>? = null
+    var path: ArrayList<PathPointData>? = null
     var moveListeners = ArrayList<TileMoveListener>()
     val speed = 100f
     val stayTime = 2f
