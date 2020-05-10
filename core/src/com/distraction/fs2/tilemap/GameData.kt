@@ -11,8 +11,8 @@ class GameData(val context: Context) {
                     5,
                     intArrayOf(
                             0, E, 0, 0, 0,
-                            E, E, E, 0, E,
-                            E, E, E, 0, E,
+                            0, E, E, 0, E,
+                            0, E, E, 0, E,
                             E, E, E, 0, E,
                             0, E, E, E, E,
                             0, 0, 0, 0, E,
