@@ -28,12 +28,12 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
     private var teleportSpeed = 0f
     private var direction = Direction.RIGHT
 
-    var currentTile = tileMap.getTile(row, col)
-
     init {
         setPositionFromTile(tileMap.mapData.startRow, tileMap.mapData.startCol)
         p.z = 4f
         pdest.set(p)
+
+        currentTile = tileMap.getTile(row, col)
 
         animationSet.addAnimation("idle", Animation(context.assets.getAtlas().findRegion("playeridle").split(16, 18)[0], 1f / 2f))
         animationSet.addAnimation("idler", Animation(context.assets.getAtlas().findRegion("playeridler").split(16, 18)[0], 1f / 2f))
@@ -129,14 +129,9 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
                     superjump = true
                 }
                 it is Teleport && !justTeleported -> {
+                    teleportSpeed = Utils.max(Utils.abs(p.y - tileMap.toPosition(it.row2)), Utils.abs(p.x - tileMap.toPosition(it.col2))) * 1.5f
+                    moveTile(it.row2 - row, it.col2 - col)
                     teleporting = true
-                    if (it.row == row && it.col == col) {
-                        teleportSpeed = Utils.max(Utils.abs(p.y - tileMap.toPosition(it.row2)), Utils.abs(p.x - tileMap.toPosition(it.col2))) * 1.5f
-                        moveTile(it.row2 - it.row, it.col2 - it.col)
-                    } else {
-                        teleportSpeed = Utils.max(Utils.abs(p.y - tileMap.toPosition(it.row)), Utils.abs(p.x - tileMap.toPosition(it.col))) * 1.5f
-                        moveTile(it.row - it.row2, it.col - it.col2)
-                    }
                     justTeleported = true
                 }
             }
@@ -201,7 +196,10 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
                 return
             }
         }
-        moveToDest((if (teleporting && justTeleported) teleportSpeed else speed) * dt * (if (sliding) 4f else if (superjump) 2f else 1f))
+        val dist = dt *
+                (if (teleporting && justTeleported) teleportSpeed else speed) * // base speed
+                (if (sliding) 4f else if (superjump) 2f else 1f)                // multiplier
+        p.moveTo(pdest, dist)
 
         if (atDestination()) {
             if (currentTile?.isMovingTile() == true) {

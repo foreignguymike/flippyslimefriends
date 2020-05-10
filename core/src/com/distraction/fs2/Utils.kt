@@ -82,3 +82,30 @@ fun Vector3.lerp(x: Float, y: Float, z: Float, amount: Float): Vector3 {
 }
 
 fun Rectangle.contains(v: Vector3) = contains(v.x, v.y)
+
+fun Vector3.moveTo(pdest: Vector3, dist: Float) {
+    if (x < pdest.x) {
+        x += dist
+        if (x > pdest.x) {
+            x = pdest.x
+        }
+    }
+    if (x > pdest.x) {
+        x -= dist
+        if (x < pdest.x) {
+            x = pdest.x
+        }
+    }
+    if (y < pdest.y) {
+        y += dist
+        if (y > pdest.y) {
+            y = pdest.y
+        }
+    }
+    if (y > pdest.y) {
+        y -= dist
+        if (y < pdest.y) {
+            y = pdest.y
+        }
+    }
+}

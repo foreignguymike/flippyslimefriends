@@ -3,6 +3,7 @@ package com.distraction.fs2.tilemap.tileobjects
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.Context
 import com.distraction.fs2.getAtlas
+import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 
 class SuperJumpLight(context: Context, tileMap: TileMap, row: Int, col: Int) : TileObject(context, tileMap) {
@@ -42,7 +43,10 @@ class SuperJump(context: Context, tileMap: TileMap, row: Int, col: Int) : TileOb
         time += dt
         while (time > interval) {
             time -= interval
-            tileMap.otherObjects.add(SuperJumpLight(context, tileMap, row, col)) // render order
+            tileMap.otherObjects.add(
+                    SuperJumpLight(context, tileMap, row, col).apply {
+                        currentTile = this@SuperJump.currentTile
+                    })
         }
     }
 

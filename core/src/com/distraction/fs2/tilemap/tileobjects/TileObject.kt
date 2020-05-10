@@ -23,37 +23,17 @@ abstract class TileObject(val context: Context, val tileMap: TileMap) {
 
     val pixel = context.assets.getAtlas().findRegion("pixel")
 
+    var currentTile: Tile? = null
+
     open fun setPositionFromTile(row: Int, col: Int) {
         this.row = row
         this.col = col
         tileMap.toPosition(row, col, p)
     }
 
-    fun moveToDest(dist: Float) {
-        if (p.x < pdest.x) {
-            p.x += dist
-            if (p.x > pdest.x) {
-                p.x = pdest.x
-            }
-        }
-        if (p.x > pdest.x) {
-            p.x -= dist
-            if (p.x < pdest.x) {
-                p.x = pdest.x
-            }
-        }
-        if (p.y < pdest.y) {
-            p.y += dist
-            if (p.y > pdest.y) {
-                p.y = pdest.y
-            }
-        }
-        if (p.y > pdest.y) {
-            p.y -= dist
-            if (p.y < pdest.y) {
-                p.y = pdest.y
-            }
-        }
+    open fun setPosition(x: Float, y: Float) {
+        p.x = x
+        p.y = y
     }
 
     abstract fun update(dt: Float)

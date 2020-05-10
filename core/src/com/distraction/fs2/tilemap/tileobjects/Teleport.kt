@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
 import com.distraction.fs2.getAtlas
 import com.distraction.fs2.log
+import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 
 class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) : TileObject(context, tileMap) {
@@ -14,7 +15,7 @@ class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) : Ti
     private val dot = context.assets.getAtlas().findRegion("dot")
     private val color = Color.valueOf("AAE2FF30")
     private val particles = arrayListOf<Vector3>()
-    private val speed = 32f
+    private val speed = 40f
 
     private val interval = 0.1f
     private var time = interval
@@ -22,7 +23,7 @@ class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) : Ti
     init {
         setPositionFromTile(row, col)
         p.z = 8f
-        height = 16f
+        height = 32f
     }
 
     override fun update(dt: Float) {
@@ -52,23 +53,28 @@ class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) : Ti
         particles.forEach {
             color.a = (it.z - it.y) / height
             sb.color = color
-            sb.draw(dot, it.x, it.y, 1f, 2f)
+            sb.draw(dot, it.x, it.y, 2f, 2f)
         }
         sb.color = c
     }
 }
 
 class Teleport(context: Context, tileMap: TileMap, row: Int, col: Int, val row2: Int, val col2: Int) : TileObject(context, tileMap) {
-    private val p2 = Vector3()
+
+    var first = true
 
     init {
         setPositionFromTile(row, col)
-        tileMap.toPosition(row2, col2, p2)
-        tileMap.otherObjects.add(TeleportLight(context, tileMap, row, col))
     }
 
     override fun update(dt: Float) {
-
+        if (first) {
+            first = false
+            tileMap.otherObjects.add(
+                    TeleportLight(context, tileMap, row, col).apply {
+                        currentTile = this@Teleport.currentTile
+                    })
+        }
     }
 
     override fun render(sb: SpriteBatch) {

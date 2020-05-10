@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
 import com.distraction.fs2.getAtlas
 import com.distraction.fs2.log
+import com.distraction.fs2.moveTo
 import com.distraction.fs2.tilemap.tileobjects.Arrow
 import com.distraction.fs2.tilemap.tileobjects.SuperJump
 import com.distraction.fs2.tilemap.tileobjects.Teleport
@@ -65,14 +66,17 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
                         .filter { objData -> objData.row == row && objData.col == col }
                         .map { objData ->
                             when (objData) {
-                                is ArrowData -> Arrow(context, this, row, col, objData.direction)
-                                is SuperJumpData -> SuperJump(context, this, row, col)
-                                is TeleportData -> Teleport(context, this, row, col, objData.destRow, objData.destCol)
+                                is ArrowData -> Arrow(context, this, row, col, objData.direction).apply { currentTile = tile }
+                                is SuperJumpData -> SuperJump(context, this, row, col).apply { currentTile = tile }
+                                is TeleportData -> Teleport(context, this, row, col, objData.destRow, objData.destCol).apply {
+                                    currentTile = tile
+                                    log("current tile parse: $currentTile")
+                                }
                                 else -> throw IllegalArgumentException("incorrect tile object data")
                             }
                         }
-                        .forEach { tileObject ->
-                            tile.objects.add(tileObject)
+                        .forEach {
+                            tile.objects.add(it)
                         }
             }
             tile
@@ -136,9 +140,24 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
 
     fun update(dt: Float) {
         map.forEach {
-            it?.update(dt)
+            it?.let {
+                it.update(dt)
+                it.objects.forEach { tileObject ->
+                    if (it.isMovingTile()) {
+                        tileObject.setPosition(it.p.x, it.p.y)
+                    }
+                }
+            }
         }
-        otherObjects.forEach { it.update(dt) }
+        otherObjects.forEach {
+//            log("tile object : $it, currentTile = ${it.currentTile}")
+            it.currentTile?.let { tile ->
+                if (tile.isMovingTile()) {
+                    it.setPosition(tile.p.x, tile.p.y)
+                }
+            }
+            it.update(dt)
+        }
         otherObjects.removeAll { it.remove }
     }
 
@@ -177,7 +196,7 @@ class Tile(
     // moving tile params
     var prevRow = row
     var prevCol = col
-    var path: Array<PathData>? = null
+    var path: ArrayList<PathData>? = null
     var moveListeners = ArrayList<TileMoveListener>()
     val speed = 100f
     val stayTime = 2f
@@ -192,7 +211,6 @@ class Tile(
 
     init {
         tileMap.toPosition(row, col, p)
-        log("tile: $row, $col at position: $p")
     }
 
     fun setType(index: Int, image: TextureRegion) {
@@ -212,36 +230,7 @@ class Tile(
         }
     }
 
-    fun moveToDest(dist: Float) {
-        if (p.x < pdest.x) {
-            p.x += dist
-            if (p.x > pdest.x) {
-                p.x = pdest.x
-            }
-        }
-        if (p.x > pdest.x) {
-            p.x -= dist
-            if (p.x < pdest.x) {
-                p.x = pdest.x
-            }
-        }
-        if (p.y < pdest.y) {
-            p.y += dist
-            if (p.y > pdest.y) {
-                p.y = pdest.y
-            }
-        }
-        if (p.y > pdest.y) {
-            p.y -= dist
-            if (p.y < pdest.y) {
-                p.y = pdest.y
-            }
-        }
-    }
-
     fun update(dt: Float) {
-        objects.forEach { it.update(dt) }
-
         path?.let {
             if (!moving) {
                 stayTimer += dt
@@ -251,17 +240,19 @@ class Tile(
                     stayTimer = 0f
                 }
             } else {
-                moveToDest(speed * dt)
+                p.moveTo(pdest, speed * dt)
                 if (p.x == pdest.x && p.y == pdest.y) {
                     row = it[pathIndex].tilePoint.row
                     col = it[pathIndex].tilePoint.col
-                    moveListeners.forEach {  it.onTileMoved(this, prevRow, prevCol, row, col) }
+                    moveListeners.forEach { ml -> ml.onTileMoved(this, prevRow, prevCol, row, col) }
                     moving = false
                     prevRow = row
                     prevCol = col
                 }
             }
         }
+
+        objects.forEach { it.update(dt) }
     }
 
     fun render(sb: SpriteBatch) {
