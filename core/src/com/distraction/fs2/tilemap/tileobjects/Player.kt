@@ -182,7 +182,7 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         animationSet.update(dt)
     }
 
-    override fun onTileMoved(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
+    override fun onTileEndMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
         super.setPositionFromTile(newRow, newCol)
         pdest.set(p)
     }

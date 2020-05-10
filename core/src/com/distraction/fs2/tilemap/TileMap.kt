@@ -9,6 +9,7 @@ import com.distraction.fs2.tilemap.tileobjects.Arrow
 import com.distraction.fs2.tilemap.tileobjects.SuperJump
 import com.distraction.fs2.tilemap.tileobjects.Teleport
 import com.distraction.fs2.tilemap.tileobjects.TileObject
+import java.lang.IllegalStateException
 import kotlin.math.max
 import kotlin.math.min
 
@@ -18,7 +19,7 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
         const val TILE_SIZE = 30f
         const val TILE_IWIDTH = 60f
         const val TILE_IHEIGHT = 30f
-        const val TILE_HEIGHT_3D = 5
+        const val TILE_HEIGHT_3D = 0
     }
 
     val mapData = context.gameData.mapData[level]
@@ -46,11 +47,11 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
 
                 val index = map[it]
                 tile = Tile(
+                        context,
                         this,
                         row,
                         col,
-                        index,
-                        getTileImage(index))
+                        index)
                         .apply {
                             mapData.path?.forEach { ppd ->
                                 if (row == ppd[0].tilePoint.row && col == ppd[0].tilePoint.col) {
@@ -100,14 +101,14 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
     }
 
     fun setTileType(row: Int, col: Int, index: Int) {
-        getTile(row, col)?.setType(index, getTileImage(index))
+        getTile(row, col)?.setType(index)
     }
 
     fun toIndex(row: Int, col: Int) = row * numCols + col
 
     fun getTile(row: Int, col: Int) = map[toIndex(row, col)]
 
-    fun getTileImage(tileIndex: Int) = tileset[tileIndex]
+    fun getTileImage(tileIndex: Int) = tileset[tileIndex] ?: throw IllegalStateException("invalid tile index")
 
     fun toIsometric(x: Float, y: Float, p: Vector3) {
         val xo = x / TILE_SIZE
@@ -138,7 +139,10 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
         return true
     }
 
-    override fun onTileMoved(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
+    override fun onTileStartMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
+    }
+
+    override fun onTileEndMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
         setTile(oldRow, oldCol, null)
         setTile(newRow, newCol, tile)
     }
@@ -167,11 +171,17 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
     }
 
     fun render(sb: SpriteBatch) {
-        // must render diagonally now that there are moving tiles (ie tile depth changes)
         for (diag in 0 until (numRows + numCols)) {
             val startCol = max(0, diag - numRows)
             val count = min(diag, min(numCols - startCol, numRows))
-            for (j in 0 until count) {
+            for (j in (0 until count).reversed()) {
+                getTile(min(numRows, diag) - j - 1, startCol + j)?.renderBottom(sb)
+            }
+        }
+        for (diag in 0 until (numRows + numCols)) {
+            val startCol = max(0, diag - numRows)
+            val count = min(diag, min(numCols - startCol, numRows))
+            for (j in (0 until count).reversed()) {
                 getTile(min(numRows, diag) - j - 1, startCol + j)?.render(sb)
             }
         }

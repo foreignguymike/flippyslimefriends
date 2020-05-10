@@ -69,6 +69,12 @@ fun SpriteBatch.drawButton(button: Button, hflip: Boolean = false) {
     }
 }
 
+// exclusive
+infix fun Int.toward(to: Int): IntProgression {
+    val step = if (this > to) -1 else 1
+    return IntProgression.fromClosedRange(this, to - step, step)
+}
+
 fun clearScreen(r: Int = 0, g: Int = 0, b: Int = 0, a: Int = 0) {
     Gdx.gl.glClearColor(r / 255f, g / 255f, b / 255f, a / 255f)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)

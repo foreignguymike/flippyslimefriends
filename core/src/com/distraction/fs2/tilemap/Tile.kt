@@ -1,33 +1,40 @@
 package com.distraction.fs2.tilemap
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector3
+import com.distraction.fs2.Context
+import com.distraction.fs2.getAtlas
+import com.distraction.fs2.log
 import com.distraction.fs2.moveTo
 import com.distraction.fs2.tilemap.tileobjects.TileObject
 
 class Tile(
+        val context: Context,
         val tileMap: TileMap,
         var row: Int,
         var col: Int,
-        var index: Int,
-        var image: TextureRegion) {
+        var index: Int) {
 
     interface TileMoveListener {
-        fun onTileMoved(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int)
+        fun onTileStartMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {}
+        fun onTileEndMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int)
     }
 
     val objects = arrayListOf<TileObject>()
+    var image = context.gameData.tileset[index]
+    var bottomImage = context.assets.getAtlas().findRegion("tilebottom")
 
     // moving tile params
+    var pathIndex = 0
+    var path: ArrayList<PathPointData>? = null
+
     var prevRow = row
     var prevCol = col
-    var path: ArrayList<PathPointData>? = null
+
     var moveListeners = ArrayList<TileMoveListener>()
+
     val speed = 100f
-    val stayTime = 2f
     var stayTimer = 0f
-    var pathIndex = 0
     var moving = false
     val p = Vector3()
     val pdest = Vector3()
@@ -39,9 +46,9 @@ class Tile(
         tileMap.toPosition(row, col, p)
     }
 
-    fun setType(index: Int, image: TextureRegion) {
+    fun setType(index: Int) {
         this.index = index
-        this.image = image
+        this.image = context.gameData.tileset[index]
     }
 
     fun isMovingTile() = path != null
@@ -52,28 +59,35 @@ class Tile(
             if (pathIndex == path.size) {
                 pathIndex = 0
             }
+            row = path[pathIndex].tilePoint.row
+            col = path[pathIndex].tilePoint.col
             tileMap.toPosition(path[pathIndex].tilePoint.row, path[pathIndex].tilePoint.col, pdest)
         }
     }
 
     fun update(dt: Float) {
         path?.let {
+            // check if we should go
             if (!moving) {
                 stayTimer += dt
                 if (stayTimer >= it[pathIndex].time && !lock) {
                     goNext()
+                    moveListeners.forEach { ml -> ml.onTileStartMove(this, prevRow, prevCol, row, col) }
                     moving = true
                     stayTimer = 0f
                 }
             } else {
+                // travel
                 p.moveTo(pdest, speed * dt)
+                // check if we arrived
                 if (p.x == pdest.x && p.y == pdest.y) {
                     row = it[pathIndex].tilePoint.row
                     col = it[pathIndex].tilePoint.col
-                    moveListeners.forEach { ml -> ml.onTileMoved(this, prevRow, prevCol, row, col) }
+                    moveListeners.forEach { ml -> ml.onTileEndMove(this, prevRow, prevCol, row, col) }
                     moving = false
                     prevRow = row
                     prevCol = col
+                    update(0f) // edge case, do not stop at 0f timer stays
                 }
             }
         }
@@ -88,5 +102,10 @@ class Tile(
         objects.forEach {
             it.render(sb)
         }
+    }
+
+    fun renderBottom(sb: SpriteBatch) {
+        tileMap.toIsometric(p.x, p.y, isop)
+        sb.draw(bottomImage, isop.x - TileMap.TILE_IWIDTH / 2, isop.y - TileMap.TILE_IHEIGHT / 2 - 5)
     }
 }
