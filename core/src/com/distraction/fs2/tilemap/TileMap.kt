@@ -1,5 +1,6 @@
 package com.distraction.fs2.tilemap
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
@@ -149,14 +150,7 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
 
     fun update(dt: Float) {
         map.forEach {
-            it?.let {
-                it.update(dt)
-                it.objects.forEach { tileObject ->
-                    if (it.isMovingTile()) {
-                        tileObject.setPosition(it.p.x, it.p.y)
-                    }
-                }
-            }
+            it?.update(dt)
         }
         otherObjects.forEach {
             it.currentTile?.let { tile ->
@@ -170,6 +164,7 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
     }
 
     private fun renderBg(sb: SpriteBatch) {
+        sb.color = Color.GRAY
         for (row in 0 until numRows) {
             for (col in 0 until numCols) {
                 val image = getTileImage(bgMap[toIndex(row, col)])
@@ -178,6 +173,7 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
                 sb.draw(image, bgp.x - TileMap.TILE_IWIDTH / 2, bgp.y - TileMap.TILE_IHEIGHT / 2 - 5)
             }
         }
+        sb.color = Color.WHITE
     }
 
     fun render(sb: SpriteBatch) {
@@ -185,14 +181,14 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
         for (diag in 0 until (numRows + numCols)) {
             val startCol = max(0, diag - numRows)
             val count = min(diag, min(numCols - startCol, numRows))
-            for (j in (0 until count).reversed()) {
+            for (j in 0 until count) {
                 getTile(min(numRows, diag) - j - 1, startCol + j)?.renderBottom(sb)
             }
         }
         for (diag in 0 until (numRows + numCols)) {
             val startCol = max(0, diag - numRows)
             val count = min(diag, min(numCols - startCol, numRows))
-            for (j in (0 until count).reversed()) {
+            for (j in 0 until count) {
                 getTile(min(numRows, diag) - j - 1, startCol + j)?.render(sb)
             }
         }

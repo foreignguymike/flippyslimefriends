@@ -92,7 +92,12 @@ class Tile(
             }
         }
 
-        objects.forEach { it.update(dt) }
+        objects.forEach {
+            it.update(dt)
+            if (isMovingTile()) {
+                it.setPosition(it.p.x, it.p.y)
+            }
+        }
     }
 
     fun render(sb: SpriteBatch) {
