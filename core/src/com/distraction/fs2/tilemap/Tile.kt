@@ -1,11 +1,9 @@
 package com.distraction.fs2.tilemap
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector3
-import com.distraction.fs2.Context
-import com.distraction.fs2.getAtlas
-import com.distraction.fs2.log
-import com.distraction.fs2.moveTo
+import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.tileobjects.TileObject
 
 class Tile(
@@ -21,8 +19,8 @@ class Tile(
     }
 
     val objects = arrayListOf<TileObject>()
-    var image = context.gameData.tileset[index]
-    var bottomImage = context.assets.getAtlas().findRegion("tilebottom")
+    var image = context.gameData.tileset[index] ?: error("tile image not found")
+    var bottomImage = context.assets.getAtlas().findRegion("tilebottom") ?: error("tile image not found")
 
     // moving tile params
     var pathIndex = 0
@@ -48,7 +46,7 @@ class Tile(
 
     fun setType(index: Int) {
         this.index = index
-        this.image = context.gameData.tileset[index]
+        this.image = context.gameData.tileset[index] ?: error("tile image not found")
     }
 
     fun isMovingTile() = path != null
@@ -102,7 +100,7 @@ class Tile(
 
     fun render(sb: SpriteBatch) {
         tileMap.toIsometric(p.x, p.y, isop)
-        sb.draw(image, isop.x - TileMap.TILE_IWIDTH / 2, isop.y - TileMap.TILE_IHEIGHT / 2)
+        sb.drawPadded(image, isop.x - TileMap.TILE_IWIDTH / 2, isop.y - TileMap.TILE_IHEIGHT / 2)
 
         objects.forEach {
             it.render(sb)
@@ -111,6 +109,6 @@ class Tile(
 
     fun renderBottom(sb: SpriteBatch) {
         tileMap.toIsometric(p.x, p.y, isop)
-        sb.draw(bottomImage, isop.x - TileMap.TILE_IWIDTH / 2, isop.y - TileMap.TILE_IHEIGHT / 2 - 5)
+        sb.drawPadded(bottomImage, isop.x - TileMap.TILE_IWIDTH / 2, isop.y - TileMap.TILE_IHEIGHT / 2 - 5)
     }
 }

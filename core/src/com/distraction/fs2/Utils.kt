@@ -36,6 +36,10 @@ fun SpriteBatch.draw(textureRegion: TextureRegion, v: Vector3, w: Float, h: Floa
     draw(textureRegion, v.x, v.y, w, h)
 }
 
+fun SpriteBatch.drawPadded(textureRegion: TextureRegion, x: Float, y: Float, padding: Float = 0.01f) {
+    draw(textureRegion, x, y, textureRegion.regionWidth + padding, textureRegion.regionHeight + padding)
+}
+
 fun SpriteBatch.drawHFlip(textureRegion: TextureRegion, x: Float, y: Float) {
     draw(textureRegion, x, y, -textureRegion.regionWidth.toFloat(), textureRegion.regionHeight.toFloat())
 }

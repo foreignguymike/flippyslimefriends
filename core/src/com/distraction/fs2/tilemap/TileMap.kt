@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
+import com.distraction.fs2.drawPadded
 import com.distraction.fs2.getAtlas
 import com.distraction.fs2.log
 import com.distraction.fs2.tilemap.tileobjects.Arrow
@@ -12,6 +13,7 @@ import com.distraction.fs2.tilemap.tileobjects.Teleport
 import com.distraction.fs2.tilemap.tileobjects.TileObject
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
 
@@ -164,16 +166,14 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
     }
 
     private fun renderBg(sb: SpriteBatch) {
-        sb.color = Color.GRAY
         for (row in 0 until numRows) {
             for (col in 0 until numCols) {
                 val image = getTileImage(bgMap[toIndex(row, col)])
                 toPosition(row, col, bgp)
                 toIsometric(bgp.x, bgp.y, bgp)
-                sb.draw(image, bgp.x - TileMap.TILE_IWIDTH / 2, bgp.y - TileMap.TILE_IHEIGHT / 2 - 5)
+                sb.drawPadded(image, bgp.x - TILE_IWIDTH / 2, bgp.y - TILE_IHEIGHT / 2 - 5 - image.regionHeight + TILE_IHEIGHT)
             }
         }
-        sb.color = Color.WHITE
     }
 
     fun render(sb: SpriteBatch) {

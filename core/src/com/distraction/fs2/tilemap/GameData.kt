@@ -18,69 +18,69 @@ class GameData(val context: Context) {
                     ArrowData(0, 1, Direction.RIGHT),
                     ArrowData(0, 2, Direction.RIGHT),
                     ArrowData(0, 3, Direction.DOWN)
-            ))
-//            MapData(
-//                    numRows = 5, numCols = 5,
-//                    map = intArrayOf(
-//                            0, 0, 0, e, e,
-//                            0, e, 3, e, e,
-//                            0, e, 3, e, 0,
-//                            e, e, e, e, 0,
-//                            e, e, 0, 0, 0
-//                    ),
-//                    startRow = 2, startCol = 2,
-//                    path = arrayListOf(
-//                            arrayListOf(
-//                                    PathPointData(1, 2, 2f),
-//                                    PathPointData(1, 3),
-//                                    PathPointData(2, 3, 2f),
-//                                    PathPointData(3, 3),
-//                                    PathPointData(3, 2, 2f),
-//                                    PathPointData(3, 1),
-//                                    PathPointData(2, 1, 2f),
-//                                    PathPointData(1, 1)
-//                            )
-//                    )
-//            )
-//            MapData(
-//                    7,
-//                    5,
-//                    intArrayOf(
-//                            0, e, 0, 0, 0,
-//                            0, e, e, 0, e,
-//                            0, e, e, 0, e,
-//                            e, e, e, 0, e,
-//                            0, e, e, e, e,
-//                            0, 0, 0, 0, e,
-//                            0, e, e, e, e
-//
-//                    ),
-//                    startRow = 0,
-//                    startCol = 0,
-//                    objects = arrayListOf(
-////                            SuperJumpData(0, 2)
-////                            TeleportData(0, 2, 0, 3),
-////                            TeleportData(0, 3, 0, 2)
-//                    ),
-//                    path = arrayListOf(
-//                            arrayListOf(
-//                                    PathPointData(TilePoint(0, 2)),
-//                                    PathPointData(TilePoint(3, 2))
-//                            ),
-//                            arrayListOf(
-//                                    PathPointData(TilePoint(0, 4)),
-//                                    PathPointData(TilePoint(3, 4))
-//                            ),
-//                            arrayListOf(
-//                                    PathPointData(TilePoint(4, 0)),
-//                                    PathPointData(TilePoint(4, 3))
-//                            ),
-//                            arrayListOf(
-//                                    PathPointData(TilePoint(6, 0)),
-//                                    PathPointData(TilePoint(6, 3))
-//                            )
-//                    )
-//            )
+            )),
+            MapData(
+                    numRows = 5, numCols = 5,
+                    map = intArrayOf(
+                            0, 0, 0, e, e,
+                            0, e, 3, e, e,
+                            0, e, 3, e, 0,
+                            e, e, e, e, 0,
+                            e, e, 0, 0, 0
+                    ),
+                    startRow = 2, startCol = 2,
+                    path = arrayListOf(
+                            arrayListOf(
+                                    PathPointData(1, 2, 2f),
+                                    PathPointData(1, 3),
+                                    PathPointData(2, 3, 2f),
+                                    PathPointData(3, 3),
+                                    PathPointData(3, 2, 2f),
+                                    PathPointData(3, 1),
+                                    PathPointData(2, 1, 2f),
+                                    PathPointData(1, 1)
+                            )
+                    )
+            ),
+            MapData(
+                    7,
+                    5,
+                    intArrayOf(
+                            0, e, 0, 0, 0,
+                            0, e, e, 0, e,
+                            0, e, e, 0, e,
+                            e, e, e, 0, e,
+                            0, e, e, e, e,
+                            0, 0, 0, 0, e,
+                            0, e, e, e, e
+
+                    ),
+                    startRow = 0,
+                    startCol = 0,
+                    objects = arrayListOf(
+//                            SuperJumpData(0, 2)
+//                            TeleportData(0, 2, 0, 3),
+//                            TeleportData(0, 3, 0, 2)
+                    ),
+                    path = arrayListOf(
+                            arrayListOf(
+                                    PathPointData(TilePoint(0, 2)),
+                                    PathPointData(TilePoint(3, 2))
+                            ),
+                            arrayListOf(
+                                    PathPointData(TilePoint(0, 4)),
+                                    PathPointData(TilePoint(3, 4))
+                            ),
+                            arrayListOf(
+                                    PathPointData(TilePoint(4, 0)),
+                                    PathPointData(TilePoint(4, 3))
+                            ),
+                            arrayListOf(
+                                    PathPointData(TilePoint(6, 0)),
+                                    PathPointData(TilePoint(6, 3))
+                            )
+                    )
+            )
     )
 
     /**
@@ -97,7 +97,9 @@ class GameData(val context: Context) {
 
             100 to context.assets.getAtlas().findRegion("tilegrayfloor"),
             101 to context.assets.getAtlas().findRegion("tilebluegraycheckeredfloor"),
-            102 to context.assets.getAtlas().findRegion("tilebluecheckeredfloor")
+            102 to context.assets.getAtlas().findRegion("tilebluecheckeredfloor"),
+            103 to context.assets.getAtlas().findRegion("tilegrass"),
+            104 to context.assets.getAtlas().findRegion("tilegrasslong")
     )
 
     fun isWalkableTile(index: Int) = index < 100
@@ -114,7 +116,7 @@ class MapData(
         val numRows: Int,
         val numCols: Int,
         var map: IntArray,
-        var bgMap: IntArray = IntArray(map.size) { 101 },
+        var bgMap: IntArray = IntArray(map.size * 4) { if (Math.random() < 0.5f) 103 else 103 },
         val startRow: Int,
         val startCol: Int,
         val objects: ArrayList<TileObjectData> = arrayListOf(),
