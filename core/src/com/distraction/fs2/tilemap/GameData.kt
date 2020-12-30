@@ -7,18 +7,18 @@ import com.distraction.fs2.getAtlas
 class GameData(val context: Context) {
 
     val mapData = arrayOf(
-            MapData(numRows = 4, numCols = 4,
-            map = intArrayOf(
-                    0,0,0,0,
-                    0,e,e,0,
-                    0,e,e,0,
-                    0,0,0,0
-            ), startRow = 0, startCol = 0,
-            objects = arrayListOf(
-                    ArrowData(0, 1, Direction.RIGHT),
-                    ArrowData(0, 2, Direction.RIGHT),
-                    ArrowData(0, 3, Direction.DOWN)
-            )),
+//            MapData(numRows = 4, numCols = 4,
+//            map = intArrayOf(
+//                    0,0,0,0,
+//                    0,e,e,0,
+//                    0,e,e,0,
+//                    0,0,0,0
+//            ), startRow = 0, startCol = 0,
+//            objects = arrayListOf(
+//                    ArrowData(0, 1, Direction.RIGHT),
+//                    ArrowData(0, 2, Direction.RIGHT),
+//                    ArrowData(0, 3, Direction.DOWN)
+//            )),
             MapData(
                     numRows = 5, numCols = 5,
                     map = intArrayOf(
@@ -116,7 +116,8 @@ class MapData(
         val numRows: Int,
         val numCols: Int,
         var map: IntArray,
-        var bgMap: IntArray = IntArray(map.size * 4) { if (Math.random() < 0.5f) 103 else 103 },
+        val bgRows: Int = numRows * 2,
+        val bgCols: Int = numCols * 2,
         val startRow: Int,
         val startCol: Int,
         val objects: ArrayList<TileObjectData> = arrayListOf(),

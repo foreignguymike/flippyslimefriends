@@ -9,7 +9,7 @@ import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.tileobjects.Player
 
-class TestState(context: Context) : GameState(context), Player.MoveListener {
+class TestState(context: Context) : GameState(context), Player.MoveListener, ButtonListener {
 
     private val tileMap = TileMap(context, 0)
 
@@ -19,6 +19,7 @@ class TestState(context: Context) : GameState(context), Player.MoveListener {
 
     private val pixel = context.assets.getAtlas().findRegion("pixel")
     private val pixelp = Vector3()
+    private val hud = HUD(context, this)
 
     init {
         camera.translate(-100f, -100f)
@@ -54,6 +55,7 @@ class TestState(context: Context) : GameState(context), Player.MoveListener {
         player.update(dt)
         camera.position.set(camera.position.lerp(player.isop.x + cameraOffset.x, player.isop.y + cameraOffset.y, 0f, 0.1f))
         camera.update()
+        hud.update(dt)
     }
 
     override fun render(sb: SpriteBatch) {
@@ -63,6 +65,19 @@ class TestState(context: Context) : GameState(context), Player.MoveListener {
             tileMap.render(sb)
             player.render(sb)
             tileMap.renderOther(sb)
+            hud.render(sb)
+        }
+    }
+
+    override fun onButtonPressed(type: ButtonListener.ButtonType) {
+        when (type) {
+            ButtonListener.ButtonType.UP -> player.moveTile(-1, 0)
+            ButtonListener.ButtonType.LEFT -> player.moveTile(0, -1)
+            ButtonListener.ButtonType.DOWN -> player.moveTile(1, 0)
+            ButtonListener.ButtonType.RIGHT -> player.moveTile(0, 1)
+            ButtonListener.ButtonType.RESTART -> onIllegal()
+            ButtonListener.ButtonType.BACK -> {
+            }
         }
     }
 }

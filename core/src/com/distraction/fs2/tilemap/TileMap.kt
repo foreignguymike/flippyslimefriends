@@ -1,6 +1,5 @@
 package com.distraction.fs2.tilemap
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
@@ -13,7 +12,6 @@ import com.distraction.fs2.tilemap.tileobjects.Teleport
 import com.distraction.fs2.tilemap.tileobjects.TileObject
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.math.roundToInt
 
 class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
 
@@ -31,7 +29,9 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
     val numRows = mapData.numRows
     val numCols = mapData.numCols
     val map = parseMapData(mapData.map)
-    val bgMap = mapData.bgMap
+
+    val bgRows = mapData.bgRows
+    val bgCols = mapData.bgCols
 
     private val bgp = Vector3()
 
@@ -165,19 +165,7 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
         otherObjects.removeAll { it.remove }
     }
 
-    private fun renderBg(sb: SpriteBatch) {
-        for (row in 0 until numRows) {
-            for (col in 0 until numCols) {
-                val image = getTileImage(bgMap[toIndex(row, col)])
-                toPosition(row, col, bgp)
-                toIsometric(bgp.x, bgp.y, bgp)
-                sb.drawPadded(image, bgp.x - TILE_IWIDTH / 2, bgp.y - TILE_IHEIGHT / 2 - 5 - image.regionHeight + TILE_IHEIGHT)
-            }
-        }
-    }
-
     fun render(sb: SpriteBatch) {
-        renderBg(sb)
         for (diag in 0 until (numRows + numCols)) {
             val startCol = max(0, diag - numRows)
             val count = min(diag, min(numCols - startCol, numRows))

@@ -109,6 +109,6 @@ class Tile(
 
     fun renderBottom(sb: SpriteBatch) {
         tileMap.toIsometric(p.x, p.y, isop)
-        sb.drawPadded(bottomImage, isop.x - TileMap.TILE_IWIDTH / 2, isop.y - TileMap.TILE_IHEIGHT / 2 - 5)
+        sb.drawPadded(bottomImage, isop.x - bottomImage.regionWidth / 2, isop.y - TileMap.TILE_IHEIGHT / 2 - 5)
     }
 }
