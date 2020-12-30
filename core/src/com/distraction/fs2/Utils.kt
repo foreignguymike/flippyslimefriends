@@ -40,6 +40,13 @@ fun SpriteBatch.drawPadded(textureRegion: TextureRegion, x: Float, y: Float, pad
     draw(textureRegion, x, y, textureRegion.regionWidth + padding, textureRegion.regionHeight + padding)
 }
 
+fun SpriteBatch.drawRectangle(textureRegion: TextureRegion, x: Float, y: Float, w: Float, h: Float) {
+    draw(textureRegion, x, y, w, 1f)
+    draw(textureRegion, x, y + h, w, 1f)
+    draw(textureRegion, x, y, 1f, h)
+    draw(textureRegion, x + w, y, 1f, h)
+}
+
 fun SpriteBatch.drawHFlip(textureRegion: TextureRegion, x: Float, y: Float) {
     draw(textureRegion, x, y, -textureRegion.regionWidth.toFloat(), textureRegion.regionHeight.toFloat())
 }

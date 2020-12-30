@@ -9,9 +9,9 @@ import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.tileobjects.Player
 
-class TestState(context: Context) : GameState(context), Player.MoveListener, ButtonListener {
+class TestState(context: Context, private val level: Int = 0) : GameState(context), Player.MoveListener, ButtonListener, TileMap.TileListener {
 
-    private val tileMap = TileMap(context, 0)
+    private val tileMap = TileMap(context, this, level)
 
     private val player: Player = Player(context, tileMap, this)
 
@@ -30,12 +30,15 @@ class TestState(context: Context) : GameState(context), Player.MoveListener, But
 
     }
 
-    override fun onToggled() {
+    override fun onIllegal() {
 
     }
 
-    override fun onIllegal() {
-
+    override fun onTileToggled(tileMap: TileMap) {
+        if (tileMap.isFinished()) {
+            context.gsm.pop()
+            context.gsm.push(TestState(context, level + 1))
+        }
     }
 
     private fun handleInput() {

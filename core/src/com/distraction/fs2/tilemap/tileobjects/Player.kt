@@ -11,7 +11,6 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
 
     interface MoveListener {
         fun onMoved()
-        fun onToggled()
         fun onIllegal()
     }
 
@@ -101,7 +100,6 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
             moveListener?.onMoved()
             if (!tileMap.isFinished()) {
                 tileMap.toggleTile(row, col)
-                moveListener?.onToggled()
             }
             sliding = false
             superjump = false

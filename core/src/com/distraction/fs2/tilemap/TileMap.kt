@@ -3,23 +3,21 @@ package com.distraction.fs2.tilemap
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
-import com.distraction.fs2.drawPadded
 import com.distraction.fs2.getAtlas
 import com.distraction.fs2.log
 import com.distraction.fs2.tilemap.tileobjects.Arrow
 import com.distraction.fs2.tilemap.tileobjects.SuperJump
 import com.distraction.fs2.tilemap.tileobjects.Teleport
 import com.distraction.fs2.tilemap.tileobjects.TileObject
-import kotlin.math.max
-import kotlin.math.min
 
-class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
+class TileMap(
+        private val context: Context,
+        private val tileListener: TileListener,
+        level: Int) :
+        Tile.TileMoveListener {
 
-    companion object {
-        const val TILE_SIZE = 30f
-        const val TILE_IWIDTH = 60f
-        const val TILE_IHEIGHT = 30f
-        const val TILE_HEIGHT_3D = 0
+    interface TileListener {
+        fun onTileToggled(tileMap: TileMap)
     }
 
     val mapData = context.gameData.mapData[level]
@@ -29,6 +27,8 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
     val numRows = mapData.numRows
     val numCols = mapData.numCols
     val map = parseMapData(mapData.map)
+    val orderedMap = map.sortedBy { it?.isop?.y }.toMutableList()
+    var mapSortRequired = false
 
     val bgRows = mapData.bgRows
     val bgCols = mapData.bgCols
@@ -37,18 +37,17 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
 
     val pixel = context.assets.getAtlas().findRegion("pixel")
 
-    private fun parseMapData(map: IntArray): Array<Tile?> {
-        return Array(map.size) {
-            val tile: Tile?
+    private fun parseMapData(map: IntArray): MutableList<Tile?> {
+        return MutableList(map.size) {
             if (mapData.map[it] < 0) {
-                tile = null
+                null
             } else {
 
                 val row = it / numCols
                 val col = it % numCols
 
                 val index = map[it]
-                tile = Tile(
+                val tile = Tile(
                         context,
                         this,
                         row,
@@ -61,13 +60,6 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
                                     moveListeners.add(tileMap)
                                 }
                             }
-
-//                            mapData.path?.let { path ->
-//                                if (row == path[0].tilePoint.row && col == path[0].tilePoint.col) {
-//                                    this.path = mapData.path
-//                                    moveListeners.add(tileMap)
-//                                }
-//                            }
                         }
 
                 mapData.objects
@@ -86,8 +78,8 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
                         .forEach {
                             tile.objects.add(it)
                         }
+                tile
             }
-            tile
         }
     }
 
@@ -96,6 +88,7 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
             0 -> setTileType(row, col, 1)
             1 -> setTileType(row, col, 0)
         }
+        tileListener.onTileToggled(this)
     }
 
     fun setTile(row: Int, col: Int, tile: Tile?) {
@@ -143,6 +136,7 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
     }
 
     override fun onTileStartMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
+        mapSortRequired = true
     }
 
     override fun onTileEndMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
@@ -166,26 +160,26 @@ class TileMap(val context: Context, level: Int) : Tile.TileMoveListener {
     }
 
     fun render(sb: SpriteBatch) {
-        for (diag in 0 until (numRows + numCols)) {
-            val startCol = max(0, diag - numRows)
-            val count = min(diag, min(numCols - startCol, numRows))
-            for (j in 0 until count) {
-                getTile(min(numRows, diag) - j - 1, startCol + j)?.renderBottom(sb)
-            }
+        mapSortRequired = true
+        if (mapSortRequired) {
+            orderedMap.sortByDescending { it?.isop?.y }
+            mapSortRequired = false
         }
-        for (diag in 0 until (numRows + numCols)) {
-            val startCol = max(0, diag - numRows)
-            val count = min(diag, min(numCols - startCol, numRows))
-            for (j in 0 until count) {
-                getTile(min(numRows, diag) - j - 1, startCol + j)?.render(sb)
-            }
-        }
+        orderedMap.forEach { it?.renderBottom(sb) }
+        orderedMap.forEach { it?.render(sb) }
     }
 
     fun renderOther(sb: SpriteBatch) {
         otherObjects.forEach {
             it.render(sb)
         }
+    }
+
+    companion object {
+        const val TILE_SIZE = 30f
+        const val TILE_IWIDTH = 60f
+        const val TILE_IHEIGHT = 30f
+        const val TILE_HEIGHT_3D = 0
     }
 
 }

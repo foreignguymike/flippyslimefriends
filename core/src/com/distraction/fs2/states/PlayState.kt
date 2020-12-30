@@ -11,9 +11,9 @@ import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.TileMapData
 import com.distraction.fs2.tilemap.tileobjects.Player
 
-class PlayState(context: Context, private val level: Int) : GameState(context), Player.MoveListener, ButtonListener {
+class PlayState(context: Context, private val level: Int) : GameState(context), Player.MoveListener, ButtonListener, TileMap.TileListener {
 
-    private val tileMap = TileMap(context, level - 1)
+    private val tileMap = TileMap(context, this,level - 1)
     private val player = Player(context, tileMap,this)
     private val bg = Background(context)
     private val bgCam = OrthographicCamera().apply {
@@ -38,19 +38,12 @@ class PlayState(context: Context, private val level: Int) : GameState(context), 
         }
     }
 
-    override fun onToggled() {
+    override fun onTileToggled(tileMap: TileMap) {
         if (tileMap.isFinished()) {
             ignoreInput = true
-
             if (hud.getBest() == 0 || hud.getMoves() < hud.getBest()) {
                 context.scoreHandler.saveScore(level - 1, hud.getMoves())
             }
-
-//            if (level == TileMapData.levelData.size) {
-//                context.gsm.push(TransitionState(context, TitleState(context)))
-//            } else {
-//                context.gsm.push(TransitionState(context, PlayState(context, level + 1)))
-//            }
             context.gsm.push(LevelFinishState(context, level, hud.getMoves(), hud.getBest()))
         }
     }
