@@ -27,11 +27,11 @@ class TileMap(
     val numRows = mapData.numRows
     val numCols = mapData.numCols
     val map = parseMapData(mapData.map)
-    val orderedMap = map.sortedBy { it?.isop?.y }.toMutableList()
-    var mapSortRequired = false
 
-    val bgRows = mapData.bgRows
-    val bgCols = mapData.bgCols
+    // when there are moving tiles, the map must be sorted
+    // orderedMap is used to determine rendering order
+    var numTilesMoving = 0
+    val orderedMap = map.sortedBy { it?.isop?.y }.toMutableList()
 
     private val bgp = Vector3()
 
@@ -136,10 +136,11 @@ class TileMap(
     }
 
     override fun onTileStartMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
-        mapSortRequired = true
+        numTilesMoving++
     }
 
     override fun onTileEndMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
+        numTilesMoving--
         setTile(oldRow, oldCol, null)
         setTile(newRow, newCol, tile)
     }
@@ -160,10 +161,8 @@ class TileMap(
     }
 
     fun render(sb: SpriteBatch) {
-        mapSortRequired = true
-        if (mapSortRequired) {
+        if (numTilesMoving > 0) {
             orderedMap.sortByDescending { it?.isop?.y }
-            mapSortRequired = false
         }
         orderedMap.forEach { it?.renderBottom(sb) }
         orderedMap.forEach { it?.render(sb) }

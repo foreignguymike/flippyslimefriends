@@ -9,7 +9,10 @@ import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.tileobjects.Player
 
-class TestState(context: Context, private val level: Int = 0) : GameState(context), Player.MoveListener, ButtonListener, TileMap.TileListener {
+class TestState(context: Context, private val level: Int = 0) : GameState(context),
+        Player.MoveListener,
+        ButtonListener,
+        TileMap.TileListener {
 
     private val tileMap = TileMap(context, this, level)
 
@@ -22,7 +25,7 @@ class TestState(context: Context, private val level: Int = 0) : GameState(contex
     private val hud = HUD(context, this)
 
     init {
-        camera.translate(-100f, -100f)
+        camera.position.set(player.isop.x, player.isop.y, 0f)
         camera.update()
     }
 

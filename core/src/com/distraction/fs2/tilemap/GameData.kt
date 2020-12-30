@@ -131,8 +131,6 @@ class MapData(
         val numRows: Int,
         val numCols: Int,
         var map: IntArray,
-        val bgRows: Int = numRows * 2,
-        val bgCols: Int = numCols * 2,
         val startRow: Int,
         val startCol: Int,
         val objects: ArrayList<TileObjectData> = arrayListOf(),
