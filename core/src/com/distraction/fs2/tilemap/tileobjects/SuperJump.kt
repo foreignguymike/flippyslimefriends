@@ -2,15 +2,18 @@ package com.distraction.fs2.tilemap.tileobjects
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.Context
-import com.distraction.fs2.getAtlas
-import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 
+/**
+ * Visual effects for SuperJumps.
+ * This is going in a separate class for rendering purposes.
+ * All instances of this are added to TileMap.otherObjects for last rendering.
+ */
 class SuperJumpLight(context: Context, tileMap: TileMap, row: Int, col: Int) : TileObject(context, tileMap) {
     private val image = context.getImage("superjump")
-    private val speed = 15f
     private val duration = 1.5f
     private var time = 0f
+    override var speed = 15f
 
     init {
         setPositionFromTile(row, col)
@@ -31,9 +34,11 @@ class SuperJumpLight(context: Context, tileMap: TileMap, row: Int, col: Int) : T
     }
 }
 
+/**
+ * SuperJump tile object
+ */
 class SuperJump(context: Context, tileMap: TileMap, row: Int, col: Int) : TileObject(context, tileMap) {
-    private val interval = 0.6f
-    private var time = interval
+    private var time = INTERVAL
 
     init {
         setPositionFromTile(row, col)
@@ -41,8 +46,9 @@ class SuperJump(context: Context, tileMap: TileMap, row: Int, col: Int) : TileOb
 
     override fun update(dt: Float) {
         time += dt
-        while (time > interval) {
-            time -= interval
+        while (time > INTERVAL) {
+            time -= INTERVAL
+            // adding SuperJumpLights to TileMap.otherObjects for rendering purposes
             tileMap.otherObjects.add(
                     SuperJumpLight(context, tileMap, row, col).apply {
                         currentTile = this@SuperJump.currentTile
@@ -52,5 +58,9 @@ class SuperJump(context: Context, tileMap: TileMap, row: Int, col: Int) : TileOb
 
     override fun render(sb: SpriteBatch) {
 
+    }
+
+    companion object {
+        const val INTERVAL = 0.6f
     }
 }

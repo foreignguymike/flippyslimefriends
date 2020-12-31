@@ -87,12 +87,12 @@ class PlayState(context: Context, private val level: Int) : GameState(context), 
 
         player.update(dt)
 
-        if (player.teleporting) {
-            tileMap.toIsometric(player.pdest.x, player.pdest.y, tp)
-            camera.position.set(camera.position.lerp(tp.x + cameraOffset.x, tp.y + cameraOffset.y, 0f, 0.1f))
-        } else {
+//        if (player.teleporting) {
+//            tileMap.toIsometric(player.pdest.x, player.pdest.y, tp)
+//            camera.position.set(camera.position.lerp(tp.x + cameraOffset.x, tp.y + cameraOffset.y, 0f, 0.1f))
+//        } else {
             camera.position.set(camera.position.lerp(player.isop.x + cameraOffset.x, player.isop.y + cameraOffset.y, 0f, 0.1f))
-        }
+//        }
         camera.update()
 
         bg.update(dt)

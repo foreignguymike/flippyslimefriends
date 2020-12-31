@@ -16,13 +16,14 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
 
     private val animationSet = AnimationSet()
 
-    private val speed = TileMap.TILE_SIZE * 2
+    override var speed = TileMap.TILE_SIZE * 2
+
     private val jumpHeight = 20f
     private var totalDist = 0f
     private var moving = false
     private var sliding = false
     private var superjump = false
-    var teleporting = false
+    private var teleporting = false
     private var justTeleported = false
     private var teleportSpeed = 0f
     private var direction = Direction.RIGHT
@@ -94,12 +95,6 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
 
     private fun atDestination() = p.x == pdest.x && p.y == pdest.y
 
-    private fun addTileLight() {
-        if (currentTile?.isActive() == true) {
-            tileMap.otherObjects.add(TileLight(context, tileMap, row, col))
-        }
-    }
-
     /**
      * Function to handle that the player has just landed on a tile.
      */
@@ -127,9 +122,6 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
             tile.lock = false
             tile.moveListeners.add(this)
         }
-
-        // add effects TODO maybe move somewhere else
-        addTileLight()
     }
 
     /**

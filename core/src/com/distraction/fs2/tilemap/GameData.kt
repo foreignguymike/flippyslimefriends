@@ -1,9 +1,10 @@
 package com.distraction.fs2.tilemap
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.distraction.fs2.Context
-import com.distraction.fs2.getAtlas
 
+/**
+ * All level data will be here, including map data, tile data, etc.
+ */
 class GameData(val context: Context) {
 
     val mapData = arrayOf(
@@ -24,8 +25,8 @@ class GameData(val context: Context) {
                     objects = arrayListOf(
                             TeleportData(0, 2, 1, 0),
                             TeleportData(1, 0, 0, 2),
-                            ArrowData(2, 0, Direction.UP)
-//                    SuperJumpData(2, 0)
+                            ArrowData(4, 2, Direction.UP),
+                            SuperJumpData(2, 0)
                     )),
 //            MapData(numRows = 3, numCols = 3,
 //            map = intArrayOf(

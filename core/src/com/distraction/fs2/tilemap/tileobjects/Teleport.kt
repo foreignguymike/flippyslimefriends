@@ -10,12 +10,17 @@ import com.distraction.fs2.log
 import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 
+/**
+ * Visual effects for Teleports.
+ * This is going in a separate class for rendering purposes.
+ * All instances of this are added to TileMap.otherObjects for last rendering.
+ */
 class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) : TileObject(context, tileMap) {
     private val image = context.getImage("teleport")
     private val dot = context.getImage("dot")
     private val color = Color.valueOf("AAE2FF30")
     private val particles = arrayListOf<Vector3>()
-    private val speed = 40f
+    override var speed = 40f
 
     private val interval = 0.1f
     private var time = interval
@@ -59,6 +64,9 @@ class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) : Ti
     }
 }
 
+/**
+ * Teleport tile object
+ */
 class Teleport(context: Context, tileMap: TileMap, row: Int, col: Int, val row2: Int, val col2: Int) : TileObject(context, tileMap) {
 
     var first = true
@@ -70,6 +78,7 @@ class Teleport(context: Context, tileMap: TileMap, row: Int, col: Int, val row2:
     override fun update(dt: Float) {
         if (first) {
             first = false
+            // adding TeleportLights to TileMap.otherObjects for rendering purposes
             tileMap.otherObjects.add(
                     TeleportLight(context, tileMap, row, col).apply {
                         currentTile = this@Teleport.currentTile

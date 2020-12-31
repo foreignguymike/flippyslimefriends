@@ -4,10 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
 import com.distraction.fs2.log
-import com.distraction.fs2.tilemap.tileobjects.Arrow
-import com.distraction.fs2.tilemap.tileobjects.SuperJump
-import com.distraction.fs2.tilemap.tileobjects.Teleport
-import com.distraction.fs2.tilemap.tileobjects.TileObject
+import com.distraction.fs2.tilemap.tileobjects.*
 
 class TileMap(
         private val context: Context,
@@ -69,20 +66,17 @@ class TileMap(
                                 else -> throw IllegalArgumentException("incorrect tile object data")
                             }
                         }
-                        .forEach {
-                            tile.objects.add(it)
-                        }
+                        .forEach { tileObject -> tile.addObject(tileObject) }
                 tile
             }
         }
     }
 
     fun toggleTile(row: Int, col: Int) {
-        when (getTile(row, col)?.index) {
-            0 -> setTileType(row, col, 1)
-            1 -> setTileType(row, col, 0)
+        if (getTile(row, col)?.toggle() == true) {
+            otherObjects.add(TileLight(context, this, row, col))
+            tileListener.onTileToggled(this)
         }
-        tileListener.onTileToggled(this)
     }
 
     fun setTile(row: Int, col: Int, tile: Tile?) {
@@ -169,7 +163,6 @@ class TileMap(
         const val TILE_SIZE = 30f
         const val TILE_IWIDTH = 60f
         const val TILE_IHEIGHT = 30f
-        const val TILE_HEIGHT_3D = 0
     }
 
 }

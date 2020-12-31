@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
 import com.distraction.fs2.drawPadded
 import com.distraction.fs2.moveTo
+import com.distraction.fs2.tilemap.tileobjects.Arrow
 import com.distraction.fs2.tilemap.tileobjects.TileObject
 
 class Tile(
@@ -19,30 +20,47 @@ class Tile(
         fun onTileEndMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int)
     }
 
+    // tile objects, use Tile.addObject() to add so that the objects are sorted
     val objects = arrayListOf<TileObject>()
-    var image = context.gameData.getTile(index)
-    var bottomImage = context.getImage("tilebottom")
 
     // moving tile params
-    var pathIndex = 0
     var path: ArrayList<PathPointData>? = null
-
+    var pathIndex = 0
+    val speed = 100f
+    var stayTimer = 0f
+    var lock = false
+    var moving = false
+    var moveListeners = ArrayList<TileMoveListener>()
     var prevRow = row
     var prevCol = col
 
-    var moveListeners = ArrayList<TileMoveListener>()
-
-    val speed = 100f
-    var stayTimer = 0f
-    var moving = false
+    // position (in 2d cartesian)
     val p = Vector3()
-    val pdest = Vector3()
-    var lock = false
 
+    // isometric position (position converted to "3d" position)
     val isop = Vector3()
+
+    // destination position
+    val pdest = Vector3()
+
+    var image = context.gameData.getTile(index)
+    var bottomImage = context.getImage("tilebottom")
 
     init {
         tileMap.toPosition(row, col, p)
+    }
+
+    /**
+     * Toggle the tile.
+     * @return true if the tile was toggled
+     */
+    fun toggle(): Boolean {
+        when (index) {
+            0 -> setType(1)
+            1 -> setType(0)
+            else -> return false
+        }
+        return true
     }
 
     fun setType(index: Int) {
@@ -50,11 +68,19 @@ class Tile(
         this.image = context.gameData.getTile(index)
     }
 
+    fun addObject(tileObject: TileObject) {
+        objects.add(tileObject)
+        objects.sortBy { tileObjectRenderOrder.indexOf(tileObject::class.java) }
+    }
+
     fun isActive() = index == 1
 
     fun isMovingTile() = path != null
 
-    fun goNext() {
+    /**
+     * Go to next point in the path (moving tiles only)
+     */
+    private fun goNext() {
         path?.let { path ->
             pathIndex++
             if (pathIndex == path.size) {
@@ -67,6 +93,7 @@ class Tile(
     }
 
     fun update(dt: Float) {
+        // if this tile has a path
         path?.let {
             // check if we should go
             if (!moving) {
@@ -78,8 +105,12 @@ class Tile(
                     stayTimer = 0f
                 }
             } else {
-                // travel
+                // travel to next destination
                 p.moveTo(pdest, speed * dt)
+
+                // move tile objects as well
+                objects.forEach { tileObject -> tileObject.setPosition(p.x, p.y) }
+
                 // check if we arrived
                 if (p.x == pdest.x && p.y == pdest.y) {
                     row = it[pathIndex].tilePoint.row
@@ -88,7 +119,11 @@ class Tile(
                     moving = false
                     prevRow = row
                     prevCol = col
-                    update(0f) // edge case, do not stop at 0f timer stays
+
+                    // edge case, do not stop when the stayTimer for this path point is 0
+                    // this is to prevent the player from jumping on to a moving tile that has
+                    // not yet reached a path point where it must stop
+                    update(0f)
                 }
             }
         }
@@ -113,5 +148,12 @@ class Tile(
     fun renderBottom(sb: SpriteBatch) {
         tileMap.toIsometric(p.x, p.y, isop)
         sb.drawPadded(bottomImage, isop.x - bottomImage.regionWidth / 2, isop.y - bottomImage.regionHeight + TileMap.TILE_IHEIGHT / 2)
+    }
+
+    companion object {
+        // rendering order for tile objects
+        val tileObjectRenderOrder = listOf(
+                Arrow::class.java
+        )
     }
 }
