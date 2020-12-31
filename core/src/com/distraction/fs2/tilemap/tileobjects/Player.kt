@@ -60,7 +60,9 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         // ignore while on moving tile
         if (currentTile?.moving == true) return
 
-        // valid tiles
+        // valid tiles start here
+
+        // update direction
         if (!teleporting) {
             when {
                 coldx > 0 -> direction = Direction.RIGHT
@@ -70,7 +72,7 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
             }
         }
 
-        // update
+        // update tile position and set destination
         row += rowdx
         col += coldx
         tileMap.toPosition(row, col, pdest)
@@ -79,6 +81,9 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         moving = true
         justTeleported = false
 
+        // unsub to the current tile's listener
+        // will sub to the destination tile's listener later in handleJustMoved()
+        // also lock the destination tile to prevent the tile from moving while the player is moving towards it
         currentTile?.moveListeners?.remove(this)
         tileMap.getTile(row, col)?.let { tile ->
             tile.lock = true
@@ -90,32 +95,47 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
     private fun atDestination() = p.x == pdest.x && p.y == pdest.y
 
     private fun addTileLight() {
-//        if (tileMap.getTile(row, col).active) {
-//            tileMap.otherObjects.add(TileLight(context, tileMap, row, col))
-//        }
-    }
-
-    private fun handleJustMoved(row: Int, col: Int) {
-        if (moving) {
-            moveListener?.onMoved()
-            if (!tileMap.isFinished()) {
-                tileMap.toggleTile(row, col)
-            }
-            sliding = false
-            superjump = false
-            moving = false
-            if (atDestination()) {
-                teleporting = false
-            }
-            addTileLight()
-            currentTile = tileMap.getTile(row, col)
-            currentTile?.let { tile ->
-                tile.lock = false
-                tile.moveListeners.add(this)
-            }
+        if (currentTile?.isActive() == true) {
+            tileMap.otherObjects.add(TileLight(context, tileMap, row, col))
         }
     }
 
+    /**
+     * Function to handle that the player has just landed on a tile.
+     */
+    private fun handleJustMoved(row: Int, col: Int) {
+        // notify listeners
+        moveListener?.onMoved()
+
+        // if the map isn't finished, toggle the tile
+        if (!tileMap.isFinished()) {
+            tileMap.toggleTile(row, col)
+        }
+
+        // reset all movement flags
+        moving = false
+        sliding = false
+        superjump = false
+        teleporting = false
+
+        // set the current tile
+        // if the destination tile is locked, unlock it
+        // the destination tile is locked if it's a moving tile
+        // this is to prevent the tile from moving away while the player is still moving towards it
+        currentTile = tileMap.getTile(row, col)
+        currentTile?.let { tile ->
+            tile.lock = false
+            tile.moveListeners.add(this)
+        }
+
+        // add effects TODO maybe move somewhere else
+        addTileLight()
+    }
+
+    /**
+     * If player has landed on a tile that contains tile objects,
+     * this function will handle how the player will react to those objects.
+     */
     private fun handleTileObjects(row: Int, col: Int) {
         tileMap.getTile(row, col)?.objects?.forEach {
             when {
@@ -135,21 +155,19 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
             }
         }
 
+        // set tile to move to for sliding and superjump, teleport is handled up there
         if (sliding || superjump) {
+            var rx = 0
+            var cx = 0
             val dist2 = if (superjump) 2 else 1
-            var r = 0
-            var c = 0
             when (direction) {
-                Direction.UP -> r = -dist2
-                Direction.LEFT -> c = -dist2
-                Direction.RIGHT -> c = dist2
-                Direction.DOWN -> r = dist2
+                Direction.UP -> rx = -dist2
+                Direction.LEFT -> cx = -dist2
+                Direction.RIGHT -> cx = dist2
+                Direction.DOWN -> rx = dist2
             }
             moving = false
-            if (superjump) {
-                sliding = false
-            }
-            moveTile(r, c)
+            moveTile(rx, cx)
         }
     }
 
@@ -186,6 +204,8 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
     }
 
     override fun update(dt: Float) {
+        // if player is on a moving tile and the player is currently not moving
+        // match the player's position with tile's position
         currentTile?.let {
             if (!moving && it.moving) {
                 p.set(it.p.x, it.p.y, p.z)
@@ -194,20 +214,30 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
                 return
             }
         }
-        val dist = dt *
-                (if (teleporting && justTeleported) teleportSpeed else speed) * // base speed
-                (if (sliding) 4f else if (superjump) 2f else 1f)                // multiplier
-        p.moveTo(pdest, dist)
 
+        // if player is not at destination, move player's position towards destination by dist amount
+        if (!atDestination()) {
+            val dist = dt *
+                    (if (teleporting && justTeleported) teleportSpeed else speed) * // base speed
+                    (if (sliding) 4f else if (superjump) 2f else 1f)                // multiplier
+            p.moveTo(pdest, dist)
+        }
+
+        // if the player has reached destination
         if (atDestination()) {
-            if (currentTile?.isMovingTile() == true) {
 
-            } else if (!tileMap.isValidTile(row, col)) {
+            // landed on illegal tile
+            if (!tileMap.isValidTile(row, col)) {
                 moveListener?.onIllegal()
                 return
             }
 
-            handleJustMoved(row, col)
+            // handle logic for player just finished moving (moving && atDestination())
+            if (moving) {
+                handleJustMoved(row, col)
+            }
+
+            // handle any tile objects
             handleTileObjects(row, col)
         }
 
@@ -219,12 +249,12 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         tileMap.toIsometric(p.x, p.y, isop)
         if (!teleporting) {
             if (direction == Direction.RIGHT || direction == Direction.UP) {
-                sb.draw(animationSet.getImage(), isop.x - animationSet.getImage().regionWidth / 2, isop.y - isoHeight / 2 + p.z + tileHeight3d)
+                sb.draw(animationSet.getImage(), isop.x - animationSet.getImage().regionWidth / 2, isop.y - isoHeight / 2 + p.z)
             } else {
                 sb.draw(
                         animationSet.getImage(),
                         isop.x + animationSet.getImage().regionWidth / 2,
-                        isop.y - isoHeight / 2 + p.z + tileHeight3d,
+                        isop.y - isoHeight / 2 + p.z,
                         -animationSet.getImage().regionWidth * 1f,
                         animationSet.getImage().regionHeight * 1f)
             }

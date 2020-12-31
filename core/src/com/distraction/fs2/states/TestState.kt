@@ -20,8 +20,6 @@ class TestState(context: Context, private val level: Int = 0) : GameState(contex
 
     private val cameraOffset = Vector2(0f, 0f)
 
-    private val pixel = context.assets.getAtlas().findRegion("pixel")
-    private val pixelp = Vector3()
     private val hud = HUD(context, this)
 
     init {

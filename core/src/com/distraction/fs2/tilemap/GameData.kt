@@ -20,8 +20,8 @@ class GameData(val context: Context) {
                             )
                     ),
                     objects = arrayListOf(
-                            ArrowData(0, 1, Direction.RIGHT),
-                            ArrowData(0, 2, Direction.DOWN)
+                            TeleportData(0, 2, 1, 0),
+                            TeleportData(1, 0, 0, 2)
                     )),
 //            MapData(numRows = 3, numCols = 3,
 //            map = intArrayOf(

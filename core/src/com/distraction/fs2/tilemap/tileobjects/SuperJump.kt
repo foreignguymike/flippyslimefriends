@@ -27,7 +27,7 @@ class SuperJumpLight(context: Context, tileMap: TileMap, row: Int, col: Int) : T
 
     override fun render(sb: SpriteBatch) {
         tileMap.toIsometric(p.x, p.y, isop)
-        sb.draw(image, isop.x - image.regionWidth / 2, isop.y - image.regionHeight / 2 + p.z + tileHeight3d)
+        sb.draw(image, isop.x - image.regionWidth / 2, isop.y - image.regionHeight / 2 + p.z)
     }
 }
 

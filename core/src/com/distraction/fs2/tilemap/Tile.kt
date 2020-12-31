@@ -52,6 +52,8 @@ class Tile(
         this.image = context.gameData.tileset[index] ?: error("tile image not found")
     }
 
+    fun isActive() = index == 1
+
     fun isMovingTile() = path != null
 
     fun goNext() {

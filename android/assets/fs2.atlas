@@ -6,112 +6,112 @@ filter: Nearest,Nearest
 repeat: none
 0
   rotate: false
-  xy: 251, 105
+  xy: 426, 77
   size: 5, 7
   orig: 5, 7
   offset: 0, 0
   index: -1
 1
   rotate: false
-  xy: 300, 55
+  xy: 398, 69
   size: 3, 7
   orig: 3, 7
   offset: 0, 0
   index: -1
 2
   rotate: false
-  xy: 258, 105
+  xy: 503, 110
   size: 5, 7
   orig: 5, 7
   offset: 0, 0
   index: -1
 3
   rotate: false
-  xy: 181, 20
+  xy: 433, 77
   size: 5, 7
   orig: 5, 7
   offset: 0, 0
   index: -1
 4
   rotate: false
-  xy: 413, 81
+  xy: 503, 101
   size: 5, 7
   orig: 5, 7
   offset: 0, 0
   index: -1
 5
   rotate: false
-  xy: 374, 66
+  xy: 440, 77
   size: 5, 7
   orig: 5, 7
   offset: 0, 0
   index: -1
 6
   rotate: false
-  xy: 251, 96
+  xy: 403, 68
   size: 5, 7
   orig: 5, 7
   offset: 0, 0
   index: -1
 7
   rotate: false
-  xy: 258, 96
+  xy: 503, 119
   size: 5, 7
   orig: 5, 7
   offset: 0, 0
   index: -1
 8
   rotate: false
-  xy: 420, 81
+  xy: 410, 68
   size: 5, 7
   orig: 5, 7
   offset: 0, 0
   index: -1
 9
   rotate: false
-  xy: 381, 66
+  xy: 417, 68
   size: 5, 7
   orig: 5, 7
   offset: 0, 0
   index: -1
 arrow
   rotate: false
-  xy: 276, 47
-  size: 22, 15
-  orig: 22, 15
-  offset: 0, 0
-  index: 2
-arrow
-  rotate: false
-  xy: 250, 22
+  xy: 241, 97
   size: 22, 15
   orig: 22, 15
   offset: 0, 0
   index: 1
+arrow
+  rotate: false
+  xy: 248, 5
+  size: 22, 15
+  orig: 22, 15
+  offset: 0, 0
+  index: 2
 arrowbutton
   rotate: false
-  xy: 491, 109
+  xy: 453, 80
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 back
   rotate: false
-  xy: 441, 94
+  xy: 353, 78
   size: 48, 15
   orig: 48, 15
   offset: 0, 0
   index: -1
 best
   rotate: false
-  xy: 389, 81
+  xy: 250, 22
   size: 22, 7
   orig: 22, 7
   offset: 0, 0
   index: -1
 bgs
   rotate: false
-  xy: 114, 2
+  xy: 387, 67
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
@@ -125,35 +125,35 @@ complete
   index: -1
 dot
   rotate: false
-  xy: 276, 44
+  xy: 248, 2
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 pixel
   rotate: false
-  xy: 276, 44
+  xy: 248, 2
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 goal
   rotate: false
-  xy: 335, 66
+  xy: 403, 77
   size: 21, 7
   orig: 21, 7
   offset: 0, 0
   index: -1
 levelcheck
   rotate: false
-  xy: 358, 62
+  xy: 472, 86
   size: 14, 11
   orig: 14, 11
   offset: 0, 0
   index: -1
 levelicon
   rotate: false
-  xy: 251, 39
+  xy: 276, 37
   size: 23, 23
   orig: 23, 23
   offset: 0, 0
@@ -167,77 +167,77 @@ levelselect
   index: -1
 levelselectarrow
   rotate: false
-  xy: 114, 13
+  xy: 488, 86
   size: 10, 11
   orig: 10, 11
   offset: 0, 0
   index: -1
 moves
   rotate: false
-  xy: 306, 66
+  xy: 358, 69
   size: 27, 7
   orig: 27, 7
   offset: 0, 0
   index: -1
 newrecord
   rotate: false
-  xy: 126, 20
+  xy: 303, 69
   size: 53, 7
   orig: 53, 7
   offset: 0, 0
   index: -1
 next
   rotate: false
-  xy: 441, 111
+  xy: 303, 78
   size: 48, 15
   orig: 48, 15
   offset: 0, 0
   index: -1
 numbers
   rotate: false
-  xy: 389, 90
+  xy: 403, 86
   size: 48, 7
   orig: 48, 7
   offset: 0, 0
   index: -1
 playercrouch
   rotate: false
-  xy: 250, 2
+  xy: 182, 2
   size: 16, 18
   orig: 16, 18
   offset: 0, 0
   index: -1
 playercrouchr
   rotate: false
-  xy: 268, 2
+  xy: 200, 2
   size: 16, 18
   orig: 16, 18
   offset: 0, 0
   index: -1
 playeridle
   rotate: false
-  xy: 340, 75
+  xy: 148, 2
   size: 32, 18
   orig: 32, 18
   offset: 0, 0
   index: -1
 playeridler
   rotate: false
-  xy: 306, 75
+  xy: 114, 2
   size: 32, 18
   orig: 32, 18
   offset: 0, 0
   index: -1
 playerjump
   rotate: false
-  xy: 491, 89
+  xy: 233, 2
   size: 13, 18
   orig: 13, 18
   offset: 0, 0
   index: -1
 playerjumpr
   rotate: false
-  xy: 374, 75
+  xy: 218, 2
   size: 13, 18
   orig: 13, 18
   offset: 0, 0
@@ -251,14 +251,14 @@ restart
   index: -1
 superjump
   rotate: false
-  xy: 389, 99
+  xy: 451, 99
   size: 50, 27
   orig: 50, 27
   offset: 0, 0
   index: -1
 teleport
   rotate: false
-  xy: 280, 64
+  xy: 250, 31
   size: 24, 29
   orig: 24, 29
   offset: 0, 0
@@ -272,7 +272,7 @@ tilebluecheckeredfloor
   index: -1
 tilebluegraycheckeredfloor
   rotate: false
-  xy: 327, 95
+  xy: 389, 95
   size: 60, 31
   orig: 60, 31
   offset: 0, 0
@@ -300,16 +300,16 @@ tilegrasslong
   index: -1
 tilegrayfloor
   rotate: false
-  xy: 188, 15
+  xy: 241, 62
   size: 60, 31
   orig: 60, 31
   offset: 0, 0
   index: -1
 tilelight
   rotate: false
-  xy: 251, 64
-  size: 27, 29
-  orig: 27, 29
+  xy: 189, 55
+  size: 50, 57
+  orig: 50, 57
   offset: 0, 0
   index: -1
 tileoff
@@ -328,21 +328,21 @@ tileon
   index: -1
 tileperm
   rotate: false
-  xy: 265, 95
+  xy: 327, 95
   size: 60, 31
   orig: 60, 31
   offset: 0, 0
   index: -1
 tileperm2
   rotate: false
-  xy: 189, 81
+  xy: 188, 22
   size: 60, 31
   orig: 60, 31
   offset: 0, 0
   index: -1
 tileperm3
   rotate: false
-  xy: 189, 48
+  xy: 265, 95
   size: 60, 31
   orig: 60, 31
   offset: 0, 0

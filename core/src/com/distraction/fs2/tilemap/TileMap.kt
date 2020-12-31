@@ -3,7 +3,6 @@ package com.distraction.fs2.tilemap
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
-import com.distraction.fs2.getAtlas
 import com.distraction.fs2.log
 import com.distraction.fs2.tilemap.tileobjects.Arrow
 import com.distraction.fs2.tilemap.tileobjects.SuperJump
@@ -32,10 +31,6 @@ class TileMap(
     // orderedMap is used to determine rendering order
     var numTilesMoving = 0
     val orderedMap = map.sortedBy { it?.isop?.y }.toMutableList()
-
-    private val bgp = Vector3()
-
-    val pixel = context.assets.getAtlas().findRegion("pixel")
 
     private fun parseMapData(map: IntArray): MutableList<Tile?> {
         return MutableList(map.size) {

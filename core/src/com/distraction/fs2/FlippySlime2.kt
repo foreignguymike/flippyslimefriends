@@ -13,7 +13,6 @@ class FlippySlime2 : ApplicationAdapter() {
 
     override fun create() {
         context = Context()
-
         gsm = context.gsm
         sb = SpriteBatch()
         gsm.push(TestState(context))
@@ -21,12 +20,12 @@ class FlippySlime2 : ApplicationAdapter() {
 
     override fun render() {
         clearScreen()
-
         gsm.update(Gdx.graphics.deltaTime)
         gsm.render(sb)
     }
 
     override fun dispose() {
         sb.dispose()
+        context.assets.dispose()
     }
 }
