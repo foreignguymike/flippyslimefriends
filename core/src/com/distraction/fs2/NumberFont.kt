@@ -6,7 +6,7 @@ fun Char.intValue(): Int = if (this !in '0'..'9') throw NumberFormatException() 
 
 class NumberFont(context: Context, private var centered: Boolean = false) {
     private val images = Array(10) {
-        context.assets.getAtlas().findRegion(it.toString())
+        context.getImage(it.toString())
     }
     private var length = 0
 

@@ -34,12 +34,12 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
 
         currentTile = tileMap.getTile(row, col)
 
-        animationSet.addAnimation("idle", Animation(context.assets.getAtlas().findRegion("playeridle").split(16, 18)[0], 1f / 2f))
-        animationSet.addAnimation("idler", Animation(context.assets.getAtlas().findRegion("playeridler").split(16, 18)[0], 1f / 2f))
-        animationSet.addAnimation("jump", Animation(context.assets.getAtlas().findRegion("playerjump").split(13, 18)[0], -1f))
-        animationSet.addAnimation("jumpr", Animation(context.assets.getAtlas().findRegion("playerjumpr").split(13, 18)[0], -1f))
-        animationSet.addAnimation("crouch", Animation(context.assets.getAtlas().findRegion("playercrouch").split(16, 18)[0], 1f / 10f))
-        animationSet.addAnimation("crouchr", Animation(context.assets.getAtlas().findRegion("playercrouchr").split(16, 18)[0], 1f / 10f))
+        animationSet.addAnimation("idle", Animation(context.getImage("playeridle").split(16, 18)[0], 1f / 2f))
+        animationSet.addAnimation("idler", Animation(context.getImage("playeridler").split(16, 18)[0], 1f / 2f))
+        animationSet.addAnimation("jump", Animation(context.getImage("playerjump").split(13, 18)[0], -1f))
+        animationSet.addAnimation("jumpr", Animation(context.getImage("playerjumpr").split(13, 18)[0], -1f))
+        animationSet.addAnimation("crouch", Animation(context.getImage("playercrouch").split(16, 18)[0], 1f / 10f))
+        animationSet.addAnimation("crouchr", Animation(context.getImage("playercrouchr").split(16, 18)[0], 1f / 10f))
 
         animationSet.setAnimation("idle")
     }
@@ -249,12 +249,12 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         tileMap.toIsometric(p.x, p.y, isop)
         if (!teleporting) {
             if (direction == Direction.RIGHT || direction == Direction.UP) {
-                sb.draw(animationSet.getImage(), isop.x - animationSet.getImage().regionWidth / 2, isop.y - isoHeight / 2 + p.z)
+                sb.draw(animationSet.getImage(), isop.x - animationSet.getImage().regionWidth / 2, isop.y + p.z)
             } else {
                 sb.draw(
                         animationSet.getImage(),
                         isop.x + animationSet.getImage().regionWidth / 2,
-                        isop.y - isoHeight / 2 + p.z,
+                        isop.y + p.z,
                         -animationSet.getImage().regionWidth * 1f,
                         animationSet.getImage().regionHeight * 1f)
             }

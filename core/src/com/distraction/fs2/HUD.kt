@@ -45,42 +45,42 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
 
     private val buttons = hashMapOf(
             LEFT to
-                    Button(context.assets.getAtlas().findRegion("arrowbutton"),
+                    Button(context.getImage("arrowbutton"),
                             6f, 26f,
                             Color(1f, 1f, 1f, alpha)),
             UP to
-                    Button(context.assets.getAtlas().findRegion("arrowbutton"),
+                    Button(context.getImage("arrowbutton"),
                             21f, 41f,
                             Color(1f, 1f, 1f, alpha)),
             RIGHT to
-                    Button(context.assets.getAtlas().findRegion("arrowbutton"),
+                    Button(context.getImage("arrowbutton"),
                             36f, 26f,
                             Color(1f, 1f, 1f, alpha)),
             DOWN to
-                    Button(context.assets.getAtlas().findRegion("arrowbutton"),
+                    Button(context.getImage("arrowbutton"),
                             21f, 11f,
                             Color(1f, 1f, 1f, alpha)),
             BACK to
-                    Button(context.assets.getAtlas().findRegion("back"),
+                    Button(context.getImage("back"),
                             5f, 115f),
             RESTART to
-                    Button(context.assets.getAtlas().findRegion("restart"),
+                    Button(context.getImage("restart"),
                             5f, 98f))
 
     private val labels = arrayOf(
             NumberLabel(
                     context,
-                    context.assets.getAtlas().findRegion("goal"),
+                    context.getImage("goal"),
                     Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 16f),
                     0),
             NumberLabel(
                     context,
-                    context.assets.getAtlas().findRegion("best"),
+                    context.getImage("best"),
                     Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 25f),
                     0),
             NumberLabel(
                     context,
-                    context.assets.getAtlas().findRegion("moves"),
+                    context.getImage("moves"),
                     Vector2(Constants.WIDTH - 55f, Constants.HEIGHT - 34f),
                     0))
 

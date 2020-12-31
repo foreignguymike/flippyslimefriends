@@ -7,11 +7,13 @@ import com.distraction.fs2.getAtlas
 class GameData(val context: Context) {
 
     val mapData = arrayOf(
-            MapData(numRows = 3, numCols = 3,
+            MapData(numRows = 5, numCols = 3,
                     map = intArrayOf(
                             0, 0, 0,
                             0, 0, 0,
-                            0, e, e
+                            0, e, e,
+                            0, 0, 0,
+                            0, 0, 0
                     ), startRow = 0, startCol = 0,
                     path = arrayListOf(
                             arrayListOf(
@@ -21,7 +23,9 @@ class GameData(val context: Context) {
                     ),
                     objects = arrayListOf(
                             TeleportData(0, 2, 1, 0),
-                            TeleportData(1, 0, 0, 2)
+                            TeleportData(1, 0, 0, 2),
+                            ArrowData(2, 0, Direction.UP)
+//                    SuperJumpData(2, 0)
                     )),
 //            MapData(numRows = 3, numCols = 3,
 //            map = intArrayOf(
@@ -103,21 +107,23 @@ class GameData(val context: Context) {
      * 0-99 "walkable" tiles, these are the puzzle tiles
      * 100+ background tiles, only for show
      */
-    val tileset = mapOf<Int, TextureRegion>(
-            0 to context.assets.getAtlas().findRegion("tileoff"),
-            1 to context.assets.getAtlas().findRegion("tileon"),
-            2 to context.assets.getAtlas().findRegion("tileperm"),
-            3 to context.assets.getAtlas().findRegion("tileperm2"),
-            4 to context.assets.getAtlas().findRegion("tileperm3"),
+    val tileset = mapOf(
+            0 to context.getImage("tileoff"),
+            1 to context.getImage("tileon"),
+            2 to context.getImage("tileperm"),
+            3 to context.getImage("tileperm2"),
+            4 to context.getImage("tileperm3"),
 
-            100 to context.assets.getAtlas().findRegion("tilegrayfloor"),
-            101 to context.assets.getAtlas().findRegion("tilebluegraycheckeredfloor"),
-            102 to context.assets.getAtlas().findRegion("tilebluecheckeredfloor"),
-            103 to context.assets.getAtlas().findRegion("tilegrass"),
-            104 to context.assets.getAtlas().findRegion("tilegrasslong")
+            100 to context.getImage("tilegrayfloor"),
+            101 to context.getImage("tilebluegraycheckeredfloor"),
+            102 to context.getImage("tilebluecheckeredfloor"),
+            103 to context.getImage("tilegrass"),
+            104 to context.getImage("tilegrasslong")
     )
 
     fun isWalkableTile(index: Int) = index < 100
+
+    fun getTile(index: Int) = tileset[index] ?: error("cannot find tile $index")
 
     companion object {
         const val e = -1

@@ -7,7 +7,7 @@ import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 
 class SuperJumpLight(context: Context, tileMap: TileMap, row: Int, col: Int) : TileObject(context, tileMap) {
-    private val image = context.assets.getAtlas().findRegion("superjump")
+    private val image = context.getImage("superjump")
     private val speed = 15f
     private val duration = 1.5f
     private var time = 0f

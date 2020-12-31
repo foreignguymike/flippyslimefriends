@@ -11,8 +11,8 @@ import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 
 class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) : TileObject(context, tileMap) {
-    private val image = context.assets.getAtlas().findRegion("teleport")
-    private val dot = context.assets.getAtlas().findRegion("dot")
+    private val image = context.getImage("teleport")
+    private val dot = context.getImage("dot")
     private val color = Color.valueOf("AAE2FF30")
     private val particles = arrayListOf<Vector3>()
     private val speed = 40f

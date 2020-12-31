@@ -9,7 +9,7 @@ import kotlin.math.min
 class TileLight(context: Context, tileMap: TileMap, row: Int, col: Int) : TileObject(context, tileMap) {
 
     private var timer = 0f
-    private var image = context.assets.getAtlas().findRegion("tilelight")
+    private var image = context.getImage("tilelight")
 
     init {
         setPositionFromTile(row, col)
@@ -18,7 +18,7 @@ class TileLight(context: Context, tileMap: TileMap, row: Int, col: Int) : TileOb
 
     override fun update(dt: Float) {
         timer += dt
-        height = min(image.regionHeight.toFloat(), image.regionHeight * timer / LIFE_TIME * 4f)
+        height = min(image.regionHeight.toFloat(), image.regionHeight * timer / LIFE_TIME * 5f)
         if (timer >= LIFE_TIME) remove = true
     }
 

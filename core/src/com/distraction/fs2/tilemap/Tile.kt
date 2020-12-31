@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
 import com.distraction.fs2.drawPadded
-import com.distraction.fs2.getAtlas
 import com.distraction.fs2.moveTo
 import com.distraction.fs2.tilemap.tileobjects.TileObject
 
@@ -21,9 +20,8 @@ class Tile(
     }
 
     val objects = arrayListOf<TileObject>()
-    var image = context.gameData.tileset[index] ?: error("tile image not found")
-    var bottomImage = context.assets.getAtlas().findRegion("tilebottom")
-            ?: error("tile image not found")
+    var image = context.gameData.getTile(index)
+    var bottomImage = context.getImage("tilebottom")
 
     // moving tile params
     var pathIndex = 0
@@ -49,7 +47,7 @@ class Tile(
 
     fun setType(index: Int) {
         this.index = index
-        this.image = context.gameData.tileset[index] ?: error("tile image not found")
+        this.image = context.gameData.getTile(index)
     }
 
     fun isActive() = index == 1

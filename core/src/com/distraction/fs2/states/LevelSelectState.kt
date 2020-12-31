@@ -14,8 +14,8 @@ class LevelSelectState(context: Context, private var page: Int = 0) : GameState(
         const val LEVELS_PER_PAGE = 18
     }
 
-    private val levelIcon = context.assets.getAtlas().findRegion("levelicon")
-    private val levelCheck = context.assets.getAtlas().findRegion("levelcheck")
+    private val levelIcon = context.getImage("levelicon")
+    private val levelCheck = context.getImage("levelcheck")
     private val colSize = 6
     private val maxPages = MathUtils.ceil(TileMapData.levelData.size / 18f)
 
@@ -25,20 +25,20 @@ class LevelSelectState(context: Context, private var page: Int = 0) : GameState(
         val col = it % colSize
         val x = col * (levelIcon.regionWidth + 5f) + 38 + Constants.WIDTH * page
         val y = Constants.HEIGHT - row * (levelIcon.regionHeight + 5f) - 50
-        Button(context.assets.getAtlas().findRegion("levelicon"), x, y)
+        Button(context.getImage("levelicon"), x, y)
     }
 
     private val numberFont = NumberFont(context, true)
-    private val levelSelectImage = context.assets.getAtlas().findRegion("levelselect")
-    private val backButton = Button(context.assets.getAtlas().findRegion("back"), y = 7f, centered = true)
+    private val levelSelectImage = context.getImage("levelselect")
+    private val backButton = Button(context.getImage("back"), y = 7f, centered = true)
     private val disableColor = Color(0.3f, 0.3f, 0.3f, 1f)
     private val staticCam = OrthographicCamera().apply {
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
     }
 
-    private val leftButton = Button(context.assets.getAtlas().findRegion("levelselectarrow"),
+    private val leftButton = Button(context.getImage("levelselectarrow"),
             Rectangle(10f, Constants.HEIGHT / 2 - 5f, 10f, 11f))
-    private val rightButton = Button(context.assets.getAtlas().findRegion("levelselectarrow"),
+    private val rightButton = Button(context.getImage("levelselectarrow"),
             Rectangle(Constants.WIDTH - 20f, Constants.HEIGHT / 2 - 5f, 10f, 11f))
 
     init {

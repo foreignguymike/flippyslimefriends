@@ -18,9 +18,8 @@ abstract class TileObject(val context: Context, val tileMap: TileMap) {
     var width = 0f
     var height = 0f
     var remove = false
-    var isoHeight = 0f
 
-    val pixel = context.assets.getAtlas().findRegion("pixel")
+    val pixel = context.getImage("pixel")
 
     var currentTile: Tile? = null
 

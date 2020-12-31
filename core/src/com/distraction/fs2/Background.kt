@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Vector3
 
 class Background(val context: Context, private var color: Color = Color.valueOf("4CB0DB")) {
 
-    private val dot = context.assets.getAtlas().findRegion("dot")
-    private val image = context.assets.getAtlas().findRegion("bgs")
+    private val dot = context.getImage("dot")
+    private val image = context.getImage("bgs")
 
     private val bgs = arrayListOf<Vector3>()
     private val speed = 5f

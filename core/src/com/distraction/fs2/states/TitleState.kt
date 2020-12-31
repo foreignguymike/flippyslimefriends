@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.*
 
 class TitleState(context: Context) : GameState(context) {
-    private val title = context.assets.getAtlas().findRegion("title")
+    private val title = context.getImage("title")
     private val hudCam = OrthographicCamera().apply {
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
     }

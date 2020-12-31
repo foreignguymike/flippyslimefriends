@@ -8,13 +8,12 @@ import com.distraction.fs2.tilemap.TileMap
 class Arrow(context: Context, tileMap: TileMap, row: Int, col: Int, val direction: Direction) : TileObject(context, tileMap) {
 
     private val animation = Animation(arrayOf(
-            context.assets.getAtlas().findRegion("arrow", 1),
-            context.assets.getAtlas().findRegion("arrow", 2)),
+            context.getImage("arrow", 1),
+            context.getImage("arrow", 2)),
             0.5f)
 
     init {
         setPositionFromTile(row, col)
-        isoHeight = animation.getImage().regionHeight.toFloat()
     }
 
     override fun update(dt: Float) {

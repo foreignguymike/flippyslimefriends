@@ -9,7 +9,7 @@ import com.distraction.fs2.use
 
 class TransitionState(context: Context, private val nextState: GameState, private val numPop: Int = 1) : GameState(context) {
 
-    private val dot = context.assets.getAtlas().findRegion("dot")
+    private val dot = context.getImage("dot")
     private val duration = 0.5f
     private var time = 0f
     private var next = false

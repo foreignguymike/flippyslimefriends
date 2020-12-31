@@ -20,7 +20,6 @@ class TileMap(
     }
 
     val mapData = context.gameData.mapData[level]
-    val tileset = context.gameData.tileset
     val otherObjects = arrayListOf<TileObject>()
 
     val numRows = mapData.numRows
@@ -97,9 +96,6 @@ class TileMap(
     fun toIndex(row: Int, col: Int) = row * numCols + col
 
     fun getTile(row: Int, col: Int) = map[toIndex(row, col)]
-
-    fun getTileImage(tileIndex: Int) = tileset[tileIndex]
-            ?: throw IllegalStateException("invalid tile index: $tileIndex")
 
     fun toIsometric(x: Float, y: Float, p: Vector3) {
         val xo = x / TILE_SIZE

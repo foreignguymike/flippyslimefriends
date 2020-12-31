@@ -8,17 +8,17 @@ import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.TileMapData
 
 class LevelFinishState(context: Context, private val level: Int, private val moves: Int, private val best: Int) : GameState(context) {
-    private val dot = context.assets.getAtlas().findRegion("dot")
+    private val dot = context.getImage("dot")
     private val dimColor = Color(0f, 0f, 0f, 0f)
 
-    private val completeImage = Button(context.assets.getAtlas().findRegion("complete"), 0f, 80f, centered = true)
-    private val bestLabel = NumberLabel(context, context.assets.getAtlas().findRegion("best"), Vector2(Constants.WIDTH / 2 - 20f, Constants.HEIGHT / 2f), best)
-    private val movesLabel = NumberLabel(context, context.assets.getAtlas().findRegion("moves"), Vector2(Constants.WIDTH / 2 - 20f, Constants.HEIGHT / 2f - 10), moves)
-    private val newRecordImage = Button(context.assets.getAtlas().findRegion("newrecord"), 0f, 40f, centered = true)
+    private val completeImage = Button(context.getImage("complete"), 0f, 80f, centered = true)
+    private val bestLabel = NumberLabel(context, context.getImage("best"), Vector2(Constants.WIDTH / 2 - 20f, Constants.HEIGHT / 2f), best)
+    private val movesLabel = NumberLabel(context, context.getImage("moves"), Vector2(Constants.WIDTH / 2 - 20f, Constants.HEIGHT / 2f - 10), moves)
+    private val newRecordImage = Button(context.getImage("newrecord"), 0f, 40f, centered = true)
 
-    private val restartButton = Button(context.assets.getAtlas().findRegion("restart"), 5f, 98f)
-    private val backButton = Button(context.assets.getAtlas().findRegion("back"), 5f, 115f)
-    private val nextButton = Button(context.assets.getAtlas().findRegion("next"), 0f, 15f, centered = true)
+    private val restartButton = Button(context.getImage("restart"), 5f, 98f)
+    private val backButton = Button(context.getImage("back"), 5f, 115f)
+    private val nextButton = Button(context.getImage("next"), 0f, 15f, centered = true)
 
     init {
         context.gsm.depth++
