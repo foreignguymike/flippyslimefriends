@@ -9,6 +9,7 @@ object DesktopLauncher {
     @JvmStatic
     fun main(arg: Array<String>) {
         val config = LwjglApplicationConfiguration()
+        config.forceExit = false
         config.width = Constants.DESKTOP_WIDTH
         config.height = Constants.DESKTOP_HEIGHT
         LwjglApplication(FlippySlime2(), config)
