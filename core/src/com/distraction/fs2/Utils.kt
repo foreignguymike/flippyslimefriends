@@ -13,14 +13,13 @@ import kotlin.math.sqrt
 class Utils {
     companion object {
         fun abs(f: Float) = if (f < 0) f * -1 else f
-        fun dist(x1: Float, y1: Float, x2: Float, y2: Float) = sqrt(1.0 * (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)).toFloat()
         fun max(f1: Float, f2: Float) = if (f2 > f1) f2 else f1
+        fun dist(x1: Float, y1: Float, x2: Float, y2: Float) =
+            sqrt(1.0 * (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)).toFloat()
     }
 }
 
 fun AssetManager.getAtlas(): TextureAtlas = get("fs2.atlas", TextureAtlas::class.java)
-
-fun log(str: Any) = Gdx.app.log("FS2", str.toString())
 
 inline fun SpriteBatch.use(action: () -> Unit) {
     begin()
@@ -36,11 +35,35 @@ fun SpriteBatch.draw(textureRegion: TextureRegion, v: Vector3, w: Float, h: Floa
     draw(textureRegion, v.x, v.y, w, h)
 }
 
-fun SpriteBatch.drawPadded(textureRegion: TextureRegion, x: Float, y: Float, padding: Float = 0.01f) {
-    draw(textureRegion, x, y, textureRegion.regionWidth + padding, textureRegion.regionHeight + padding)
+fun SpriteBatch.drawAlpha(textureRegion: TextureRegion, x: Float, y: Float, alpha: Float) {
+    val currentAlpha = color.a
+    setColor(color.r, color.g, color.b, alpha)
+    draw(textureRegion, x, y)
+    setColor(color.r, color.g, color.b, currentAlpha)
 }
 
-fun SpriteBatch.drawRectangle(textureRegion: TextureRegion, x: Float, y: Float, w: Float, h: Float) {
+fun SpriteBatch.drawPadded(
+    textureRegion: TextureRegion,
+    x: Float,
+    y: Float,
+    padding: Float = 0.01f
+) {
+    draw(
+        textureRegion,
+        x,
+        y,
+        textureRegion.regionWidth + padding,
+        textureRegion.regionHeight + padding
+    )
+}
+
+fun SpriteBatch.drawRectangle(
+    textureRegion: TextureRegion,
+    x: Float,
+    y: Float,
+    w: Float,
+    h: Float
+) {
     draw(textureRegion, x, y, w, 1f)
     draw(textureRegion, x, y + h, w, 1f)
     draw(textureRegion, x, y, 1f, h)
@@ -48,33 +71,59 @@ fun SpriteBatch.drawRectangle(textureRegion: TextureRegion, x: Float, y: Float, 
 }
 
 fun SpriteBatch.drawHFlip(textureRegion: TextureRegion, x: Float, y: Float) {
-    draw(textureRegion, x, y, -textureRegion.regionWidth.toFloat(), textureRegion.regionHeight.toFloat())
+    draw(
+        textureRegion,
+        x,
+        y,
+        -textureRegion.regionWidth.toFloat(),
+        textureRegion.regionHeight.toFloat()
+    )
 }
 
 fun SpriteBatch.drawVFlip(textureRegion: TextureRegion, x: Float, y: Float) {
-    draw(textureRegion, x, y, textureRegion.regionWidth.toFloat(), -textureRegion.regionHeight.toFloat())
+    draw(
+        textureRegion,
+        x,
+        y,
+        textureRegion.regionWidth.toFloat(),
+        -textureRegion.regionHeight.toFloat()
+    )
 }
 
 fun SpriteBatch.drawVHFlip(textureRegion: TextureRegion, x: Float, y: Float) {
-    draw(textureRegion, x, y, -textureRegion.regionWidth.toFloat(), -textureRegion.regionHeight.toFloat())
+    draw(
+        textureRegion,
+        x,
+        y,
+        -textureRegion.regionWidth.toFloat(),
+        -textureRegion.regionHeight.toFloat()
+    )
 }
 
 fun SpriteBatch.drawRotated(textureRegion: TextureRegion, x: Float, y: Float, degrees: Float) {
-    draw(textureRegion,
-            x,
-            y,
-            textureRegion.regionWidth / 2f,
-            textureRegion.regionHeight / 2f,
-            1f * textureRegion.regionWidth,
-            1f * textureRegion.regionHeight,
-            1f,
-            1f,
-            degrees)
+    draw(
+        textureRegion,
+        x,
+        y,
+        textureRegion.regionWidth / 2f,
+        textureRegion.regionHeight / 2f,
+        1f * textureRegion.regionWidth,
+        1f * textureRegion.regionHeight,
+        1f,
+        1f,
+        degrees
+    )
 }
 
 fun SpriteBatch.drawButton(button: Button, hflip: Boolean = false) {
     if (hflip) {
-        draw(button.image, button.rect.x + button.image.regionWidth, button.rect.y, -button.rect.width, button.rect.height)
+        draw(
+            button.image,
+            button.rect.x + button.image.regionWidth,
+            button.rect.y,
+            -button.rect.width,
+            button.rect.height
+        )
     } else {
         draw(button.image, button.rect.x, button.rect.y, button.rect.width, button.rect.height)
     }

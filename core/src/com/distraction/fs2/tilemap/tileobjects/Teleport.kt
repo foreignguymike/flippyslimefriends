@@ -5,9 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
-import com.distraction.fs2.getAtlas
-import com.distraction.fs2.log
-import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 
 /**
@@ -15,7 +12,8 @@ import com.distraction.fs2.tilemap.TileMap
  * This is going in a separate class for rendering purposes.
  * All instances of this are added to TileMap.otherObjects for last rendering.
  */
-class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) : TileObject(context, tileMap) {
+class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) :
+    TileObject(context, tileMap) {
     private val image = context.getImage("teleport")
     private val dot = context.getImage("dot")
     private val color = Color.valueOf("AAE2FF30")
@@ -67,7 +65,14 @@ class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) : Ti
 /**
  * Teleport tile object
  */
-class Teleport(context: Context, tileMap: TileMap, row: Int, col: Int, val row2: Int, val col2: Int) : TileObject(context, tileMap) {
+class Teleport(
+    context: Context,
+    tileMap: TileMap,
+    row: Int,
+    col: Int,
+    val row2: Int,
+    val col2: Int
+) : TileObject(context, tileMap) {
 
     var first = true
 
@@ -80,9 +85,9 @@ class Teleport(context: Context, tileMap: TileMap, row: Int, col: Int, val row2:
             first = false
             // adding TeleportLights to TileMap.otherObjects for rendering purposes
             tileMap.otherObjects.add(
-                    TeleportLight(context, tileMap, row, col).apply {
-                        currentTile = this@Teleport.currentTile
-                    })
+                TeleportLight(context, tileMap, row, col).apply {
+                    currentTile = this@Teleport.currentTile
+                })
         }
     }
 

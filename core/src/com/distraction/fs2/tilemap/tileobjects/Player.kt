@@ -7,7 +7,7 @@ import com.distraction.fs2.tilemap.Direction
 import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 
-class Player(context: Context, tileMap: TileMap, private val moveListener: MoveListener?) : TileObject(context, tileMap), Tile.TileMoveListener {
+class Player(context: Context, tileMap: TileMap, private val moveListener: MoveListener) : TileObject(context, tileMap), Tile.TileMoveListener {
 
     interface MoveListener {
         fun onMoved()
@@ -56,7 +56,8 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         if (moving) return
 
         // ignore movement to invalid tiles
-        if (!superjump && !tileMap.isValidTile(row + rowdx, col + coldx)) return
+        // only valid for manual movement, players can still slide off the tilemap
+        if (!sliding && !superjump && !tileMap.isValidTile(row + rowdx, col + coldx)) return
 
         // ignore while on moving tile
         if (currentTile?.moving == true) return
@@ -100,7 +101,7 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
      */
     private fun handleJustMoved(row: Int, col: Int) {
         // notify listeners
-        moveListener?.onMoved()
+        moveListener.onMoved()
 
         // if the map isn't finished, toggle the tile
         if (!tileMap.isFinished()) {
@@ -137,6 +138,9 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
                 }
                 it is SuperJump -> {
                     superjump = true
+                }
+                it is Ice -> {
+                    sliding = true
                 }
                 it is Teleport && !justTeleported -> {
                     teleportSpeed = Utils.max(Utils.abs(p.y - tileMap.toPosition(it.row2)), Utils.abs(p.x - tileMap.toPosition(it.col2))) * 1.5f
@@ -220,7 +224,9 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
 
             // landed on illegal tile
             if (!tileMap.isValidTile(row, col)) {
-                moveListener?.onIllegal()
+                println("tile is not valid")
+                moveListener.onIllegal()
+                println("movelistener onIllegal called")
                 return
             }
 

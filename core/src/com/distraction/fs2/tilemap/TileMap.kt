@@ -1,16 +1,17 @@
 package com.distraction.fs2.tilemap
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
-import com.distraction.fs2.log
 import com.distraction.fs2.tilemap.tileobjects.*
 
 class TileMap(
-        private val context: Context,
-        private val tileListener: TileListener,
-        level: Int) :
-        Tile.TileMoveListener {
+    private val context: Context,
+    private val tileListener: TileListener,
+    level: Int
+) :
+    Tile.TileMoveListener {
 
     interface TileListener {
         fun onTileToggled(tileMap: TileMap)
@@ -39,34 +40,53 @@ class TileMap(
 
                 val index = map[it]
                 val tile = Tile(
-                        context,
-                        this,
-                        row,
-                        col,
-                        index)
-                        .apply {
-                            mapData.path?.forEach { ppd ->
-                                if (row == ppd[0].tilePoint.row && col == ppd[0].tilePoint.col) {
-                                    this.path = ppd
-                                    moveListeners.add(tileMap)
-                                }
+                    context,
+                    this,
+                    row,
+                    col,
+                    index
+                )
+                    .apply {
+                        mapData.path?.forEach { ppd ->
+                            if (row == ppd[0].tilePoint.row && col == ppd[0].tilePoint.col) {
+                                this.path = ppd
+                                moveListeners.add(tileMap)
                             }
                         }
+                    }
 
                 mapData.objects
-                        .filter { objData -> objData.row == row && objData.col == col }
-                        .map { objData ->
-                            when (objData) {
-                                is ArrowData -> Arrow(context, this, row, col, objData.direction).apply { currentTile = tile }
-                                is SuperJumpData -> SuperJump(context, this, row, col).apply { currentTile = tile }
-                                is TeleportData -> Teleport(context, this, row, col, objData.destRow, objData.destCol).apply {
-                                    currentTile = tile
-                                    log("current tile parse: $currentTile")
-                                }
-                                else -> throw IllegalArgumentException("incorrect tile object data")
+                    .filter { objData -> objData.row == row && objData.col == col }
+                    .map { objData ->
+                        when (objData) {
+                            is ArrowData -> Arrow(
+                                context,
+                                this,
+                                row,
+                                col,
+                                objData.direction
+                            ).apply { currentTile = tile }
+                            is SuperJumpData -> SuperJump(
+                                context,
+                                this,
+                                row,
+                                col
+                            ).apply { currentTile = tile }
+                            is IceData -> Ice(context, this, row, col).apply { currentTile = tile }
+                            is TeleportData -> Teleport(
+                                context,
+                                this,
+                                row,
+                                col,
+                                objData.destRow,
+                                objData.destCol
+                            ).apply {
+                                currentTile = tile
                             }
+                            else -> throw IllegalArgumentException("incorrect tile object data")
                         }
-                        .forEach { tileObject -> tile.addObject(tileObject) }
+                    }
+                    .forEach { tileObject -> tile.addObject(tileObject) }
                 tile
             }
         }
@@ -87,7 +107,7 @@ class TileMap(
         getTile(row, col)?.setType(index)
     }
 
-    fun toIndex(row: Int, col: Int) = row * numCols + col
+    fun toIndex(row: Int, col: Int) = MathUtils.clamp(row * numCols + col, 0, map.size)
 
     fun getTile(row: Int, col: Int) = map[toIndex(row, col)]
 

@@ -4,7 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.states.GSM
-import com.distraction.fs2.states.TestState
+import com.distraction.fs2.states.PlayState
 
 class FlippySlime2 : ApplicationAdapter() {
     private lateinit var context: Context
@@ -15,7 +15,7 @@ class FlippySlime2 : ApplicationAdapter() {
         context = Context()
         gsm = context.gsm
         sb = SpriteBatch()
-        gsm.push(TestState(context))
+        gsm.push(PlayState(context, 1))
     }
 
     override fun render() {
