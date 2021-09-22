@@ -9,12 +9,21 @@ class GameData(val context: Context) {
 
     val mapData = arrayOf(
         MapData(
+            numRows = 3, numCols = 3,
+            map = intArrayOf(
+                0, 0, e,
+                0, 0, 0,
+                e, 0, 0
+            ),
+            playerPositions = listOf(TilePoint(1, 0))
+        ),
+        MapData(
             numRows = 2, numCols = 4,
             map = intArrayOf(
-                2, 0, 0, 0,
+                2, 0, 0, 5,
                 2, 0, 0, 0
             ),
-            startRow = 0, startCol = 0,
+            playerPositions = listOf(TilePoint(0, 0)),
             objects = arrayListOf(
                 IceData(0, 1),
                 IceData(0, 2),
@@ -30,7 +39,8 @@ class GameData(val context: Context) {
                 5, e, e,
                 0, 0, 0,
                 0, 0, 0
-            ), startRow = 0, startCol = 0,
+            ),
+            playerPositions = listOf(TilePoint(0, 0)),
             path = arrayListOf(
                 arrayListOf(
                     PathPointData(TilePoint(2, 0), 2f),
@@ -93,8 +103,7 @@ class GameData(val context: Context) {
                 0, e, e, e, e
 
             ),
-            startRow = 0,
-            startCol = 0,
+            playerPositions = listOf(TilePoint(0, 0)),
             objects = arrayListOf(
                 SuperJumpData(0, 2)
 //                            TeleportData(0, 2, 0, 3),
@@ -157,8 +166,7 @@ class MapData(
     val numRows: Int,
     val numCols: Int,
     var map: IntArray,
-    val startRow: Int,
-    val startCol: Int,
+    val playerPositions: List<TilePoint>,
     val objects: ArrayList<TileObjectData> = arrayListOf(),
     val path: ArrayList<ArrayList<PathPointData>>? = null
 )

@@ -11,10 +11,14 @@ import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.TileMapData
 import com.distraction.fs2.tilemap.tileobjects.Player
 
-class PlayState(context: Context, private val level: Int) : GameState(context), Player.MoveListener, ButtonListener, TileMap.TileListener {
+class PlayState(context: Context, private val level: Int) : GameState(context), Player.MoveListener,
+    ButtonListener, TileMap.TileListener {
 
-    private val tileMap = TileMap(context, this,level - 1)
-    private val player = Player(context, tileMap,this)
+    private val tileMap = TileMap(context, this, level - 1)
+    private val players = tileMap.mapData.playerPositions.map {
+        Player(context, tileMap, this, it.row, it.col)
+    }
+    private val player = players.first()
     private val bg = Background(context)
     private val bgCam = OrthographicCamera().apply {
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
@@ -58,7 +62,12 @@ class PlayState(context: Context, private val level: Int) : GameState(context), 
     private fun back() {
         if (!ignoreInput) {
             ignoreInput = true
-            context.gsm.push(TransitionState(context, LevelSelectState(context, (level - 1) / LevelSelectState.LEVELS_PER_PAGE)))
+            context.gsm.push(
+                TransitionState(
+                    context,
+                    LevelSelectState(context, (level - 1) / LevelSelectState.LEVELS_PER_PAGE)
+                )
+            )
         }
     }
 
@@ -91,7 +100,14 @@ class PlayState(context: Context, private val level: Int) : GameState(context), 
 //            tileMap.toIsometric(player.pdest.x, player.pdest.y, tp)
 //            camera.position.set(camera.position.lerp(tp.x + cameraOffset.x, tp.y + cameraOffset.y, 0f, 0.1f))
 //        } else {
-            camera.position.set(camera.position.lerp(player.isop.x + cameraOffset.x, player.isop.y + cameraOffset.y, 0f, 0.1f))
+        camera.position.set(
+            camera.position.lerp(
+                player.isop.x + cameraOffset.x,
+                player.isop.y + cameraOffset.y,
+                0f,
+                0.1f
+            )
+        )
 //        }
         camera.update()
 

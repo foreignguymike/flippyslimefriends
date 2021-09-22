@@ -7,7 +7,13 @@ import com.distraction.fs2.tilemap.Direction
 import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 
-class Player(context: Context, tileMap: TileMap, private val moveListener: MoveListener) : TileObject(context, tileMap), Tile.TileMoveListener {
+class Player(
+    context: Context,
+    tileMap: TileMap,
+    private val moveListener: MoveListener,
+    startRow: Int,
+    startCol: Int
+) : TileObject(context, tileMap), Tile.TileMoveListener {
 
     interface MoveListener {
         fun onMoved()
@@ -29,18 +35,36 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
     private var direction = Direction.RIGHT
 
     init {
-        setPositionFromTile(tileMap.mapData.startRow, tileMap.mapData.startCol)
+        setPositionFromTile(startRow, startCol)
         p.z = 4f
         pdest.set(p)
 
         currentTile = tileMap.getTile(row, col)
 
-        animationSet.addAnimation("idle", Animation(context.getImage("playeridle").split(16, 18)[0], 1f / 2f))
-        animationSet.addAnimation("idler", Animation(context.getImage("playeridler").split(16, 18)[0], 1f / 2f))
-        animationSet.addAnimation("jump", Animation(context.getImage("playerjump").split(13, 18)[0], -1f))
-        animationSet.addAnimation("jumpr", Animation(context.getImage("playerjumpr").split(13, 18)[0], -1f))
-        animationSet.addAnimation("crouch", Animation(context.getImage("playercrouch").split(16, 18)[0], 1f / 10f))
-        animationSet.addAnimation("crouchr", Animation(context.getImage("playercrouchr").split(16, 18)[0], 1f / 10f))
+        animationSet.addAnimation(
+            "idle",
+            Animation(context.getImage("playeridle").split(16, 18)[0], 1f / 2f)
+        )
+        animationSet.addAnimation(
+            "idler",
+            Animation(context.getImage("playeridler").split(16, 18)[0], 1f / 2f)
+        )
+        animationSet.addAnimation(
+            "jump",
+            Animation(context.getImage("playerjump").split(13, 18)[0], -1f)
+        )
+        animationSet.addAnimation(
+            "jumpr",
+            Animation(context.getImage("playerjumpr").split(13, 18)[0], -1f)
+        )
+        animationSet.addAnimation(
+            "crouch",
+            Animation(context.getImage("playercrouch").split(16, 18)[0], 1f / 10f)
+        )
+        animationSet.addAnimation(
+            "crouchr",
+            Animation(context.getImage("playercrouchr").split(16, 18)[0], 1f / 10f)
+        )
 
         animationSet.setAnimation("idle")
     }
@@ -64,7 +88,10 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
 
         // ignore if the tile is blocked
         // but allow it if you're super jumping
-        if (tileMap.getTile(row + rowdx, col + coldx)?.isBlocked() == true && !superjump) return
+        if (tileMap.getTile(row + rowdx, col + coldx)?.isBlocked() == true && !superjump) {
+            sliding = false
+            return
+        }
 
         // valid tiles start here
 
@@ -147,7 +174,10 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
                     sliding = true
                 }
                 it is Teleport && !justTeleported -> {
-                    teleportSpeed = Utils.max(Utils.abs(p.y - tileMap.toPosition(it.row2)), Utils.abs(p.x - tileMap.toPosition(it.col2))) * 1.5f
+                    teleportSpeed = Utils.max(
+                        Utils.abs(p.y - tileMap.toPosition(it.row2)),
+                        Utils.abs(p.x - tileMap.toPosition(it.col2))
+                    ) * 1.5f
                     moveTile(it.row2 - row, it.col2 - col)
                     teleporting = true
                     justTeleported = true
@@ -233,9 +263,7 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
 
             // landed on illegal tile
             if (!tileMap.isValidTile(row, col)) {
-                println("tile is not valid")
                 moveListener.onIllegal()
-                println("movelistener onIllegal called")
                 return
             }
 
@@ -256,14 +284,19 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         tileMap.toIsometric(p.x, p.y, isop)
         if (!teleporting) {
             if (direction == Direction.RIGHT || direction == Direction.UP) {
-                sb.draw(animationSet.getImage(), isop.x - animationSet.getImage().regionWidth / 2, isop.y + p.z)
+                sb.draw(
+                    animationSet.getImage(),
+                    isop.x - animationSet.getImage().regionWidth / 2,
+                    isop.y + p.z
+                )
             } else {
                 sb.draw(
-                        animationSet.getImage(),
-                        isop.x + animationSet.getImage().regionWidth / 2,
-                        isop.y + p.z,
-                        -animationSet.getImage().regionWidth * 1f,
-                        animationSet.getImage().regionHeight * 1f)
+                    animationSet.getImage(),
+                    isop.x + animationSet.getImage().regionWidth / 2,
+                    isop.y + p.z,
+                    -animationSet.getImage().regionWidth * 1f,
+                    animationSet.getImage().regionHeight * 1f
+                )
             }
         }
     }
