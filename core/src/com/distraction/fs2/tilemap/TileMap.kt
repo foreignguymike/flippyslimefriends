@@ -9,6 +9,7 @@ import com.distraction.fs2.tilemap.tileobjects.*
 class TileMap(
     private val context: Context,
     private val tileListener: TileListener,
+    area: Area,
     level: Int
 ) :
     Tile.TileMoveListener {
@@ -17,7 +18,8 @@ class TileMap(
         fun onTileToggled(tileMap: TileMap)
     }
 
-    val mapData = context.gameData.mapData[level]
+    val mapData = context.gameData.mapData[area]?.getOrNull(level)
+        ?: throw IllegalStateException("level not found [${area}][$level]")
     val otherObjects = arrayListOf<TileObject>()
 
     val numRows = mapData.numRows

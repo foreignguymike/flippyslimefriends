@@ -7,125 +7,17 @@ import com.distraction.fs2.Context
  */
 class GameData(val context: Context) {
 
-    val mapData = arrayOf(
-        MapData(
-            numRows = 3, numCols = 3,
-            map = intArrayOf(
-                0, 0, e,
-                0, 0, 0,
-                e, 0, 0
-            ),
-            playerPositions = listOf(TilePoint(1, 0))
-        ),
-        MapData(
-            numRows = 2, numCols = 4,
-            map = intArrayOf(
-                2, 0, 0, 5,
-                2, 0, 0, 0
-            ),
-            playerPositions = listOf(TilePoint(0, 0)),
-            objects = arrayListOf(
-                IceData(0, 1),
-                IceData(0, 2),
-                IceData(1, 1),
-                IceData(1, 2)
-            )
-        ),
-        MapData(
-            numRows = 5, numCols = 3,
-            map = intArrayOf(
-                0, 0, 0,
-                0, 5, 0,
-                5, e, e,
-                0, 0, 0,
-                0, 0, 0
-            ),
-            playerPositions = listOf(TilePoint(0, 0)),
-            path = arrayListOf(
-                arrayListOf(
-                    PathPointData(TilePoint(2, 0), 2f),
-                    PathPointData(TilePoint(2, 2), 2f)
-                )
-            ),
-            objects = arrayListOf(
-                IceData(0, 1),
-                IceData(0, 2),
-                IceData(1, 2),
-                IceData(2, 0),
-                ArrowData(0, 2, Direction.DOWN),
-                SuperJumpData(0, 2)
-            )
-        ),
-//            MapData(numRows = 3, numCols = 3,
-//            map = intArrayOf(
-//                    0,0,0,
-//                    0,0,0,
-//                    0,0,0
-//            ), startRow = 0, startCol = 0,
-//            objects = arrayListOf(
-//                    ArrowData(0, 1, Direction.RIGHT),
-//                    ArrowData(0, 2, Direction.RIGHT),
-//                    ArrowData(0, 3, Direction.DOWN)
-//            )),
-//            MapData(
-//                    numRows = 5, numCols = 5,
-//                    map = intArrayOf(
-//                            0, 0, 0, e, e,
-//                            0, e, 3, e, e,
-//                            0, e, 3, e, 0,
-//                            e, e, e, e, 0,
-//                            e, e, 0, 0, 0
-//                    ),
-//                    startRow = 2, startCol = 2,
-//                    path = arrayListOf(
-//                            arrayListOf(
-//                                    PathPointData(1, 2, 2f),
-//                                    PathPointData(1, 3),
-//                                    PathPointData(2, 3, 2f),
-//                                    PathPointData(3, 3),
-//                                    PathPointData(3, 2, 2f),
-//                                    PathPointData(3, 1),
-//                                    PathPointData(2, 1, 2f),
-//                                    PathPointData(1, 1)
-//                            )
-//                    )
-//            ),
-        MapData(
-            7,
-            5,
-            intArrayOf(
-                0, e, 0, 0, 0,
-                0, e, e, 0, e,
-                0, e, e, 0, e,
-                e, e, e, 0, e,
-                0, e, e, e, e,
-                0, 0, 0, 0, e,
-                0, e, e, e, e
-
-            ),
-            playerPositions = listOf(TilePoint(0, 0)),
-            objects = arrayListOf(
-                SuperJumpData(0, 2)
-//                            TeleportData(0, 2, 0, 3),
-//                            TeleportData(0, 3, 0, 2)
-            ),
-            path = arrayListOf(
-                arrayListOf(
-                    PathPointData(TilePoint(0, 2)),
-                    PathPointData(TilePoint(3, 2))
+    val mapData = mapOf(
+        Area.TUTORIAL to arrayOf<MapData>(),
+        Area.GRASS to arrayOf(
+            MapData(
+                numRows = 3, numCols = 3,
+                map = intArrayOf(
+                    0, 0, e,
+                    0, 0, 0,
+                    e, 0, 0
                 ),
-                arrayListOf(
-                    PathPointData(TilePoint(0, 4)),
-                    PathPointData(TilePoint(3, 4))
-                ),
-                arrayListOf(
-                    PathPointData(TilePoint(4, 0)),
-                    PathPointData(TilePoint(4, 3))
-                ),
-                arrayListOf(
-                    PathPointData(TilePoint(6, 0)),
-                    PathPointData(TilePoint(6, 3))
-                )
+                playerPositions = listOf(TilePoint(1, 0))
             )
         )
     )
@@ -135,7 +27,7 @@ class GameData(val context: Context) {
      * 0-99 "walkable" tiles, these are the puzzle tiles
      * 100+ background tiles, only for show
      */
-    val tileset = mapOf(
+    private val tileset = mapOf(
         0 to context.getImage("tileoff"),
         1 to context.getImage("tileon"),
         2 to context.getImage("tileperm"),
@@ -160,6 +52,16 @@ class GameData(val context: Context) {
         const val c = 101
     }
 
+}
+
+enum class Area {
+    TUTORIAL,
+    GRASS,
+    ICE,
+    DESERT,
+    FLOATING,
+    WATER,
+    MATRIX
 }
 
 class MapData(

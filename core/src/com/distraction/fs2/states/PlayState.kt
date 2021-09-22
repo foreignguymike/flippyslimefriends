@@ -5,16 +5,17 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.*
+import com.distraction.fs2.tilemap.Area
 import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.TileMapData
 import com.distraction.fs2.tilemap.tileobjects.Player
 
-class PlayState(context: Context, private val level: Int) : GameState(context), Player.MoveListener,
+class PlayState(context: Context, private val area: Area, private val level: Int) :
+    GameState(context), Player.MoveListener,
     ButtonListener, TileMap.TileListener {
 
-    private val tileMap = TileMap(context, this, level - 1)
+    private val tileMap = TileMap(context, this, area, level - 1)
     private val players = tileMap.mapData.playerPositions.map {
         Player(context, tileMap, this, it.row, it.col)
     }
@@ -23,7 +24,6 @@ class PlayState(context: Context, private val level: Int) : GameState(context), 
     private val bgCam = OrthographicCamera().apply {
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
     }
-    private val tp = Vector3()
 
     private val hud = HUD(context, this)
     private val cameraOffset = Vector2(0f, 0f)
@@ -48,14 +48,14 @@ class PlayState(context: Context, private val level: Int) : GameState(context), 
             if (hud.getBest() == 0 || hud.getMoves() < hud.getBest()) {
                 context.scoreHandler.saveScore(level - 1, hud.getMoves())
             }
-            context.gsm.push(LevelFinishState(context, level, hud.getMoves(), hud.getBest()))
+            context.gsm.push(LevelFinishState(context, area, level, hud.getMoves(), hud.getBest()))
         }
     }
 
     override fun onIllegal() {
         if (!tileMap.isFinished() && !ignoreInput) {
             ignoreInput = true
-            context.gsm.push(TransitionState(context, PlayState(context, level)))
+            context.gsm.push(TransitionState(context, PlayState(context, area, level)))
         }
     }
 
@@ -65,7 +65,7 @@ class PlayState(context: Context, private val level: Int) : GameState(context), 
             context.gsm.push(
                 TransitionState(
                     context,
-                    LevelSelectState(context, (level - 1) / LevelSelectState.LEVELS_PER_PAGE)
+                    LevelSelectState(context, area, (level - 1) / LevelSelectState.LEVELS_PER_PAGE)
                 )
             )
         }

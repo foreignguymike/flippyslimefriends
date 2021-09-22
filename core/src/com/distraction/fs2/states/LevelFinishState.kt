@@ -5,15 +5,33 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.distraction.fs2.*
+import com.distraction.fs2.tilemap.Area
 import com.distraction.fs2.tilemap.TileMapData
 
-class LevelFinishState(context: Context, private val level: Int, private val moves: Int, private val best: Int) : GameState(context) {
+class LevelFinishState(
+    context: Context,
+    private val area: Area,
+    private val level: Int,
+    private val moves: Int,
+    private val best: Int
+) : GameState(context) {
+
     private val dot = context.getImage("dot")
     private val dimColor = Color(0f, 0f, 0f, 0f)
 
     private val completeImage = Button(context.getImage("complete"), 0f, 80f, centered = true)
-    private val bestLabel = NumberLabel(context, context.getImage("best"), Vector2(Constants.WIDTH / 2 - 20f, Constants.HEIGHT / 2f), best)
-    private val movesLabel = NumberLabel(context, context.getImage("moves"), Vector2(Constants.WIDTH / 2 - 20f, Constants.HEIGHT / 2f - 10), moves)
+    private val bestLabel = NumberLabel(
+        context,
+        context.getImage("best"),
+        Vector2(Constants.WIDTH / 2 - 20f, Constants.HEIGHT / 2f),
+        best
+    )
+    private val movesLabel = NumberLabel(
+        context,
+        context.getImage("moves"),
+        Vector2(Constants.WIDTH / 2 - 20f, Constants.HEIGHT / 2f - 10),
+        moves
+    )
     private val newRecordImage = Button(context.getImage("newrecord"), 0f, 40f, centered = true)
 
     private val restartButton = Button(context.getImage("restart"), 5f, 98f)
@@ -31,13 +49,29 @@ class LevelFinishState(context: Context, private val level: Int, private val mov
                 camera.unproject(touchPoint)
                 if (level < TileMapData.levelData.size && nextButton.rect.contains(touchPoint)) {
                     ignoreInput = true
-                    context.gsm.push(TransitionState(context, PlayState(context, level + 1), 2))
+                    context.gsm.push(
+                        TransitionState(
+                            context,
+                            PlayState(context, area, level + 1),
+                            2
+                        )
+                    )
                 } else if (backButton.rect.contains(touchPoint)) {
                     ignoreInput = true
-                    context.gsm.push(TransitionState(context, LevelSelectState(context, (level - 1) / LevelSelectState.LEVELS_PER_PAGE), 2))
+                    context.gsm.push(
+                        TransitionState(
+                            context,
+                            LevelSelectState(
+                                context,
+                                area,
+                                (level - 1) / LevelSelectState.LEVELS_PER_PAGE
+                            ),
+                            2
+                        )
+                    )
                 } else if (restartButton.rect.contains(touchPoint)) {
                     ignoreInput = true
-                    context.gsm.push(TransitionState(context, PlayState(context, level), 2))
+                    context.gsm.push(TransitionState(context, PlayState(context, area, level), 2))
                 }
             }
         }

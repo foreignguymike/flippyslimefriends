@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.*
+import com.distraction.fs2.tilemap.Area
 
 class TitleState(context: Context) : GameState(context) {
     private val title = context.getImage("title")
@@ -23,11 +24,11 @@ class TitleState(context: Context) : GameState(context) {
         if (!ignoreInput) {
             if (Gdx.input.justTouched()) {
                 ignoreInput = true
-                context.gsm.push(TransitionState(context, LevelSelectState(context)))
+                context.gsm.push(TransitionState(context, LevelSelectState(context, Area.GRASS)))
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
                 ignoreInput = true
-                context.gsm.push(TransitionState(context, LevelSelectState(context)))
+                context.gsm.push(TransitionState(context, LevelSelectState(context, Area.GRASS)))
             }
         }
 

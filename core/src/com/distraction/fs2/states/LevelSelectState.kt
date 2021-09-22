@@ -7,9 +7,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
 import com.distraction.fs2.*
+import com.distraction.fs2.tilemap.Area
 import com.distraction.fs2.tilemap.TileMapData
 
-class LevelSelectState(context: Context, private var page: Int = 0) : GameState(context) {
+class LevelSelectState(context: Context, private val area: Area, private var page: Int = 0) :
+    GameState(context) {
     companion object {
         const val LEVELS_PER_PAGE = 18
     }
@@ -36,10 +38,14 @@ class LevelSelectState(context: Context, private var page: Int = 0) : GameState(
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
     }
 
-    private val leftButton = Button(context.getImage("levelselectarrow"),
-            Rectangle(10f, Constants.HEIGHT / 2 - 5f, 10f, 11f))
-    private val rightButton = Button(context.getImage("levelselectarrow"),
-            Rectangle(Constants.WIDTH - 20f, Constants.HEIGHT / 2 - 5f, 10f, 11f))
+    private val leftButton = Button(
+        context.getImage("levelselectarrow"),
+        Rectangle(10f, Constants.HEIGHT / 2 - 5f, 10f, 11f)
+    )
+    private val rightButton = Button(
+        context.getImage("levelselectarrow"),
+        Rectangle(Constants.WIDTH - 20f, Constants.HEIGHT / 2 - 5f, 10f, 11f)
+    )
 
     init {
         camera.position.set(Constants.WIDTH * page + Constants.WIDTH / 2, Constants.HEIGHT / 2, 0f)
@@ -54,7 +60,7 @@ class LevelSelectState(context: Context, private var page: Int = 0) : GameState(
                 levels.forEachIndexed { i, it ->
                     if (it.rect.contains(touchPoint) && i < TileMapData.levelData.size) {
                         ignoreInput = true
-                        context.gsm.push(TransitionState(context, PlayState(context, i + 1)))
+                        context.gsm.push(TransitionState(context, PlayState(context, area, i + 1)))
                         return@forEachIndexed
                     }
                 }
@@ -76,7 +82,14 @@ class LevelSelectState(context: Context, private var page: Int = 0) : GameState(
                 }
             }
         }
-        camera.position.set(camera.position.lerp(Constants.WIDTH * page + Constants.WIDTH / 2, Constants.HEIGHT / 2, 0f, 0.3f))
+        camera.position.set(
+            camera.position.lerp(
+                Constants.WIDTH * page + Constants.WIDTH / 2,
+                Constants.HEIGHT / 2,
+                0f,
+                0.3f
+            )
+        )
         camera.update()
     }
 
@@ -84,7 +97,11 @@ class LevelSelectState(context: Context, private var page: Int = 0) : GameState(
         clearScreen(76, 176, 219)
         sb.use {
             sb.projectionMatrix = staticCam.combined
-            sb.draw(levelSelectImage, (Constants.WIDTH - levelSelectImage.regionWidth) / 2, Constants.HEIGHT - levelSelectImage.regionHeight - 8)
+            sb.draw(
+                levelSelectImage,
+                (Constants.WIDTH - levelSelectImage.regionWidth) / 2,
+                Constants.HEIGHT - levelSelectImage.regionHeight - 8
+            )
             sb.draw(backButton.image, backButton.rect.x, backButton.rect.y)
 
             if (page > 0) sb.drawButton(leftButton, true)
@@ -99,10 +116,18 @@ class LevelSelectState(context: Context, private var page: Int = 0) : GameState(
                 }
                 sb.draw(it.image, it.rect.x, it.rect.y)
                 numberFont.num = i + 1
-                numberFont.render(sb, it.rect.x + levelIcon.regionWidth / 2, it.rect.y + (levelIcon.regionHeight - 6) / 2)
+                numberFont.render(
+                    sb,
+                    it.rect.x + levelIcon.regionWidth / 2,
+                    it.rect.y + (levelIcon.regionHeight - 6) / 2
+                )
                 sb.color = c
                 if (best > 0 && best <= TileMapData.levelData[i].goal) {
-                    sb.draw(levelCheck, it.rect.x + (it.rect.width - levelCheck.regionWidth) / 2, it.rect.y - 2)
+                    sb.draw(
+                        levelCheck,
+                        it.rect.x + (it.rect.width - levelCheck.regionWidth) / 2,
+                        it.rect.y - 2
+                    )
                 }
             }
         }
