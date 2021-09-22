@@ -78,6 +78,8 @@ class Tile(
 
     fun isMovingTile() = path != null
 
+    fun isBlocked() = index == 5
+
     /**
      * Go to next point in the path (moving tiles only)
      */

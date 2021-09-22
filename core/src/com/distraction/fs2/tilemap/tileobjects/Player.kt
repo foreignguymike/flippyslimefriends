@@ -62,6 +62,10 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         // ignore while on moving tile
         if (currentTile?.moving == true) return
 
+        // ignore if the tile is blocked
+        // but allow it if you're super jumping
+        if (tileMap.getTile(row + rowdx, col + coldx)?.isBlocked() == true && !superjump) return
+
         // valid tiles start here
 
         // update direction

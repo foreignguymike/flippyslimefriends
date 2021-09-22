@@ -11,8 +11,8 @@ class GameData(val context: Context) {
         MapData(
             numRows = 2, numCols = 4,
             map = intArrayOf(
-                0, 0, 0, 0,
-                0, 0, 0, 0
+                2, 0, 0, 0,
+                2, 0, 0, 0
             ),
             startRow = 0, startCol = 0,
             objects = arrayListOf(
@@ -26,8 +26,8 @@ class GameData(val context: Context) {
             numRows = 5, numCols = 3,
             map = intArrayOf(
                 0, 0, 0,
-                0, 0, 0,
-                0, e, e,
+                0, 5, 0,
+                5, e, e,
                 0, 0, 0,
                 0, 0, 0
             ), startRow = 0, startCol = 0,
@@ -132,6 +132,7 @@ class GameData(val context: Context) {
         2 to context.getImage("tileperm"),
         3 to context.getImage("tileperm2"),
         4 to context.getImage("tileperm3"),
+        5 to context.getImage("tileblocked"),
 
         100 to context.getImage("tilegrayfloor"),
         101 to context.getImage("tilebluegraycheckeredfloor"),

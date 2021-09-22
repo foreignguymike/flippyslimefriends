@@ -128,17 +128,10 @@ class TileMap(
     fun isValidTile(row: Int, col: Int): Boolean {
         if (row !in 0 until numRows || col !in 0 until numCols) return false
         val tile = getTile(row, col)
-        return tile != null && !tile.moving
+        return tile != null && !tile.moving && !tile.isBlocked()
     }
 
-    fun isFinished(): Boolean {
-        map.forEach {
-            if (it?.index == 0) {
-                return false
-            }
-        }
-        return true
-    }
+    fun isFinished() = map.none { it?.index == 0 }
 
     override fun onTileStartMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
         numTilesMoving++
