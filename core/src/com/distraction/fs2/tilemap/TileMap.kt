@@ -167,6 +167,10 @@ class TileMap(
 
     fun render(sb: SpriteBatch) {
         if (numTilesMoving > 0) {
+            // lazy sort, sort on every frame
+            // could be optimized to sort only when required
+            // although sorting an already sorted list should be quick (?) so just leave it
+            // plus i don't have to care about figuring out when to sort
             orderedMap.sortByDescending { it?.isop?.y }
         }
         orderedMap.forEach { it?.renderBottom(sb) }

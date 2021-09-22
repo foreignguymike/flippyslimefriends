@@ -151,6 +151,9 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
             }
         }
 
+        // making these mutually exclusive
+        if (superjump) sliding = false
+
         // set tile to move to for sliding and superjump, teleport is handled up there
         if (sliding || superjump) {
             var rx = 0
@@ -168,12 +171,14 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
     }
 
     private fun updateBounceHeight() {
-        if (sliding) {
-            p.z = 4f
-        } else {
-            p.z = 4f + (jumpHeight * (if (superjump) 2 else 1) * MathUtils.sin(3.14f * getRemainingDistance() / totalDist))
+        when {
+            superjump -> p.z = 4f + jumpHeight * 1.5f * getArc()
+            sliding -> p.z = 4f
+            else -> p.z = 4f + jumpHeight * getArc()
         }
     }
+
+    private fun getArc() = MathUtils.sin(3.14f * getRemainingDistance() / totalDist)
 
     private fun updateAnimations(dt: Float) {
         if (sliding) {
@@ -215,7 +220,7 @@ class Player(context: Context, tileMap: TileMap, private val moveListener: MoveL
         if (!atDestination()) {
             val dist = dt *
                     (if (teleporting && justTeleported) teleportSpeed else speed) * // base speed
-                    (if (sliding) 4f else if (superjump) 2f else 1f)                // multiplier
+                    (if (superjump) 2f else if (sliding) 3f else 1f)                // multiplier
             p.moveTo(pdest, dist)
         }
 

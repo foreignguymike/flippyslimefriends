@@ -36,6 +36,14 @@ class GameData(val context: Context) {
                     PathPointData(TilePoint(2, 0), 2f),
                     PathPointData(TilePoint(2, 2), 2f)
                 )
+            ),
+            objects = arrayListOf(
+                IceData(0, 1),
+                IceData(0, 2),
+                IceData(1, 2),
+                IceData(2, 0),
+                ArrowData(0, 2, Direction.DOWN),
+                SuperJumpData(0, 2)
             )
         ),
 //            MapData(numRows = 3, numCols = 3,

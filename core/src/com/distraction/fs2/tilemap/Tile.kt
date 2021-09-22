@@ -9,11 +9,12 @@ import com.distraction.fs2.tilemap.tileobjects.Arrow
 import com.distraction.fs2.tilemap.tileobjects.TileObject
 
 class Tile(
-        val context: Context,
-        val tileMap: TileMap,
-        var row: Int,
-        var col: Int,
-        var index: Int) {
+    val context: Context,
+    val tileMap: TileMap,
+    var row: Int,
+    var col: Int,
+    var index: Int
+) {
 
     interface TileMoveListener {
         fun onTileStartMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {}
@@ -100,7 +101,15 @@ class Tile(
                 stayTimer += dt
                 if (stayTimer >= it[pathIndex].time && !lock) {
                     goNext()
-                    moveListeners.forEach { ml -> ml.onTileStartMove(this, prevRow, prevCol, row, col) }
+                    moveListeners.forEach { ml ->
+                        ml.onTileStartMove(
+                            this,
+                            prevRow,
+                            prevCol,
+                            row,
+                            col
+                        )
+                    }
                     moving = true
                     stayTimer = 0f
                 }
@@ -115,7 +124,15 @@ class Tile(
                 if (p.x == pdest.x && p.y == pdest.y) {
                     row = it[pathIndex].tilePoint.row
                     col = it[pathIndex].tilePoint.col
-                    moveListeners.forEach { ml -> ml.onTileEndMove(this, prevRow, prevCol, row, col) }
+                    moveListeners.forEach { ml ->
+                        ml.onTileEndMove(
+                            this,
+                            prevRow,
+                            prevCol,
+                            row,
+                            col
+                        )
+                    }
                     moving = false
                     prevRow = row
                     prevCol = col
@@ -147,13 +164,17 @@ class Tile(
 
     fun renderBottom(sb: SpriteBatch) {
         tileMap.toIsometric(p.x, p.y, isop)
-        sb.drawPadded(bottomImage, isop.x - bottomImage.regionWidth / 2, isop.y - bottomImage.regionHeight + TileMap.TILE_IHEIGHT / 2)
+        sb.drawPadded(
+            bottomImage,
+            isop.x - bottomImage.regionWidth / 2,
+            isop.y - bottomImage.regionHeight + TileMap.TILE_IHEIGHT / 2 + 1
+        )
     }
 
     companion object {
         // rendering order for tile objects
         val tileObjectRenderOrder = listOf(
-                Arrow::class.java
+            Arrow::class.java
         )
     }
 }

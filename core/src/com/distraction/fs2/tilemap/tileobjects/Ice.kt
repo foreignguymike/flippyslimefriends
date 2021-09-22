@@ -8,7 +8,7 @@ import com.distraction.fs2.tilemap.TileMap
 class Ice(context: Context, tileMap: TileMap, row: Int, col: Int) : TileObject(context, tileMap) {
 
     private val image = context.getImage("ice")
-    private var alpha = 0.65f
+    private var alpha = .85f
 
     init {
         setPositionFromTile(row, col)
