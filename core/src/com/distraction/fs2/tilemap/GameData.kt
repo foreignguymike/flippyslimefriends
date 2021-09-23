@@ -84,3 +84,8 @@ class TilePoint(var row: Int = 0, var col: Int = 0)
 class PathPointData(val tilePoint: TilePoint, val time: Float = 0f) {
     constructor(row: Int, col: Int, time: Float = 0f) : this(TilePoint(row, col), time)
 }
+
+enum class GameColor(val r: Float, val g: Float, val b: Float, val a: Float = 1f) {
+    SKY_BLUE(120f / 255f, 215 / 255f, 1f),
+    DARK_TEAL(21f / 255f, 60 / 255f, 74 / 255f)
+}

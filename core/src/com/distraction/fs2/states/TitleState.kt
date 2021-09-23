@@ -1,49 +1,54 @@
 package com.distraction.fs2.states
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
-import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.Area
+import com.distraction.fs2.tilemap.GameColor
 
 class TitleState(context: Context) : GameState(context) {
-    private val title = context.getImage("title")
-    private val hudCam = OrthographicCamera().apply {
-        setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
-    }
+    private val pixel = context.getImage("pixel")
+    private val title = ImageButton(context.getImage("title"))
+    private val playButton = TextButton(context, context.getImage("play"), Constants.WIDTH / 4, 30f)
 
     init {
-        hudCam.position.set(Constants.WIDTH / 2f, -100f, 0f)
-        hudCam.update()
-        camera.position.set(0f, 100f, 0f)
-        camera.update()
+        title.setPosition(Constants.WIDTH / 2f, Constants.HEIGHT + 100f)
+        title.lerpTo(Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0.1f)
     }
 
-    override fun update(dt: Float) {
-        if (!ignoreInput) {
-            if (Gdx.input.justTouched()) {
-                ignoreInput = true
-                context.gsm.push(TransitionState(context, LevelSelectState(context, Area.GRASS)))
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+    private fun handleInput() {
+        if (Gdx.input.justTouched()) {
+            unprojectTouch()
+            if (playButton.containsPoint(touchPoint.x, touchPoint.y)) {
                 ignoreInput = true
                 context.gsm.push(TransitionState(context, LevelSelectState(context, Area.GRASS)))
             }
         }
+    }
 
-        hudCam.position.set(hudCam.position.lerp(Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 0.1f))
-        hudCam.update()
+    override fun update(dt: Float) {
+        if (!ignoreInput) {
+            handleInput()
+        }
+        title.update(dt)
         camera.update()
     }
 
     override fun render(sb: SpriteBatch) {
-        clearScreen(76, 176, 219)
+        clearScreen(GameColor.SKY_BLUE)
         sb.use {
-            sb.projectionMatrix = hudCam.combined
-            sb.draw(title, (Constants.WIDTH - title.regionWidth) / 2f, 60f)
-
             sb.projectionMatrix = camera.combined
+
+            sb.setColor(GameColor.DARK_TEAL)
+            sb.draw(pixel, 0f, 0f, Constants.WIDTH, 60f)
+            sb.draw(pixel, 0f, Constants.HEIGHT - 60f, Constants.WIDTH, 60f)
+            sb.resetColor()
+            sb.draw(pixel, 0f, 56f, Constants.WIDTH, 1f)
+            sb.draw(pixel, 0f, Constants.HEIGHT - 58f, Constants.WIDTH, 1f)
+
+            sb.resetColor()
+            title.render(sb)
+            playButton.render(sb)
         }
     }
 }

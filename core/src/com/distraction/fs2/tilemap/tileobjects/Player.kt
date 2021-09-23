@@ -6,6 +6,7 @@ import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.Direction
 import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
+import kotlin.math.absoluteValue
 
 class Player(
     context: Context,
@@ -175,8 +176,8 @@ class Player(
                 }
                 it is Teleport && !justTeleported -> {
                     teleportSpeed = Utils.max(
-                        Utils.abs(p.y - tileMap.toPosition(it.row2)),
-                        Utils.abs(p.x - tileMap.toPosition(it.col2))
+                        (p.y - tileMap.toPosition(it.row2)).absoluteValue,
+                        (p.x - tileMap.toPosition(it.col2)).absoluteValue
                     ) * 1.5f
                     moveTile(it.row2 - row, it.col2 - col)
                     teleporting = true

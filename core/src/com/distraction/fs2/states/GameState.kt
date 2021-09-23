@@ -1,5 +1,7 @@
 package com.distraction.fs2.states
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector3
@@ -11,6 +13,11 @@ abstract class GameState(protected val context: Context) {
     val touchPoint = Vector3()
     protected val camera = OrthographicCamera().apply {
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
+    }
+
+    fun unprojectTouch(camera: Camera = this.camera) {
+        touchPoint.set(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f)
+        camera.unproject(touchPoint)
     }
 
     abstract fun update(dt: Float)

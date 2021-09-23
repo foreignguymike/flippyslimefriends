@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
+import com.distraction.fs2.tilemap.GameColor
+import kotlin.math.absoluteValue
 import kotlin.math.sqrt
 
 class Utils {
     companion object {
-        fun abs(f: Float) = if (f < 0) f * -1 else f
         fun max(f1: Float, f2: Float) = if (f2 > f1) f2 else f1
         fun dist(x1: Float, y1: Float, x2: Float, y2: Float) =
             sqrt(1.0 * (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)).toFloat()
@@ -129,6 +131,14 @@ fun SpriteBatch.drawButton(button: Button, hflip: Boolean = false) {
     }
 }
 
+fun SpriteBatch.resetColor() {
+    setColor(1f, 1f, 1f, 1f)
+}
+
+fun SpriteBatch.setColor(color: GameColor) {
+    setColor(color.r, color.g, color.b, color.a)
+}
+
 // exclusive
 infix fun Int.toward(to: Int): IntProgression {
     val step = if (this > to) -1 else 1
@@ -140,12 +150,19 @@ fun clearScreen(r: Int = 0, g: Int = 0, b: Int = 0, a: Int = 0) {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 }
 
+fun clearScreen(color: GameColor) {
+    Gdx.gl.glClearColor(color.r, color.g, color.b, color.a)
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+}
+
 fun Vector3.lerp(x: Float, y: Float, z: Float, amount: Float): Vector3 {
     this.x += amount * (x - this.x)
     this.y += amount * (y - this.y)
     this.z += amount * (z - this.z)
     return this
 }
+
+fun Vector2.diff(v2: Vector2) = (this.x - v2.x).absoluteValue + (this.y - v2.y).absoluteValue
 
 fun Rectangle.contains(v: Vector3) = contains(v.x, v.y)
 

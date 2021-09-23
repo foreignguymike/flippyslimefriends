@@ -28,8 +28,8 @@ class TileMap(
 
     // when there are moving tiles, the map must be sorted
     // orderedMap is used to determine rendering order
-    var numTilesMoving = 0
-    val orderedMap = map.sortedBy { it?.isop?.y }.toMutableList()
+    private var numTilesMoving = 0
+    private val orderedMap = map.sortedBy { it?.isop?.y }.toMutableList()
 
     private fun parseMapData(map: IntArray): MutableList<Tile?> {
         return MutableList(map.size) {
