@@ -25,7 +25,7 @@ class Tile(
     val objects = arrayListOf<TileObject>()
 
     // moving tile params
-    var path: ArrayList<PathPointData>? = null
+    var path: List<PathPointData>? = null
     var pathIndex = 0
     val speed = 100f
     var stayTimer = 0f

@@ -10,35 +10,6 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.ButtonListener.ButtonType.*
 
-interface ButtonListener {
-    enum class ButtonType {
-        UP,
-        LEFT,
-        DOWN,
-        RIGHT,
-        RESTART,
-        BACK
-    }
-
-    fun onButtonPressed(type: ButtonType)
-}
-
-open class Button(val image: TextureRegion, val rect: Rectangle, val color: Color = Color(1f, 1f, 1f, 1f)) {
-    constructor(image: TextureRegion, x: Float = 0f, y: Float = 0f, color: Color = Color(1f, 1f, 1f, 1f), centered: Boolean = false) :
-            this(
-                    image,
-                    Rectangle(if (centered) (Constants.WIDTH - image.regionWidth) / 2f else x, y, 1f * image.regionWidth, 1f * image.regionHeight),
-                    color)
-}
-
-class NumberLabel(context: Context, private val image: TextureRegion, private val pos: Vector2, var num: Int) {
-    private val numberFont = NumberFont(context)
-    fun render(sb: SpriteBatch) {
-        sb.draw(image, pos.x, pos.y)
-        numberFont.render(sb, pos.x + image.regionWidth + 5, pos.y, num)
-    }
-}
-
 class HUD(context: Context, private val buttonListener: ButtonListener) {
     private val touchPoint = Vector3()
     private val alpha = 0.5f
@@ -84,8 +55,8 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
                     Vector2(Constants.WIDTH - 55f, Constants.HEIGHT - 34f),
                     0))
 
-    fun setGoal(goal: Int) {
-        labels[0].num = goal
+    fun setTarget(target: Int) {
+        labels[0].num = target
     }
 
     fun setBest(best: Int) {
@@ -103,7 +74,7 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
         setToOrtho(false, Constants.WIDTH * 2f, Constants.HEIGHT * 2f)
     }
 
-    fun update(dt: Float) {
+    fun update() {
         if (Gdx.input.isTouched) {
             touchPoint.set(1f * Gdx.input.x, 1f * Gdx.input.y, 0f)
             cam.unproject(touchPoint)
@@ -133,5 +104,34 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
         labels.forEach {
             it.render(sb)
         }
+    }
+}
+
+interface ButtonListener {
+    enum class ButtonType {
+        UP,
+        LEFT,
+        DOWN,
+        RIGHT,
+        RESTART,
+        BACK
+    }
+
+    fun onButtonPressed(type: ButtonType)
+}
+
+open class Button(val image: TextureRegion, val rect: Rectangle, val color: Color = Color(1f, 1f, 1f, 1f)) {
+    constructor(image: TextureRegion, x: Float = 0f, y: Float = 0f, color: Color = Color(1f, 1f, 1f, 1f), centered: Boolean = false) :
+            this(
+                image,
+                Rectangle(if (centered) (Constants.WIDTH - image.regionWidth) / 2f else x, y, 1f * image.regionWidth, 1f * image.regionHeight),
+                color)
+}
+
+class NumberLabel(context: Context, private val image: TextureRegion, private val pos: Vector2, var num: Int) {
+    private val numberFont = NumberFont(context)
+    fun render(sb: SpriteBatch) {
+        sb.draw(image, pos.x, pos.y)
+        numberFont.render(sb, pos.x + image.regionWidth + 5, pos.y, num)
     }
 }

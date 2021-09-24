@@ -4,29 +4,40 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
 import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.Area
-import com.distraction.fs2.tilemap.TileMapData
 
-class LevelSelectState(context: Context, private val area: Area, private var page: Int = 0) :
-    GameState(context) {
-    companion object {
-        const val LEVELS_PER_PAGE = 18
-    }
+class LevelSelectState(
+    context: Context,
+    private val area: Area,
+    currentLevel: Int = -1
+) : GameState(context) {
 
     private val levelIcon = context.getImage("levelicon")
     private val levelCheck = context.getImage("levelcheck")
-    private val colSize = 6
-    private val maxPages = MathUtils.ceil(TileMapData.levelData.size / 18f)
+    private val numRows = 3
+    private val numCols = 6
+    private val pageSize = numRows * numCols
+    private val widthPadding = 120f
+    private val heightPadding = 60f
+    private val cellWidth = (Constants.WIDTH - 2 * widthPadding) / numCols
+    private val cellHeight = (Constants.HEIGHT - 2 * heightPadding) / numRows
+    private var page = currentLevel / pageSize
+    private var levelData = context.gameData.mapData[area]
+        ?: throw IllegalArgumentException("invalid area $area")
+    private var numLevels = levelData.size
+    private val maxPages = numLevels / pageSize
 
-    private val levels = Array(TileMapData.levelData.size) {
-        val page = it / 18
-        val row = (it % 18) / colSize
-        val col = it % colSize
-        val x = col * (levelIcon.regionWidth + 5f) + 38 + Constants.WIDTH * page
-        val y = Constants.HEIGHT - row * (levelIcon.regionHeight + 5f) - 50
+    private val levels = Array(numLevels) {
+        val page = it / pageSize
+        val row = it / numCols
+        val col = it % numCols
+        //val x = col * (levelIcon.regionWidth + 5f) + 38 + Constants.WIDTH * page
+        //val y = Constants.HEIGHT - row * (levelIcon.regionHeight + 5f) - 50
+        val x =
+            widthPadding + col * cellWidth + cellWidth / 2 - levelIcon.regionWidth / 2 + Constants.WIDTH * page
+        val y = Constants.HEIGHT - heightPadding - (row * cellHeight + cellHeight / 2)
         Button(context.getImage("levelicon"), x, y)
     }
 
@@ -58,7 +69,7 @@ class LevelSelectState(context: Context, private val area: Area, private var pag
                 touchPoint.set(1f * Gdx.input.x, 1f * Gdx.input.y, 0f)
                 camera.unproject(touchPoint)
                 levels.forEachIndexed { i, it ->
-                    if (it.rect.contains(touchPoint) && i < TileMapData.levelData.size) {
+                    if (it.rect.contains(touchPoint) && i < numLevels) {
                         ignoreInput = true
                         context.gsm.push(TransitionState(context, PlayState(context, area, i + 1)))
                         return@forEachIndexed
@@ -122,7 +133,7 @@ class LevelSelectState(context: Context, private val area: Area, private var pag
                     it.rect.y + (levelIcon.regionHeight - 6) / 2
                 )
                 sb.color = c
-                if (best > 0 && best <= TileMapData.levelData[i].goal) {
+                if (best > 0 && best <= levelData[i].target) {
                     sb.draw(
                         levelCheck,
                         it.rect.x + (it.rect.width - levelCheck.regionWidth) / 2,

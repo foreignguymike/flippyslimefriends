@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2
 import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.Area
 import com.distraction.fs2.tilemap.TileMap
-import com.distraction.fs2.tilemap.TileMapData
 import com.distraction.fs2.tilemap.tileobjects.Player
 
 class PlayState(context: Context, private val area: Area, private val level: Int) :
@@ -32,7 +31,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
         camera.position.set(-100f, player.isop.y + cameraOffset.y, 0f)
         camera.update()
 
-        hud.setGoal(TileMapData.levelData[level - 1].goal)
+        hud.setTarget(tileMap.mapData.target)
         hud.setBest(context.scoreHandler.scores[level - 1])
     }
 
@@ -65,7 +64,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
             context.gsm.push(
                 TransitionState(
                     context,
-                    LevelSelectState(context, area, (level - 1) / LevelSelectState.LEVELS_PER_PAGE)
+                    LevelSelectState(context, area, level)
                 )
             )
         }
@@ -84,7 +83,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
 
     override fun update(dt: Float) {
         if (!ignoreInput) {
-            hud.update(dt)
+            hud.update()
             when {
                 Gdx.input.isKeyPressed(Input.Keys.RIGHT) -> player.moveTile(0, 1)
                 Gdx.input.isKeyPressed(Input.Keys.LEFT) -> player.moveTile(0, -1)
@@ -96,10 +95,6 @@ class PlayState(context: Context, private val area: Area, private val level: Int
 
         player.update(dt)
 
-//        if (player.teleporting) {
-//            tileMap.toIsometric(player.pdest.x, player.pdest.y, tp)
-//            camera.position.set(camera.position.lerp(tp.x + cameraOffset.x, tp.y + cameraOffset.y, 0f, 0.1f))
-//        } else {
         camera.position.set(
             camera.position.lerp(
                 player.isop.x + cameraOffset.x,
@@ -108,7 +103,6 @@ class PlayState(context: Context, private val area: Area, private val level: Int
                 0.1f
             )
         )
-//        }
         camera.update()
 
         bg.update(dt)

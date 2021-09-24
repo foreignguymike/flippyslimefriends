@@ -95,9 +95,13 @@ class TileMap(
     }
 
     fun toggleTile(row: Int, col: Int) {
-        if (getTile(row, col)?.toggle() == true) {
-            otherObjects.add(TileLight(context, this, row, col))
-            tileListener.onTileToggled(this)
+        getTile(row, col)?.let {
+            if (it.toggle()) {
+                tileListener.onTileToggled(this)
+            }
+            if (it.isActive()) {
+                otherObjects.add(TileLight(context, this, row, col))
+            }
         }
     }
 

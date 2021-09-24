@@ -64,7 +64,7 @@ class LevelFinishState(
                             LevelSelectState(
                                 context,
                                 area,
-                                (level - 1) / LevelSelectState.LEVELS_PER_PAGE
+                                level
                             ),
                             2
                         )
