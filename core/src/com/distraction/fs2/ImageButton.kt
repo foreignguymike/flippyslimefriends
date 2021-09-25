@@ -7,11 +7,11 @@ import com.badlogic.gdx.math.Vector2
 /**
  * Need to be wary that Rectangle uses x,y as the bottom left corner.
  */
-open class ImageButton(private val image: TextureRegion, x: Float = 0f, y: Float = 0f) {
+open class ImageButton(protected val image: TextureRegion, x: Float = 0f, y: Float = 0f) {
 
     protected var pos = Vector2()
-    private var width = image.regionWidth.toFloat()
-    private var height = image.regionHeight.toFloat()
+    protected var width = image.regionWidth.toFloat()
+    protected var height = image.regionHeight.toFloat()
 
     private var lerpAlpha = -1f
     private var destination = Vector2()
@@ -20,18 +20,19 @@ open class ImageButton(private val image: TextureRegion, x: Float = 0f, y: Float
         setPosition(x, y)
     }
 
+    fun x() = pos.x
+
     fun setPosition(x: Float, y: Float) {
         pos.x = x
         pos.y = y
     }
 
-    fun lerpTo(x: Float, y: Float, a: Float) {
+    fun lerpTo(x: Float, y: Float, a: Float = 0.1f) {
         destination.set(x, y)
         lerpAlpha = a
     }
 
     fun containsPoint(x: Float, y: Float): Boolean {
-        println("rect ${pos.x - width / 2}, ${pos.y - height / 2}, $width, $height, point $x $y")
         return pos.x - width / 2 <= x && pos.x + width / 2 >= x && pos.y - height / 2 <= y && pos.y + height / 2 >= y
     }
 

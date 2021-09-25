@@ -10,10 +10,12 @@ class TitleState(context: Context) : GameState(context) {
     private val pixel = context.getImage("pixel")
     private val title = ImageButton(context.getImage("title"))
     private val playButton = TextButton(context, context.getImage("play"), Constants.WIDTH / 4, 30f)
+    private val onlineButton = TextButton(context, context.getImage("online"), Constants.WIDTH / 2, 30f)
+    private val avatarButton = TextButton(context, context.getImage("avatar"), 3 * Constants.WIDTH / 4, 30f)
 
     init {
         title.setPosition(Constants.WIDTH / 2f, Constants.HEIGHT + 100f)
-        title.lerpTo(Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0.1f)
+        title.lerpTo(Constants.WIDTH / 2f, Constants.HEIGHT / 2f)
     }
 
     private fun handleInput() {
@@ -21,7 +23,7 @@ class TitleState(context: Context) : GameState(context) {
             unprojectTouch()
             if (playButton.containsPoint(touchPoint.x, touchPoint.y)) {
                 ignoreInput = true
-                context.gsm.push(TransitionState(context, LevelSelectState(context, Area.GRASS)))
+                context.gsm.push(TransitionState(context, AreaSelectState(context)))
             }
         }
     }
@@ -49,6 +51,8 @@ class TitleState(context: Context) : GameState(context) {
             sb.resetColor()
             title.render(sb)
             playButton.render(sb)
+            onlineButton.render(sb)
+            avatarButton.render(sb)
         }
     }
 }

@@ -80,7 +80,12 @@ class LevelSelectState(
                 staticCam.unproject(touchPoint)
                 if (backButton.rect.contains(touchPoint)) {
                     ignoreInput = true
-                    context.gsm.push(TransitionState(context, TitleState(context)))
+                    context.gsm.push(
+                        TransitionState(
+                            context,
+                            AreaSelectState(context, area.ordinal)
+                        )
+                    )
                 }
                 if (leftButton.rect.contains(touchPoint)) {
                     if (page > 0) {

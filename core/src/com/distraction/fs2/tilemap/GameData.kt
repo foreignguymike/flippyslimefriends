@@ -9,7 +9,7 @@ class GameData(val context: Context) {
 
     val mapData = mapOf(
         Area.TUTORIAL to arrayOf(),
-        Area.GRASS to arrayOf(
+        Area.MEADOW to arrayOf(
             MapData(
                 numRows = 3, numCols = 3,
                 map = intArrayOf(
@@ -127,10 +127,10 @@ class GameData(val context: Context) {
                 )
             )
         ),
-        Area.ICE to arrayOf(),
-        Area.DESERT to arrayOf(),
-        Area.FLOATING to arrayOf(),
-        Area.WATER to arrayOf(),
+        Area.TUNDRA to arrayOf(),
+        Area.SANDS to arrayOf(),
+        Area.RUINS to arrayOf(),
+        Area.SUNKEN to arrayOf(),
         Area.MATRIX to arrayOf()
     )
 
@@ -166,14 +166,14 @@ class GameData(val context: Context) {
 
 }
 
-enum class Area {
-    TUTORIAL,
-    GRASS,
-    ICE,
-    DESERT,
-    FLOATING,
-    WATER,
-    MATRIX
+enum class Area(val text: String) {
+    TUTORIAL("tutorial"),
+    MEADOW("meadow"),
+    TUNDRA("tundra"),
+    SANDS("sands"),
+    RUINS("ruins"),
+    SUNKEN("sunken"),
+    MATRIX("matrix")
 }
 
 class MapData(
