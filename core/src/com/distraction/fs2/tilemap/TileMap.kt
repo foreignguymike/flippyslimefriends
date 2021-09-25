@@ -10,7 +10,7 @@ import com.distraction.fs2.tilemap.tileobjects.*
 class TileMap(
     private val context: Context,
     private val tileListener: TileListener,
-    area: Area,
+    private val area: Area,
     level: Int
 ) :
     Tile.TileMoveListener {
@@ -47,7 +47,8 @@ class TileMap(
                     this,
                     row,
                     col,
-                    index
+                    index,
+                    area
                 )
                     .apply {
                         mapData.path?.forEach { ppd ->

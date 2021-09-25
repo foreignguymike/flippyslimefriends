@@ -25,7 +25,7 @@ class Player(
 
     override var speed = TileMap.TILE_SIZE * 2
 
-    private val jumpHeight = 20f
+    private val jumpHeight = 30f
     private var totalDist = 0f
     private var moving = false
     private var sliding = false
@@ -37,34 +37,34 @@ class Player(
 
     init {
         setPositionFromTile(startRow, startCol)
-        p.z = 4f
+        p.z = BASELINE
         pdest.set(p)
 
         currentTile = tileMap.getTile(row, col)
 
         animationSet.addAnimation(
             "idle",
-            Animation(context.getImage("playeridle").split(16, 18)[0], 1f / 2f)
+            Animation(context.getImage("playeridle").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0], 0.5f)
         )
         animationSet.addAnimation(
             "idler",
-            Animation(context.getImage("playeridler").split(16, 18)[0], 1f / 2f)
+            Animation(context.getImage("playeridler").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0], 0.5f)
         )
         animationSet.addAnimation(
             "jump",
-            Animation(context.getImage("playerjump").split(13, 18)[0], -1f)
+            Animation(context.getImage("playerjump").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0], 0.1f, 1)
         )
         animationSet.addAnimation(
             "jumpr",
-            Animation(context.getImage("playerjumpr").split(13, 18)[0], -1f)
+            Animation(context.getImage("playerjumpr").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0], 0.1f, 1)
         )
         animationSet.addAnimation(
             "crouch",
-            Animation(context.getImage("playercrouch").split(16, 18)[0], 1f / 10f)
+            Animation(context.getImage("playercrouch").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0], 0.1f)
         )
         animationSet.addAnimation(
             "crouchr",
-            Animation(context.getImage("playercrouchr").split(16, 18)[0], 1f / 10f)
+            Animation(context.getImage("playercrouchr").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0], 0.1f)
         )
 
         animationSet.setAnimation("idle")
@@ -207,9 +207,9 @@ class Player(
 
     private fun updateBounceHeight() {
         when {
-            superjump -> p.z = 4f + jumpHeight * 1.5f * getArc()
-            sliding -> p.z = 4f
-            else -> p.z = 4f + jumpHeight * getArc()
+            superjump -> p.z = BASELINE + jumpHeight * 1.5f * getArc()
+            sliding -> p.z = BASELINE
+            else -> p.z = BASELINE + jumpHeight * getArc()
         }
     }
 
@@ -300,6 +300,12 @@ class Player(
                 )
             }
         }
+    }
+
+    companion object {
+        const val SPRITE_WIDTH = 30
+        const val SPRITE_HEIGHT = 30
+        const val BASELINE = -3f
     }
 
 }

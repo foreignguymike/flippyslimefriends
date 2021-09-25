@@ -3,8 +3,10 @@ package com.distraction.fs2
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 
 class Animation(
-        private val sprites: Array<TextureRegion>,
-        private val delay: Float = 1f/60) {
+    private val sprites: Array<TextureRegion>,
+    private val delay: Float = 1f / 60,
+    private val repeatCount: Int = -1
+) {
 
     private var time = 0f
     private var frameIndex = 0
@@ -17,6 +19,9 @@ class Animation(
     }
 
     fun update(dt: Float) {
+        if (playCount == repeatCount) {
+            return
+        }
         if (delay < 0) {
             return
         }
@@ -25,8 +30,11 @@ class Animation(
             time -= delay
             frameIndex++
             if (frameIndex >= sprites.size) {
-                frameIndex = 0
                 playCount++
+                frameIndex = when {
+                    playCount != repeatCount -> 0
+                    else -> sprites.size - 1
+                }
             }
         }
     }

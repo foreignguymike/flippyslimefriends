@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
 import com.distraction.fs2.drawPadded
 import com.distraction.fs2.moveTo
+import com.distraction.fs2.tilemap.data.Area
 import com.distraction.fs2.tilemap.data.PathPointData
 import com.distraction.fs2.tilemap.tileobjects.Arrow
 import com.distraction.fs2.tilemap.tileobjects.TileObject
@@ -14,7 +15,8 @@ class Tile(
     val tileMap: TileMap,
     var row: Int,
     var col: Int,
-    var index: Int
+    var index: Int,
+    var area: Area
 ) {
 
     interface TileMoveListener {
@@ -46,7 +48,8 @@ class Tile(
     val pdest = Vector3()
 
     var image = context.gameData.getTile(index)
-    var bottomImage = context.getImage("tilebottom")
+    var bottomImage =
+        areaMap[area]?.let { context.getImage(it) } ?: run { context.getImage("tilegrass") }
 
     init {
         tileMap.toPosition(row, col, p)
@@ -178,6 +181,11 @@ class Tile(
         // rendering order for tile objects
         val tileObjectRenderOrder = listOf(
             Arrow::class.java
+        )
+
+        val areaMap = mapOf(
+            Area.MEADOW to "tilegrass",
+            Area.TUNDRA to "tilesnow"
         )
     }
 }

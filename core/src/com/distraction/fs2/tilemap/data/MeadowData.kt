@@ -57,16 +57,16 @@ object MeadowData {
             playerPositions = listOf(TilePoint(1, 0))
         ),
         MapData(
-            numRows = 5, numCols = 3,
+            numRows = 5, numCols = 4,
             map = intArrayOf(
-                e, 0, 0,
-                e, 0, 0,
-                0, 0, e,
-                0, 0, e,
-                0, 0, 0
+                e, e, 0, 0,
+                e, e, 0, 0,
+                e, 0, 0, e,
+                e, 0, 0, e,
+                0, 0, 0, e
             ),
-            target = 16,
-            playerPositions = listOf(TilePoint(2, 1))
+            target = 14,
+            playerPositions = listOf(TilePoint(2, 2))
         ),
         MapData(
             numRows = 4, numCols = 4,
