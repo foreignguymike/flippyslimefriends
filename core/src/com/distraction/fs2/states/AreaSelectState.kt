@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.*
-import com.distraction.fs2.tilemap.Area
-import com.distraction.fs2.tilemap.GameColor
+import com.distraction.fs2.tilemap.data.Area
+import com.distraction.fs2.tilemap.data.GameColor
 import kotlin.math.absoluteValue
 
 class AreaSelectState(context: Context, private var currentIndex: Int = 0) : GameState(context) {
@@ -19,7 +19,7 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
 
     init {
         if (currentIndex != 0) {
-            moveAreaButtons()
+            moveAreaButtons(false)
         }
     }
 
@@ -46,12 +46,19 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
         }
     }
 
-    private fun moveAreaButtons() {
+    private fun moveAreaButtons(lerp: Boolean = true) {
         areaButtons.forEachIndexed { index, areaButton ->
-            areaButton.lerpTo(
-                Constants.WIDTH / 2 + index * width - currentIndex * width,
-                Constants.HEIGHT / 2
-            )
+            if (lerp) {
+                areaButton.lerpTo(
+                    Constants.WIDTH / 2 + index * width - currentIndex * width,
+                    Constants.HEIGHT / 2
+                )
+            } else {
+                areaButton.setPosition(
+                    Constants.WIDTH / 2 + index * width - currentIndex * width,
+                    Constants.HEIGHT / 2
+                )
+            }
         }
     }
 

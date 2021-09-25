@@ -1,9 +1,13 @@
 package com.distraction.fs2.tilemap
 
+@Deprecated("legacy, just keep for reference")
 class TileMapDataModel(val numRows: Int, val numCols: Int, val grid: IntArray, val objs: Array<TileObjectDataModel> = arrayOf(), val startRow: Int = 0, val startCol: Int = 0, val goal: Int)
+@Deprecated("legacy, just keep for reference")
 open class TileObjectDataModel(val type: TileObjectType, val row: Int, val col: Int)
+@Deprecated("legacy, just keep for reference")
 class TeleportDataModel(type: TileObjectType, row: Int, col: Int, val row2: Int, val col2: Int) : TileObjectDataModel(type, row, col)
 
+@Deprecated("legacy, just keep for reference")
 enum class TileObjectType {
     ARROW_RIGHT,
     ARROW_LEFT,
@@ -13,6 +17,7 @@ enum class TileObjectType {
     TELEPORT
 }
 
+@Deprecated("legacy, just keep for reference")
 class TileMapData {
     companion object {
         val levelData = arrayOf(

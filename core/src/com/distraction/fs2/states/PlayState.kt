@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.distraction.fs2.*
-import com.distraction.fs2.tilemap.Area
+import com.distraction.fs2.tilemap.data.Area
 import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.tileobjects.Player
 
@@ -32,7 +32,9 @@ class PlayState(context: Context, private val area: Area, private val level: Int
         camera.update()
 
         hud.setTarget(tileMap.mapData.target)
-        hud.setBest(context.scoreHandler.scores[level - 1])
+        context.scoreHandler.scores[area]?.let {
+            hud.setBest(it[level - 1])
+        }
     }
 
     override fun onMoved() {
@@ -45,7 +47,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
         if (tileMap.isFinished()) {
             ignoreInput = true
             if (hud.getBest() == 0 || hud.getMoves() < hud.getBest()) {
-                context.scoreHandler.saveScore(level - 1, hud.getMoves())
+                context.scoreHandler.saveScore(area, level - 1, hud.getMoves())
             }
             context.gsm.push(LevelFinishState(context, area, level, hud.getMoves(), hud.getBest()))
         }

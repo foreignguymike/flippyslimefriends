@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
+import com.distraction.fs2.tilemap.data.*
 import com.distraction.fs2.tilemap.tileobjects.*
 
 class TileMap(

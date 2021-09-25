@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
-import com.distraction.fs2.tilemap.GameColor
+import com.distraction.fs2.tilemap.data.GameColor
 import kotlin.math.absoluteValue
 import kotlin.math.sqrt
 

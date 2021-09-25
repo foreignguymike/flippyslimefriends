@@ -3,9 +3,9 @@ package com.distraction.fs2.tilemap.tileobjects
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.distraction.fs2.*
-import com.distraction.fs2.tilemap.Direction
 import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
+import com.distraction.fs2.tilemap.data.Direction
 import kotlin.math.absoluteValue
 
 class Player(

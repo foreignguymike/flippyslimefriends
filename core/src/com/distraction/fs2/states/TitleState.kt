@@ -3,8 +3,8 @@ package com.distraction.fs2.states
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.*
-import com.distraction.fs2.tilemap.Area
-import com.distraction.fs2.tilemap.GameColor
+import com.distraction.fs2.tilemap.data.Area
+import com.distraction.fs2.tilemap.data.GameColor
 
 class TitleState(context: Context) : GameState(context) {
     private val pixel = context.getImage("pixel")

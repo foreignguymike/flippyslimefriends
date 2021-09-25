@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
 import com.distraction.fs2.drawPadded
 import com.distraction.fs2.moveTo
+import com.distraction.fs2.tilemap.data.PathPointData
 import com.distraction.fs2.tilemap.tileobjects.Arrow
 import com.distraction.fs2.tilemap.tileobjects.TileObject
 

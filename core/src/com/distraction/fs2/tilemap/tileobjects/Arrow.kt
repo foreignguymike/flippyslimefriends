@@ -2,8 +2,8 @@ package com.distraction.fs2.tilemap.tileobjects
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.*
-import com.distraction.fs2.tilemap.Direction
 import com.distraction.fs2.tilemap.TileMap
+import com.distraction.fs2.tilemap.data.Direction
 
 class Arrow(context: Context, tileMap: TileMap, row: Int, col: Int, val direction: Direction) : TileObject(context, tileMap) {
 

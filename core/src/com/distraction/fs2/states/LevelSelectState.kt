@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Rectangle
 import com.distraction.fs2.*
-import com.distraction.fs2.tilemap.Area
+import com.distraction.fs2.tilemap.data.Area
 
 class LevelSelectState(
     context: Context,
@@ -126,7 +126,7 @@ class LevelSelectState(
             sb.projectionMatrix = camera.combined
             levels.forEachIndexed { i, it ->
                 val c = sb.color
-                val best = context.scoreHandler.scores[i]
+                val best = context.scoreHandler.getScores(area)[i]
                 if (best == 0) {
                     sb.color = disableColor
                 }

@@ -5,8 +5,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.distraction.fs2.*
-import com.distraction.fs2.tilemap.Area
-import com.distraction.fs2.tilemap.TileMapData
+import com.distraction.fs2.tilemap.data.Area
 
 class LevelFinishState(
     context: Context,
@@ -47,7 +46,7 @@ class LevelFinishState(
             if (Gdx.input.justTouched()) {
                 touchPoint.set(1f * Gdx.input.x, 1f * Gdx.input.y, 0f)
                 camera.unproject(touchPoint)
-                if (level < TileMapData.levelData.size && nextButton.rect.contains(touchPoint)) {
+                if (level < context.gameData.getMapData(area).size && nextButton.rect.contains(touchPoint)) {
                     ignoreInput = true
                     context.gsm.push(
                         TransitionState(
@@ -99,7 +98,7 @@ class LevelFinishState(
 
             sb.drawButton(restartButton)
             sb.drawButton(backButton)
-            if (level < TileMapData.levelData.size) sb.drawButton(nextButton)
+            if (level < context.gameData.getMapData(area).size) sb.drawButton(nextButton)
         }
     }
 }
