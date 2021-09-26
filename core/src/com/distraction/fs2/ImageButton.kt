@@ -7,20 +7,25 @@ import com.badlogic.gdx.math.Vector2
 /**
  * Need to be wary that Rectangle uses x,y as the bottom left corner.
  */
-open class ImageButton(protected val image: TextureRegion, x: Float = 0f, y: Float = 0f) {
+open class ImageButton(
+    protected val image: TextureRegion,
+    x: Float = 0f,
+    y: Float = 0f,
+    private val padding: Float = 0f
+) {
 
-    protected var pos = Vector2()
-    protected var width = image.regionWidth.toFloat()
-    protected var height = image.regionHeight.toFloat()
+    var pos = Vector2()
+    var width = image.regionWidth.toFloat()
+    var height = image.regionHeight.toFloat()
 
     private var lerpAlpha = -1f
     private var destination = Vector2()
 
+    var flipped = false
+
     init {
         setPosition(x, y)
     }
-
-    fun x() = pos.x
 
     fun setPosition(x: Float, y: Float) {
         pos.x = x
@@ -32,9 +37,11 @@ open class ImageButton(protected val image: TextureRegion, x: Float = 0f, y: Flo
         lerpAlpha = a
     }
 
-    fun containsPoint(x: Float, y: Float): Boolean {
-        return pos.x - width / 2 <= x && pos.x + width / 2 >= x && pos.y - height / 2 <= y && pos.y + height / 2 >= y
-    }
+    fun containsPoint(x: Float, y: Float) =
+        pos.x - width / 2 - padding <= x
+                && pos.x + width / 2 + padding >= x
+                && pos.y - height / 2 - padding <= y
+                && pos.y + height / 2 + padding >= y
 
     fun update(dt: Float) {
         if (lerpAlpha >= 0f) {
@@ -46,7 +53,11 @@ open class ImageButton(protected val image: TextureRegion, x: Float = 0f, y: Flo
     }
 
     open fun render(sb: SpriteBatch) {
-        sb.draw(image, pos.x - width / 2f, pos.y - height / 2f)
+        if (flipped) {
+            sb.drawHFlip(image, pos.x + width / 2f, pos.y - height / 2f)
+        } else {
+            sb.draw(image, pos.x - width / 2f, pos.y - height / 2f)
+        }
     }
 
 }

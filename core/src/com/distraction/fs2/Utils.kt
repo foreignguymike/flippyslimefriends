@@ -117,20 +117,6 @@ fun SpriteBatch.drawRotated(textureRegion: TextureRegion, x: Float, y: Float, de
     )
 }
 
-fun SpriteBatch.drawButton(button: Button, hflip: Boolean = false) {
-    if (hflip) {
-        draw(
-            button.image,
-            button.rect.x + button.image.regionWidth,
-            button.rect.y,
-            -button.rect.width,
-            button.rect.height
-        )
-    } else {
-        draw(button.image, button.rect.x, button.rect.y, button.rect.width, button.rect.height)
-    }
-}
-
 fun SpriteBatch.resetColor() {
     setColor(1f, 1f, 1f, 1f)
 }

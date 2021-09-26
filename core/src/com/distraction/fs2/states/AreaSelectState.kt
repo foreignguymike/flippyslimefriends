@@ -16,6 +16,18 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
             setPosition(Constants.WIDTH / 2 + index * width, Constants.HEIGHT / 2)
         }
     }
+    private val leftArrow = ImageButton(
+        context.getImage("areaselectarrow"),
+        50f,
+        Constants.HEIGHT / 4,
+        20f
+    ).apply { flipped = true }
+    private val rightArrow = ImageButton(
+        context.getImage("areaselectarrow"),
+        Constants.WIDTH - 50f,
+        Constants.HEIGHT / 4,
+        20f
+    )
 
     init {
         if (currentIndex != 0) {
@@ -32,17 +44,44 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
         )
     }
 
+    private fun moveLeft() {
+        if (currentIndex > 0) currentIndex--
+        moveAreaButtons()
+    }
+
+    private fun moveRight() {
+        if (currentIndex < areaButtons.size - 1) currentIndex++
+        moveAreaButtons()
+    }
+
     private fun handleInput() {
         when {
-            Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) -> {
-                if (currentIndex < areaButtons.size - 1) currentIndex++
-                moveAreaButtons()
-            }
-            Gdx.input.isKeyJustPressed(Input.Keys.LEFT) -> {
-                if (currentIndex > 0) currentIndex--
-                moveAreaButtons()
-            }
+            Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) -> moveRight()
+            Gdx.input.isKeyJustPressed(Input.Keys.LEFT) -> moveLeft()
             Gdx.input.isKeyJustPressed(Input.Keys.ENTER) -> goToLevelSelect()
+            Gdx.input.justTouched() -> {
+                unprojectTouch()
+                when {
+                    leftArrow.containsPoint(touchPoint.x, touchPoint.y) -> moveLeft()
+                    rightArrow.containsPoint(touchPoint.x, touchPoint.y) -> moveRight()
+                    areaButtons[currentIndex].containsPoint(touchPoint.x, touchPoint.y) ->
+                        goToLevelSelect()
+                    // maybe
+//                    else -> {
+//                        val index = areaButtons.indexOfFirst {
+//                            it.containsPoint(touchPoint.x, touchPoint.y)
+//                        }
+//                        if (index >= 0) {
+//                            if (index == currentIndex) {
+//                                goToLevelSelect()
+//                            } else {
+//                                currentIndex = index
+//                                moveAreaButtons()
+//                            }
+//                        }
+//                    }
+                }
+            }
         }
     }
 
@@ -68,7 +107,7 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
         }
         areaButtons.forEachIndexed { index, areaButton ->
             areaButton.scale =
-                1f / (1f + (Constants.WIDTH / 2 - areaButton.x()).absoluteValue / 100f)
+                1f / (1f + (Constants.WIDTH / 2 - areaButton.pos.x).absoluteValue / 100f)
             areaButton.update(dt)
         }
     }
@@ -85,6 +124,8 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
             for (i in areaButtons.size - 1 downTo currentIndex) {
                 areaButtons[i].render(sb)
             }
+            leftArrow.render(sb)
+            rightArrow.render(sb)
         }
     }
 }

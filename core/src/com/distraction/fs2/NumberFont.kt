@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 
 fun Char.intValue(): Int = if (this !in '0'..'9') throw NumberFormatException() else toInt() - '0'.toInt()
 
-class NumberFont(context: Context, private var centered: Boolean = false) {
+class NumberFont(context: Context, private var centerAlign: Boolean = false) {
     private val images = Array(10) {
         context.getImage(it.toString())
     }
@@ -24,16 +24,16 @@ class NumberFont(context: Context, private var centered: Boolean = false) {
     fun render(sb: SpriteBatch, x: Float, y: Float, num: Int = this.num) {
         val s = num.toString()
         var offset = 0
-        if (centered) {
+        if (centerAlign) {
             for (c in s) {
                 val n = c.intValue()
-                sb.draw(images[n], x + offset - length / 2, y)
+                sb.draw(images[n], x + offset - length / 2, y - images[n].regionHeight / 2)
                 offset += images[n].regionWidth
             }
         } else {
             for (c in s) {
                 val n = c.intValue()
-                sb.draw(images[n], x + offset, y)
+                sb.draw(images[n], x + offset, y - images[n].regionHeight / 2)
                 offset += images[n].regionWidth
             }
         }

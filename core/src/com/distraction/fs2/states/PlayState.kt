@@ -85,6 +85,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
 
     override fun update(dt: Float) {
         if (!ignoreInput) {
+            unprojectTouch()
             hud.update()
             when {
                 Gdx.input.isKeyPressed(Input.Keys.RIGHT) -> player.moveTile(0, 1)

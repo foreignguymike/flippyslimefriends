@@ -25,7 +25,7 @@ class Player(
 
     override var speed = TileMap.TILE_SIZE * 2
 
-    private val jumpHeight = 30f
+    private val jumpHeight = 40f
     private var totalDist = 0f
     private var moving = false
     private var sliding = false

@@ -12,7 +12,7 @@ class Background(val context: Context, private var color: Color = Color.valueOf(
 
     private val bgs = arrayListOf<Vector3>()
     private val speed = 5f
-    private val interval = 5f
+    private val interval = 5f * 2
     private var time = interval
     private var time2 = 0f
     private var rot = 0f
