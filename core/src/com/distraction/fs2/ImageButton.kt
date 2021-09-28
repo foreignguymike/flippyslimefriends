@@ -21,6 +21,8 @@ open class ImageButton(
     private var lerpAlpha = -1f
     private var destination = Vector2()
 
+    var scale = 1f
+
     var flipped = false
 
     init {
@@ -37,11 +39,14 @@ open class ImageButton(
         lerpAlpha = a
     }
 
-    fun containsPoint(x: Float, y: Float) =
-        pos.x - width / 2 - padding <= x
-                && pos.x + width / 2 + padding >= x
-                && pos.y - height / 2 - padding <= y
-                && pos.y + height / 2 + padding >= y
+    fun containsPoint(x: Float, y: Float): Boolean {
+        val scaledWidth = width * scale
+        val scaledHeight = height * scale
+        return pos.x - scaledWidth / 2 - padding <= x
+                && pos.x + scaledWidth / 2 + padding >= x
+                && pos.y - scaledHeight / 2 - padding <= y
+                && pos.y + scaledHeight / 2 + padding >= y
+    }
 
     fun update(dt: Float) {
         if (lerpAlpha >= 0f) {
@@ -53,10 +58,24 @@ open class ImageButton(
     }
 
     open fun render(sb: SpriteBatch) {
+        val scaledWidth = width * scale
+        val scaledHeight = height * scale
         if (flipped) {
-            sb.drawHFlip(image, pos.x + width / 2f, pos.y - height / 2f)
+            sb.drawHFlip(
+                image,
+                pos.x + scaledWidth / 2f,
+                pos.y - scaledHeight / 2f,
+                scaledWidth,
+                scaledHeight
+            )
         } else {
-            sb.draw(image, pos.x - width / 2f, pos.y - height / 2f)
+            sb.draw(
+                image,
+                pos.x - scaledWidth / 2f,
+                pos.y - scaledHeight / 2f,
+                scaledWidth,
+                scaledHeight
+            )
         }
     }
 

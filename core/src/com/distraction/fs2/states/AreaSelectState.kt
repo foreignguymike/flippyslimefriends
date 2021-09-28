@@ -12,7 +12,7 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
 
     private val width = Constants.WIDTH / 5f
     private val areaButtons = Area.values().mapIndexed { index, area ->
-        AreaButton(context.getImage(area.text)).apply {
+        ImageButton(context.getImage(area.text)).apply {
             setPosition(Constants.WIDTH / 2 + index * width, Constants.HEIGHT / 2)
         }
     }
@@ -30,9 +30,7 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
     )
 
     init {
-        if (currentIndex != 0) {
-            moveAreaButtons(false)
-        }
+        moveAreaButtons(false)
     }
 
     private fun goToLevelSelect() {

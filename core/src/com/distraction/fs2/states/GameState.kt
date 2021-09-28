@@ -9,6 +9,7 @@ import com.distraction.fs2.Constants
 import com.distraction.fs2.Context
 
 abstract class GameState(protected val context: Context) {
+    protected val pixel = context.getImage("pixel")
     var ignoreInput = false
     val touchPoint = Vector3()
     protected val camera = OrthographicCamera().apply {

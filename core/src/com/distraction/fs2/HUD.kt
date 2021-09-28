@@ -10,7 +10,6 @@ import com.distraction.fs2.ButtonListener.ButtonType.*
 
 class HUD(context: Context, private val buttonListener: ButtonListener) {
     private val touchPoint = Vector3()
-    private val alpha = 0.5f
 
     // for arrow button placement
     private val a = Vector2(60f, 60f)
@@ -36,17 +35,18 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
                 ImageButton(
                     context.getImage("downleftarrow"),
                     a.x - dist, a.y - dist
-                ),
-        BACK to
-                ImageButton(
-                    context.getImage("back"),
-                    50f, Constants.HEIGHT - 20f
-                ),
-        RESTART to
-                ImageButton(
-                    context.getImage("restart"),
-                    50f, Constants.HEIGHT - 37f
                 )
+    )
+
+    private val backButton = TextButton(
+        context.getImage("back"),
+        context.getImage("buttonbg"),
+        50f, Constants.HEIGHT - 20f
+    )
+    private val restartButton = TextButton(
+        context.getImage("restart"),
+        context.getImage("buttonbg"),
+        50f, Constants.HEIGHT - 45f
     )
 
     private val labels = arrayOf(
@@ -90,13 +90,21 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
     }
 
     fun update() {
+        buttons.values.forEach { it.scale = 1f }
         if (Gdx.input.isTouched) {
             touchPoint.set(1f * Gdx.input.x, 1f * Gdx.input.y, 0f)
             cam.unproject(touchPoint)
             buttons.forEach { (key, value) ->
                 if (value.containsPoint(touchPoint.x, touchPoint.y)) {
                     buttonListener.onButtonPressed(key)
+                    value.scale = 0.75f
                 }
+            }
+            if (backButton.containsPoint(touchPoint.x, touchPoint.y)) {
+                buttonListener.onButtonPressed(BACK)
+            }
+            if (restartButton.containsPoint(touchPoint.x, touchPoint.y)) {
+                buttonListener.onButtonPressed(RESTART)
             }
         }
     }
@@ -105,6 +113,8 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
         sb.projectionMatrix = fontCam.combined
         sb.projectionMatrix = cam.combined
         buttons.values.forEach { it.render(sb) }
+        backButton.render(sb)
+        restartButton.render(sb)
         labels.forEach { it.render(sb) }
     }
 }

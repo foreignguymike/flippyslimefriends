@@ -72,7 +72,13 @@ fun SpriteBatch.drawRectangle(
     draw(textureRegion, x + w, y, 1f, h)
 }
 
-fun SpriteBatch.drawHFlip(textureRegion: TextureRegion, x: Float, y: Float) {
+fun SpriteBatch.drawHFlip(
+    textureRegion: TextureRegion,
+    x: Float,
+    y: Float,
+    w: Float = textureRegion.regionWidth.toFloat(),
+    h: Float = textureRegion.regionHeight.toFloat()
+) {
     draw(
         textureRegion,
         x,
@@ -123,12 +129,6 @@ fun SpriteBatch.resetColor() {
 
 fun SpriteBatch.setColor(color: GameColor) {
     setColor(color.r, color.g, color.b, color.a)
-}
-
-// exclusive
-infix fun Int.toward(to: Int): IntProgression {
-    val step = if (this > to) -1 else 1
-    return IntProgression.fromClosedRange(this, to - step, step)
 }
 
 fun clearScreen(r: Int = 0, g: Int = 0, b: Int = 0, a: Int = 0) {

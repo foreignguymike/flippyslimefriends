@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 
 class TextButton(
-    context: Context,
     private val textImage: TextureRegion,
+    bgImage: TextureRegion,
     x: Float = 0f,
     y: Float = 0f
-) : ImageButton(context.getImage("button"), x, y) {
+) : ImageButton(bgImage, x, y) {
 
     override fun render(sb: SpriteBatch) {
         super.render(sb)

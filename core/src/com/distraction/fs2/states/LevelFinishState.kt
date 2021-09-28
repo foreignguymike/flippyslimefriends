@@ -33,9 +33,9 @@ class LevelFinishState(
     )
     private val newRecordImage = ImageButton(context.getImage("newrecord"), Constants.WIDTH / 2f, Constants.HEIGHT / 4)
 
-    private val restartButton = ImageButton(context.getImage("restart"), 50f, Constants.HEIGHT - 37f)
-    private val backButton = ImageButton(context.getImage("back"), 50f, Constants.HEIGHT - 20f)
-    private val nextButton = ImageButton(context.getImage("next"), Constants.WIDTH / 2f, 15f)
+    private val restartButton = TextButton(context.getImage("restart"), context.getImage("buttonbg"),50f, Constants.HEIGHT - 45f)
+    private val backButton = TextButton(context.getImage("back"), context.getImage("buttonbg"),50f, Constants.HEIGHT - 20f)
+    private val nextButton = TextButton(context.getImage("next"), context.getImage("buttonbg"),Constants.WIDTH / 2f, 15f)
 
     init {
         context.gsm.depth++
@@ -45,7 +45,7 @@ class LevelFinishState(
         if (!ignoreInput) {
             if (Gdx.input.justTouched()) {
                 unprojectTouch()
-                if (level < context.gameData.getMapData(area).size && nextButton.containsPoint(touchPoint.x, touchPoint.y)) {
+                if (level < context.gameData.getMapData(area).size - 1 && nextButton.containsPoint(touchPoint.x, touchPoint.y)) {
                     ignoreInput = true
                     context.gsm.push(
                         TransitionState(
@@ -97,7 +97,7 @@ class LevelFinishState(
 
             restartButton.render(sb)
             backButton.render(sb)
-            if (level < context.gameData.getMapData(area).size) nextButton.render(sb)
+            if (level < context.gameData.getMapData(area).size - 1) nextButton.render(sb)
         }
     }
 }

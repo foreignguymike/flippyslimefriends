@@ -3,15 +3,15 @@ package com.distraction.fs2.states
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.*
-import com.distraction.fs2.tilemap.data.Area
 import com.distraction.fs2.tilemap.data.GameColor
 
 class TitleState(context: Context) : GameState(context) {
-    private val pixel = context.getImage("pixel")
     private val title = ImageButton(context.getImage("title"))
-    private val playButton = TextButton(context, context.getImage("play"), Constants.WIDTH / 4, 30f)
-    private val onlineButton = TextButton(context, context.getImage("online"), Constants.WIDTH / 2, 30f)
-    private val avatarButton = TextButton(context, context.getImage("avatar"), 3 * Constants.WIDTH / 4, 30f)
+    private val playButton = TextButton(context.getImage("play"), context.getImage("button"),Constants.WIDTH / 4, 30f)
+    private val onlineButton =
+        TextButton(context.getImage("online"), context.getImage("button"), Constants.WIDTH / 2, 30f)
+    private val avatarButton =
+        TextButton(context.getImage("avatar"), context.getImage("button"),3 * Constants.WIDTH / 4, 30f)
 
     init {
         title.setPosition(Constants.WIDTH / 2f, Constants.HEIGHT + 100f)

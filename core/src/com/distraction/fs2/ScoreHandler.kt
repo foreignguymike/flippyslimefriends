@@ -15,15 +15,11 @@ class ScoreHandler(context: Context) {
         Gdx.app.getPreferences("${area.text}scores")
 
     fun load() {
-        println("load scores")
         Area.values().forEach { area ->
             with(getPreferences(area)) {
                 val areaScores = getScores(area)
-                println("${area.text} size ${areaScores.size}")
                 for (i in areaScores.indices) {
-                    println("checking ${area.text} level $i")
                     if (!contains(i.toString())) {
-                        println("putting new value $i")
                         putInteger(i.toString(), 0)
                         flush()
                     }

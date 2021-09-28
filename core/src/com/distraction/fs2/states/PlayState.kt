@@ -14,7 +14,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
     GameState(context), Player.MoveListener,
     ButtonListener, TileMap.TileListener {
 
-    private val tileMap = TileMap(context, this, area, level - 1)
+    private val tileMap = TileMap(context, this, area, level)
     private val players = tileMap.mapData.playerPositions.map {
         Player(context, tileMap, this, it.row, it.col)
     }
@@ -33,7 +33,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
 
         hud.setTarget(tileMap.mapData.target)
         context.scoreHandler.scores[area]?.let {
-            hud.setBest(it[level - 1])
+            hud.setBest(it[level])
         }
     }
 
@@ -47,7 +47,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
         if (tileMap.isFinished()) {
             ignoreInput = true
             if (hud.getBest() == 0 || hud.getMoves() < hud.getBest()) {
-                context.scoreHandler.saveScore(area, level - 1, hud.getMoves())
+                context.scoreHandler.saveScore(area, level, hud.getMoves())
             }
             context.gsm.push(LevelFinishState(context, area, level, hud.getMoves(), hud.getBest()))
         }
