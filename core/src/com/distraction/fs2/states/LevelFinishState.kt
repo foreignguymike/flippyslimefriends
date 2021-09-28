@@ -28,7 +28,7 @@ class LevelFinishState(
     private val movesLabel = NumberLabel(
         context,
         context.getImage("moves"),
-        Vector2(Constants.WIDTH / 2 - 20f, Constants.HEIGHT - 30f),
+        Vector2(Constants.WIDTH / 2 - 25f, Constants.HEIGHT - 40f),
         moves
     )
     private val newRecordImage = ImageButton(context.getImage("newrecord"), Constants.WIDTH / 2f, Constants.HEIGHT / 4)

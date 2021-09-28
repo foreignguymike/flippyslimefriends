@@ -53,19 +53,17 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
         NumberLabel(
             context,
             context.getImage("goal"),
-            Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 16f),
-            0
+            Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 20f)
         ),
         NumberLabel(
             context,
             context.getImage("best"),
-            Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 25f),
-            0
+            Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 40f)
         ),
         NumberLabel(
             context,
             context.getImage("moves"),
-            Vector2(Constants.WIDTH - 55f, Constants.HEIGHT - 34f),
+            Vector2(Constants.WIDTH - 54f, Constants.HEIGHT - 60f),
             0
         )
     )
@@ -75,7 +73,11 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
     }
 
     fun setBest(best: Int) {
-        labels[1].num = best
+        if (best == 0) {
+            labels[1].num = -1
+        } else {
+            labels[1].num = best
+        }
     }
 
     fun getBest() = labels[1].num
@@ -136,11 +138,11 @@ class NumberLabel(
     context: Context,
     private val image: TextureRegion,
     private val pos: Vector2,
-    var num: Int
+    var num: Int = -1
 ) {
     private val numberFont = NumberFont(context)
     fun render(sb: SpriteBatch) {
         sb.draw(image, pos.x - image.regionWidth / 2, pos.y - image.regionHeight / 2)
-        numberFont.render(sb, pos.x + image.regionWidth + 5, pos.y, num)
+        numberFont.render(sb, pos.x + image.regionWidth / 2 + 5, pos.y, num)
     }
 }
