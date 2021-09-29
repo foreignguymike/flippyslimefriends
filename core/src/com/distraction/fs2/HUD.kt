@@ -10,11 +10,11 @@ import com.distraction.fs2.ButtonListener.ButtonType.*
 
 class HUD(context: Context, private val buttonListener: ButtonListener) {
     private val touchPoint = Vector3()
+    private val infoBox = InfoBox(context, Constants.WIDTH - 55f, Constants.HEIGHT - 40f, 100f, 70f)
 
     // for arrow button placement
     private val a = Vector2(60f, 60f)
     private val dist = 22f
-
     private val buttons = hashMapOf(
         LEFT to
                 ImageButton(
@@ -53,17 +53,17 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
         NumberLabel(
             context,
             context.getImage("goal"),
-            Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 20f)
+            Vector2(Constants.WIDTH - 60f, Constants.HEIGHT - 20f)
         ),
         NumberLabel(
             context,
             context.getImage("best"),
-            Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 40f)
+            Vector2(Constants.WIDTH - 60f, Constants.HEIGHT - 40f)
         ),
         NumberLabel(
             context,
             context.getImage("moves"),
-            Vector2(Constants.WIDTH - 54f, Constants.HEIGHT - 60f),
+            Vector2(Constants.WIDTH - 64f, Constants.HEIGHT - 60f),
             0
         )
     )
@@ -87,9 +87,6 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
     private val cam = OrthographicCamera().apply {
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
     }
-    private val fontCam = OrthographicCamera().apply {
-        setToOrtho(false, Constants.WIDTH * 2f, Constants.HEIGHT * 2f)
-    }
 
     fun update() {
         buttons.values.forEach { it.scale = 1f }
@@ -112,11 +109,13 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
     }
 
     fun render(sb: SpriteBatch) {
-        sb.projectionMatrix = fontCam.combined
         sb.projectionMatrix = cam.combined
+        sb.setColor(0f, 0f, 0f, 0.5f)
+        sb.resetColor()
         buttons.values.forEach { it.render(sb) }
         backButton.render(sb)
         restartButton.render(sb)
+        infoBox.render(sb)
         labels.forEach { it.render(sb) }
     }
 }

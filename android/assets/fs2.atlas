@@ -6,79 +6,9 @@ filter: Nearest,Nearest
 repeat: none
 -
   rotate: false
-  xy: 892, 97
-  size: 11, 5
-  orig: 11, 5
-  offset: 0, 0
-  index: -1
-0
-  rotate: false
-  xy: 2035, 109
-  size: 11, 17
-  orig: 11, 17
-  offset: 0, 0
-  index: -1
-1
-  rotate: false
-  xy: 1774, 93
-  size: 5, 17
-  orig: 5, 17
-  offset: 0, 0
-  index: -1
-2
-  rotate: false
-  xy: 1696, 93
-  size: 11, 17
-  orig: 11, 17
-  offset: 0, 0
-  index: -1
-3
-  rotate: false
-  xy: 1709, 93
-  size: 11, 17
-  orig: 11, 17
-  offset: 0, 0
-  index: -1
-4
-  rotate: false
-  xy: 2009, 109
-  size: 11, 17
-  orig: 11, 17
-  offset: 0, 0
-  index: -1
-5
-  rotate: false
-  xy: 2022, 109
-  size: 11, 17
-  orig: 11, 17
-  offset: 0, 0
-  index: -1
-6
-  rotate: false
-  xy: 1722, 93
-  size: 11, 17
-  orig: 11, 17
-  offset: 0, 0
-  index: -1
-7
-  rotate: false
-  xy: 1735, 93
-  size: 11, 17
-  orig: 11, 17
-  offset: 0, 0
-  index: -1
-8
-  rotate: false
-  xy: 1748, 93
-  size: 11, 17
-  orig: 11, 17
-  offset: 0, 0
-  index: -1
-9
-  rotate: false
-  xy: 1761, 93
-  size: 11, 17
-  orig: 11, 17
+  xy: 119, 2
+  size: 6, 3
+  orig: 6, 3
   offset: 0, 0
   index: -1
 areaselectarrow
@@ -90,21 +20,21 @@ areaselectarrow
   index: -1
 arrow
   rotate: false
-  xy: 1052, 32
+  xy: 1990, 111
   size: 22, 15
   orig: 22, 15
   offset: 0, 0
   index: 1
 arrow
   rotate: false
-  xy: 1109, 95
+  xy: 2014, 111
   size: 22, 15
   orig: 22, 15
   offset: 0, 0
   index: 2
 arrowbutton
   rotate: false
-  xy: 1990, 109
+  xy: 1110, 52
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
@@ -132,7 +62,7 @@ best
   index: -1
 bgs
   rotate: false
-  xy: 1109, 84
+  xy: 1680, 101
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
@@ -160,14 +90,14 @@ complete
   index: -1
 downleftarrow
   rotate: false
-  xy: 931, 8
+  xy: 1089, 71
   size: 35, 39
   orig: 35, 39
   offset: 0, 0
   index: -1
 downrightarrow
   rotate: false
-  xy: 968, 8
+  xy: 1015, 73
   size: 35, 39
   orig: 35, 39
   offset: 0, 0
@@ -186,18 +116,74 @@ ice
   orig: 50, 25
   offset: 0, 0
   index: -1
-levelcheck
+infobox
   rotate: false
-  xy: 1680, 99
-  size: 14, 11
-  orig: 14, 11
+  xy: 971, 2
+  size: 7, 7
+  orig: 7, 7
+  offset: 0, 0
+  index: 2
+infobox
+  rotate: false
+  xy: 971, 2
+  size: 7, 7
+  orig: 7, 7
+  offset: 0, 0
+  index: 0
+infobox
+  rotate: false
+  xy: 971, 2
+  size: 7, 7
+  orig: 7, 7
+  offset: 0, 0
+  index: 7
+infobox
+  rotate: false
+  xy: 971, 2
+  size: 7, 7
+  orig: 7, 7
+  offset: 0, 0
+  index: 5
+infobox
+  rotate: false
+  xy: 931, 2
+  size: 3, 1
+  orig: 3, 1
+  offset: 0, 0
+  index: 3
+infobox
+  rotate: false
+  xy: 931, 2
+  size: 3, 1
+  orig: 3, 1
+  offset: 0, 0
+  index: 4
+infobox
+  rotate: false
+  xy: 127, 2
+  size: 1, 3
+  orig: 1, 3
+  offset: 0, 0
+  index: 1
+infobox
+  rotate: false
+  xy: 127, 2
+  size: 1, 3
+  orig: 1, 3
+  offset: 0, 0
+  index: 6
+levelbutton
+  rotate: false
+  xy: 931, 5
+  size: 38, 42
+  orig: 38, 42
   offset: 0, 0
   index: -1
-levelicon
+levelcheck
   rotate: false
-  xy: 1084, 87
-  size: 23, 23
-  orig: 23, 23
+  xy: 1152, 102
+  size: 14, 11
+  orig: 14, 11
   offset: 0, 0
   index: -1
 levelselect
@@ -209,7 +195,7 @@ levelselect
   index: -1
 meadow
   rotate: false
-  xy: 456, 11
+  xy: 690, 11
   size: 115, 115
   orig: 115, 115
   offset: 0, 0
@@ -235,6 +221,146 @@ next
   orig: 41, 11
   offset: 0, 0
   index: -1
+num2
+  rotate: false
+  xy: 212, 7
+  size: 6, 11
+  orig: 6, 11
+  offset: 0, 0
+  index: 0
+num2
+  rotate: false
+  xy: 921, 36
+  size: 6, 11
+  orig: 6, 11
+  offset: 0, 0
+  index: 2
+num2
+  rotate: false
+  xy: 2038, 115
+  size: 6, 11
+  orig: 6, 11
+  offset: 0, 0
+  index: 3
+num2
+  rotate: false
+  xy: 1168, 102
+  size: 6, 11
+  orig: 6, 11
+  offset: 0, 0
+  index: 4
+num2
+  rotate: false
+  xy: 1176, 102
+  size: 6, 11
+  orig: 6, 11
+  offset: 0, 0
+  index: 6
+num2
+  rotate: false
+  xy: 1184, 102
+  size: 6, 11
+  orig: 6, 11
+  offset: 0, 0
+  index: 7
+num2
+  rotate: false
+  xy: 1192, 102
+  size: 6, 11
+  orig: 6, 11
+  offset: 0, 0
+  index: 8
+num2
+  rotate: false
+  xy: 1200, 102
+  size: 2, 11
+  orig: 2, 11
+  offset: 0, 0
+  index: 1
+num2
+  rotate: false
+  xy: 1110, 39
+  size: 6, 11
+  orig: 6, 11
+  offset: 0, 0
+  index: 9
+num2
+  rotate: false
+  xy: 1118, 39
+  size: 6, 11
+  orig: 6, 11
+  offset: 0, 0
+  index: 5
+num3
+  rotate: false
+  xy: 971, 30
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 7
+num3
+  rotate: false
+  xy: 971, 11
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 0
+num3
+  rotate: false
+  xy: 984, 31
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 9
+num3
+  rotate: false
+  xy: 984, 12
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 6
+num3
+  rotate: false
+  xy: 997, 31
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 2
+num3
+  rotate: false
+  xy: 997, 12
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 3
+num3
+  rotate: false
+  xy: 1126, 93
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 4
+num3
+  rotate: false
+  xy: 1126, 74
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 5
+num3
+  rotate: false
+  xy: 1139, 96
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 8
+num3
+  rotate: false
+  xy: 1139, 77
+  size: 5, 17
+  orig: 5, 17
+  offset: 0, 0
+  index: 1
 online
   rotate: false
   xy: 1680, 112
@@ -244,14 +370,14 @@ online
   index: -1
 pixel
   rotate: false
-  xy: 892, 94
+  xy: 1136, 112
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 dot
   rotate: false
-  xy: 892, 94
+  xy: 1136, 112
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
@@ -265,14 +391,14 @@ play
   index: -1
 playercrouch
   rotate: false
-  xy: 1052, 80
+  xy: 1052, 39
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
   index: -1
 playercrouchr
   rotate: false
-  xy: 1052, 80
+  xy: 1052, 39
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
@@ -314,7 +440,7 @@ restart
   index: -1
 sands
   rotate: false
-  xy: 690, 11
+  xy: 573, 11
   size: 115, 115
   orig: 115, 115
   offset: 0, 0
@@ -349,28 +475,28 @@ superjump
   index: -1
 teleport
   rotate: false
-  xy: 1052, 49
+  xy: 1084, 40
   size: 24, 29
   orig: 24, 29
   offset: 0, 0
   index: -1
 tileblocked
   rotate: false
-  xy: 1390, 95
+  xy: 1266, 95
   size: 60, 31
   orig: 60, 31
   offset: 0, 0
   index: -1
 tilegrass
   rotate: false
-  xy: 921, 49
+  xy: 807, 39
   size: 60, 53
   orig: 60, 53
   offset: 0, 0
   index: -1
 tilegrayfloor
   rotate: false
-  xy: 1204, 95
+  xy: 1328, 95
   size: 60, 31
   orig: 60, 31
   offset: 0, 0
@@ -391,28 +517,28 @@ tileoff
   index: -1
 tileon
   rotate: false
-  xy: 869, 2
+  xy: 1204, 95
   size: 60, 31
   orig: 60, 31
   offset: 0, 0
   index: -1
 tileperm2
   rotate: false
-  xy: 1266, 95
+  xy: 1390, 95
   size: 60, 31
   orig: 60, 31
   offset: 0, 0
   index: -1
 tileperm3
   rotate: false
-  xy: 1328, 95
+  xy: 869, 2
   size: 60, 31
   orig: 60, 31
   offset: 0, 0
   index: -1
 tilesnow
   rotate: false
-  xy: 807, 39
+  xy: 921, 49
   size: 60, 53
   orig: 60, 53
   offset: 0, 0
@@ -426,7 +552,7 @@ title
   index: -1
 tundra
   rotate: false
-  xy: 573, 11
+  xy: 456, 11
   size: 115, 115
   orig: 115, 115
   offset: 0, 0
@@ -440,14 +566,14 @@ tutorial
   index: -1
 upleftarrow
   rotate: false
-  xy: 1015, 32
+  xy: 1052, 71
   size: 35, 39
   orig: 35, 39
   offset: 0, 0
   index: -1
 uprightarrow
   rotate: false
-  xy: 1015, 73
+  xy: 1015, 32
   size: 35, 39
   orig: 35, 39
   offset: 0, 0

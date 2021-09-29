@@ -12,7 +12,8 @@ class LevelFinishState(
     private val area: Area,
     private val level: Int,
     private val moves: Int,
-    private val best: Int
+    private val best: Int,
+    private val newRecord: Boolean
 ) : GameState(context) {
 
     private val dot = context.getImage("dot")
@@ -91,7 +92,7 @@ class LevelFinishState(
             completeImage.render(sb)
             bestLabel.render(sb)
             movesLabel.render(sb)
-            if (best == 0 || moves < best) {
+            if (newRecord) {
                 newRecordImage.render(sb)
             }
 

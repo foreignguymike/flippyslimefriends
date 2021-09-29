@@ -72,6 +72,16 @@ fun SpriteBatch.drawRectangle(
     draw(textureRegion, x + w, y, 1f, h)
 }
 
+fun SpriteBatch.drawCentered(
+    image: TextureRegion,
+    x: Float,
+    y: Float,
+    width: Float = image.regionWidth.toFloat(),
+    height: Float = image.regionHeight.toFloat()
+) =
+    draw(image, x - image.regionWidth / 2, y - image.regionHeight / 2, width, height)
+
+
 fun SpriteBatch.drawHFlip(
     textureRegion: TextureRegion,
     x: Float,

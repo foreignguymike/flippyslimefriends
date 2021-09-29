@@ -1,11 +1,11 @@
 package com.distraction.fs2
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector3
+import com.distraction.fs2.tilemap.data.GameColor
 
-class Background(val context: Context, private var color: Color = Color.valueOf("4CB0DB")) {
+class Background(val context: Context, private var color: GameColor = GameColor.SKY_BLUE) {
 
     private val dot = context.getImage("dot")
     private val image = context.getImage("bgs")
@@ -20,7 +20,13 @@ class Background(val context: Context, private var color: Color = Color.valueOf(
     init {
         for (row in 0..5) {
             for (col in -4..4) {
-                bgs.add(Vector3(1f * col * Constants.WIDTH / 4 + (row + 1) * speed * interval, row * speed * interval, 0f))
+                bgs.add(
+                    Vector3(
+                        1f * col * Constants.WIDTH / 4 + (row + 1) * speed * interval,
+                        row * speed * interval,
+                        0f
+                    )
+                )
             }
         }
     }
@@ -46,14 +52,18 @@ class Background(val context: Context, private var color: Color = Color.valueOf(
     }
 
     fun render(sb: SpriteBatch) {
-        val c = sb.color
-        sb.color = color
+        sb.setColor(color)
         sb.draw(dot, 0f, 0f, Constants.WIDTH, Constants.HEIGHT)
-        sb.color = Color.WHITE
+        sb.resetColor()
         bgs.forEach {
-            sb.draw(image, it.x - rot * image.regionWidth / 2, it.y, rot * image.regionWidth, 1f * image.regionHeight)
+            sb.draw(
+                image,
+                it.x - rot * image.regionWidth / 2,
+                it.y,
+                rot * image.regionWidth,
+                1f * image.regionHeight
+            )
         }
-        sb.color = c
     }
 
 }

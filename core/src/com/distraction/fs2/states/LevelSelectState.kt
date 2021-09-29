@@ -35,10 +35,10 @@ class LevelSelectState(
         val col = it % numCols
         val x = widthPadding + col * cellWidth + cellWidth / 2 + Constants.WIDTH * page
         val y = Constants.HEIGHT - heightPadding - (row * cellHeight + cellHeight / 2)
-        ImageButton(context.getImage("levelicon"), x, y)
+        ImageButton(context.getImage("levelbutton"), x, y)
     }
 
-    private val numberFont = NumberFont(context, true)
+    private val numberFont = NumberFont(context, true, NumberFont.NumberSize.LARGE)
     private val levelSelectImage = context.getImage("levelselect")
     private val backButton = TextButton(context.getImage("back"), context.getImage("buttonbg"), Constants.WIDTH / 2, 20f)
     private val disableColor = Color(0.3f, 0.3f, 0.3f, 1f)
@@ -107,7 +107,7 @@ class LevelSelectState(
     }
 
     override fun render(sb: SpriteBatch) {
-        clearScreen(76, 176, 219)
+        clearScreen(GameColor.SKY_BLUE)
         sb.use {
             sb.projectionMatrix = staticCam.combined
             sb.setColor(GameColor.DARK_TEAL)
@@ -136,7 +136,7 @@ class LevelSelectState(
                 }
                 it.render(sb)
                 numberFont.num = i + 1
-                numberFont.render(sb, it.pos.x, it.pos.y)
+                numberFont.render(sb, it.pos.x, it.pos.y + 1)
                 sb.color = c
                 if (best > 0 && best <= levelData[i].target) {
                     sb.draw(

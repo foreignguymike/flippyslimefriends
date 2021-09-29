@@ -77,8 +77,11 @@ class PathPointData(val tilePoint: TilePoint, val time: Float = 0f) {
 }
 
 enum class GameColor(val r: Float, val g: Float, val b: Float, val a: Float = 1f) {
+    CALM_BLUE(72f / 255f, 139f / 255f, 212f / 255f, 1f),
     SKY_BLUE(120f / 255f, 215 / 255f, 1f),
-    DARK_TEAL(21f / 255f, 60 / 255f, 74 / 255f)
+    TEAL(16f / 255f, 144f / 255f, 142f / 255f, 1f),
+    DARK_TEAL(21f / 255f, 60 / 255f, 74 / 255f),
+    PURPLE(91f / 255f, 83f / 255f, 125f / 255f, 1f)
 }
 
 enum class Direction {

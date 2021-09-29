@@ -313,12 +313,12 @@ object MeadowData {
                 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0
             ), target = 27,
-            playerPositions = listOf(TilePoint(3, 0)),
+            playerPositions = listOf(TilePoint(3, 5)),
             objects = listOf(
-                SuperJumpData(0, 1),
-                SuperJumpData(1, 2),
-                SuperJumpData(2, 3),
-                SuperJumpData(3, 4)
+                SuperJumpData(0, 4),
+                SuperJumpData(1, 3),
+                SuperJumpData(2, 2),
+                SuperJumpData(3, 1)
             )
         )
     )

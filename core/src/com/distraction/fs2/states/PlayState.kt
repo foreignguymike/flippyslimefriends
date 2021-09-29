@@ -46,11 +46,12 @@ class PlayState(context: Context, private val area: Area, private val level: Int
     override fun onTileToggled(tileMap: TileMap) {
         if (tileMap.isFinished()) {
             ignoreInput = true
-            if (hud.getBest() < 0 || hud.getMoves() < hud.getBest()) {
+            val newRecord = hud.getBest() < 0 || hud.getMoves() < hud.getBest()
+            if (newRecord) {
                 context.scoreHandler.saveScore(area, level, hud.getMoves())
                 hud.setBest(hud.getMoves())
             }
-            context.gsm.push(LevelFinishState(context, area, level, hud.getMoves(), hud.getBest()))
+            context.gsm.push(LevelFinishState(context, area, level, hud.getMoves(), hud.getBest(), newRecord))
         }
     }
 
