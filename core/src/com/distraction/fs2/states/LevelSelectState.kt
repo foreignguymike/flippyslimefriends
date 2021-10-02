@@ -66,7 +66,6 @@ class LevelSelectState(
                 unprojectTouch()
                 levels.forEachIndexed { i, it ->
                     if (it.containsPoint(touchPoint.x, touchPoint.y) && i < numLevels) {
-                        println("pressed for level $i, total ${levels.size}")
                         ignoreInput = true
                         context.gsm.push(TransitionState(context, PlayState(context, area, i)))
                         return@forEachIndexed

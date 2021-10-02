@@ -15,10 +15,18 @@ class PlayState(context: Context, private val area: Area, private val level: Int
     ButtonListener, TileMap.TileListener {
 
     private val tileMap = TileMap(context, this, area, level)
+
     private val players = tileMap.mapData.playerPositions.map {
         Player(context, tileMap, this, it.row, it.col)
+    }.also { players -> players.forEach { it.players = players } }
+    private var playerIndex = 0
+    set(value) {
+        field = value
+        player = players[playerIndex]
     }
-    private val player = players.first()
+    private var player = players[0]
+    private val sortedPlayers = players.toMutableList()
+
     private val bg = Background(context)
     private val bgCam = OrthographicCamera().apply {
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
@@ -85,25 +93,32 @@ class PlayState(context: Context, private val area: Area, private val level: Int
         }
     }
 
+    private fun handleInput() {
+        unprojectTouch()
+        hud.update()
+        when {
+            Gdx.input.isKeyPressed(Input.Keys.RIGHT) -> player.moveTile(0, 1)
+            Gdx.input.isKeyPressed(Input.Keys.LEFT) -> player.moveTile(0, -1)
+            Gdx.input.isKeyPressed(Input.Keys.UP) -> player.moveTile(-1, 0)
+            Gdx.input.isKeyPressed(Input.Keys.DOWN) -> player.moveTile(1, 0)
+            Gdx.input.isKeyJustPressed(Input.Keys.R) -> onIllegal()
+            Gdx.input.isKeyJustPressed(Input.Keys.A) -> playerIndex = (playerIndex - 1).pmod(players.size)
+            Gdx.input.isKeyJustPressed(Input.Keys.D) -> playerIndex = (playerIndex + 1) % players.size
+        }
+    }
+
     override fun update(dt: Float) {
         if (!ignoreInput) {
-            unprojectTouch()
-            hud.update()
-            when {
-                Gdx.input.isKeyPressed(Input.Keys.RIGHT) -> player.moveTile(0, 1)
-                Gdx.input.isKeyPressed(Input.Keys.LEFT) -> player.moveTile(0, -1)
-                Gdx.input.isKeyPressed(Input.Keys.UP) -> player.moveTile(-1, 0)
-                Gdx.input.isKeyPressed(Input.Keys.DOWN) -> player.moveTile(1, 0)
-                Gdx.input.isKeyJustPressed(Input.Keys.R) -> onIllegal()
-            }
+            handleInput()
         }
 
-        player.update(dt)
+        players.forEach { it.update(dt) }
+        sortedPlayers.sortByDescending { it.isop.y }
 
         camera.position.set(
             camera.position.lerp(
                 player.isop.x + cameraOffset.x,
-                player.isop.y + cameraOffset.y,
+                player.isop.y + cameraOffset.y + HUD.HEIGHT / 2,
                 0f,
                 0.1f
             )
@@ -121,7 +136,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
 
             sb.projectionMatrix = camera.combined
             tileMap.render(sb)
-            player.render(sb)
+            sortedPlayers.forEach { it.render(sb) }
             tileMap.renderOther(sb)
 
             hud.render(sb)

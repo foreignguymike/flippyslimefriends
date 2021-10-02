@@ -21,6 +21,17 @@ class Utils {
     }
 }
 
+/**
+ * Actual mod operation. Kotlin doesn't have this...
+ */
+fun Int.pmod(other: Int): Int {
+    var p = this.rem(other)
+    if (p < 0) {
+        p += other
+    }
+    return p
+}
+
 fun AssetManager.getAtlas(): TextureAtlas = get("fs2.atlas", TextureAtlas::class.java)
 
 inline fun SpriteBatch.use(action: () -> Unit) {
@@ -57,19 +68,6 @@ fun SpriteBatch.drawPadded(
         textureRegion.regionWidth + padding,
         textureRegion.regionHeight + padding
     )
-}
-
-fun SpriteBatch.drawRectangle(
-    textureRegion: TextureRegion,
-    x: Float,
-    y: Float,
-    w: Float,
-    h: Float
-) {
-    draw(textureRegion, x, y, w, 1f)
-    draw(textureRegion, x, y + h, w, 1f)
-    draw(textureRegion, x, y, 1f, h)
-    draw(textureRegion, x + w, y, 1f, h)
 }
 
 fun SpriteBatch.drawCentered(

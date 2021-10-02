@@ -7,10 +7,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.ButtonListener.ButtonType.*
+import com.distraction.fs2.tilemap.data.GameColor
 
 class HUD(context: Context, private val buttonListener: ButtonListener) {
     private val touchPoint = Vector3()
-    private val infoBox = InfoBox(context, Constants.WIDTH - 55f, Constants.HEIGHT - 40f, 100f, 70f)
+    private val pixel = context.getImage("pixel")
 
     // for arrow button placement
     private val a = Vector2(60f, 60f)
@@ -35,35 +36,38 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
                 ImageButton(
                     context.getImage("downleftarrow"),
                     a.x - dist, a.y - dist
+                ),
+        BACK to
+                IconButton(
+                    context.getImage("backicon"),
+                    context.getImage("iconbuttonbg"),
+                    25f, Constants.HEIGHT - 22f,
+                    5f
+                ),
+        RESTART to
+                IconButton(
+                    context.getImage("restarticon"),
+                    context.getImage("iconbuttonbg"),
+                    65f, Constants.HEIGHT - 22f,
+                    5f
                 )
-    )
-
-    private val backButton = TextButton(
-        context.getImage("back"),
-        context.getImage("buttonbg"),
-        50f, Constants.HEIGHT - 20f
-    )
-    private val restartButton = TextButton(
-        context.getImage("restart"),
-        context.getImage("buttonbg"),
-        50f, Constants.HEIGHT - 45f
     )
 
     private val labels = arrayOf(
         NumberLabel(
             context,
             context.getImage("goal"),
-            Vector2(Constants.WIDTH - 60f, Constants.HEIGHT - 20f)
+            Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 15f)
         ),
         NumberLabel(
             context,
             context.getImage("best"),
-            Vector2(Constants.WIDTH - 60f, Constants.HEIGHT - 40f)
+            Vector2(Constants.WIDTH - 50f, Constants.HEIGHT - 35f)
         ),
         NumberLabel(
             context,
             context.getImage("moves"),
-            Vector2(Constants.WIDTH - 64f, Constants.HEIGHT - 60f),
+            Vector2(Constants.WIDTH - 130f, Constants.HEIGHT - 35f),
             0
         )
     )
@@ -99,24 +103,21 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
                     value.scale = 0.75f
                 }
             }
-            if (backButton.containsPoint(touchPoint.x, touchPoint.y)) {
-                buttonListener.onButtonPressed(BACK)
-            }
-            if (restartButton.containsPoint(touchPoint.x, touchPoint.y)) {
-                buttonListener.onButtonPressed(RESTART)
-            }
         }
     }
 
     fun render(sb: SpriteBatch) {
         sb.projectionMatrix = cam.combined
-        sb.setColor(0f, 0f, 0f, 0.5f)
+        sb.setColor(GameColor.DARK_TEAL)
+        sb.draw(pixel, 0f, Constants.HEIGHT - HEIGHT, Constants.WIDTH, HEIGHT)
         sb.resetColor()
+        sb.draw(pixel, 0f, Constants.HEIGHT - HEIGHT + 2f, Constants.WIDTH, 1f)
         buttons.values.forEach { it.render(sb) }
-        backButton.render(sb)
-        restartButton.render(sb)
-        infoBox.render(sb)
         labels.forEach { it.render(sb) }
+    }
+
+    companion object {
+        const val HEIGHT = 50f
     }
 }
 

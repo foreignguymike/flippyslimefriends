@@ -7,7 +7,7 @@ import com.distraction.fs2.tilemap.data.GameColor
 
 class Background(val context: Context, private var color: GameColor = GameColor.SKY_BLUE) {
 
-    private val dot = context.getImage("dot")
+    private val pixel = context.getImage("pixel")
     private val image = context.getImage("bgs")
 
     private val bgs = arrayListOf<Vector3>()
@@ -53,7 +53,7 @@ class Background(val context: Context, private var color: GameColor = GameColor.
 
     fun render(sb: SpriteBatch) {
         sb.setColor(color)
-        sb.draw(dot, 0f, 0f, Constants.WIDTH, Constants.HEIGHT)
+        sb.draw(pixel, 0f, 0f, Constants.WIDTH, Constants.HEIGHT)
         sb.resetColor()
         bgs.forEach {
             sb.draw(

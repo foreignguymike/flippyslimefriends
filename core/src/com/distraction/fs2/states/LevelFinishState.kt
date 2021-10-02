@@ -2,10 +2,12 @@ package com.distraction.fs2.states
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.data.Area
+import com.distraction.fs2.tilemap.data.GameColor
 
 class LevelFinishState(
     context: Context,
@@ -16,8 +18,13 @@ class LevelFinishState(
     private val newRecord: Boolean
 ) : GameState(context) {
 
-    private val dot = context.getImage("dot")
     private val dimColor = Color(0f, 0f, 0f, 0f)
+    private val staticCam = OrthographicCamera().apply {
+        setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
+    }
+
+    private var bgHeight = 0f
+    private val maxBgHeight = 2 * Constants.HEIGHT / 4
 
     private val completeImage = ImageButton(context.getImage("complete"), Constants.WIDTH / 2f, Constants.HEIGHT / 2)
     private val bestLabel = NumberLabel(
@@ -40,39 +47,45 @@ class LevelFinishState(
 
     init {
         context.gsm.depth++
+        camera.position.y = Constants.HEIGHT
+        camera.update()
+    }
+
+    private fun handleInput() {
+        if (Gdx.input.justTouched()) {
+            unprojectTouch()
+            if (level < context.gameData.getMapData(area).size - 1 && nextButton.containsPoint(touchPoint.x, touchPoint.y)) {
+                ignoreInput = true
+                context.gsm.push(
+                    TransitionState(
+                        context,
+                        PlayState(context, area, level + 1),
+                        2
+                    )
+                )
+            } else if (backButton.containsPoint(touchPoint.x, touchPoint.y)) {
+                ignoreInput = true
+                context.gsm.push(
+                    TransitionState(
+                        context,
+                        LevelSelectState(
+                            context,
+                            area,
+                            level
+                        ),
+                        2
+                    )
+                )
+            } else if (restartButton.containsPoint(touchPoint.x, touchPoint.y)) {
+                ignoreInput = true
+                context.gsm.push(TransitionState(context, PlayState(context, area, level), 2))
+            }
+        }
     }
 
     override fun update(dt: Float) {
         if (!ignoreInput) {
-            if (Gdx.input.justTouched()) {
-                unprojectTouch()
-                if (level < context.gameData.getMapData(area).size - 1 && nextButton.containsPoint(touchPoint.x, touchPoint.y)) {
-                    ignoreInput = true
-                    context.gsm.push(
-                        TransitionState(
-                            context,
-                            PlayState(context, area, level + 1),
-                            2
-                        )
-                    )
-                } else if (backButton.containsPoint(touchPoint.x, touchPoint.y)) {
-                    ignoreInput = true
-                    context.gsm.push(
-                        TransitionState(
-                            context,
-                            LevelSelectState(
-                                context,
-                                area,
-                                level
-                            ),
-                            2
-                        )
-                    )
-                } else if (restartButton.containsPoint(touchPoint.x, touchPoint.y)) {
-                    ignoreInput = true
-                    context.gsm.push(TransitionState(context, PlayState(context, area, level), 2))
-                }
-            }
+            handleInput()
         }
         if (dimColor.a < 0.7f) {
             dimColor.a += 2f * dt
@@ -80,15 +93,28 @@ class LevelFinishState(
                 dimColor.a = 0.7f
             }
         }
+        if (bgHeight < maxBgHeight) {
+            bgHeight += 800f * dt
+            if (bgHeight > maxBgHeight) {
+                bgHeight = maxBgHeight
+            }
+        }
+        camera.position.lerp(Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 0.1f)
+        camera.update()
     }
 
     override fun render(sb: SpriteBatch) {
         sb.use {
-            val c = sb.color
-            sb.color = dimColor
-            sb.draw(dot, 0f, 0f, Constants.WIDTH, Constants.HEIGHT)
-            sb.color = c
+            sb.projectionMatrix = staticCam.combined
 
+            sb.color = dimColor
+            sb.draw(pixel, 0f, 0f, Constants.WIDTH, Constants.HEIGHT)
+            sb.setColor(GameColor.DARK_BLUE)
+            sb.draw(pixel, 0f, Constants.HEIGHT / 2 - bgHeight / 2, Constants.WIDTH, bgHeight)
+
+            sb.projectionMatrix = camera.combined
+
+            sb.resetColor()
             completeImage.render(sb)
             bestLabel.render(sb)
             movesLabel.render(sb)

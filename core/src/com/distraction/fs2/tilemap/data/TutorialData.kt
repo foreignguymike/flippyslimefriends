@@ -13,7 +13,7 @@ object TutorialData {
                 0, e, 0,
                 0, 0, 0
             ),
-            target = 8,
+            target = 7,
             playerPositions = listOf(TilePoint(0, 0))
         ),
         MapData(
@@ -35,6 +35,16 @@ object TutorialData {
             ),
             target = 7,
             playerPositions = listOf(TilePoint(0, 1))
+        ),
+        MapData(
+            numRows = 3, numCols = 3,
+            map = intArrayOf(
+                0, 0, 0,
+                e, e, e,
+                0, 0, 0
+            ),
+            target = 5,
+            playerPositions = listOf(TilePoint(0, 0), TilePoint(2, 2))
         )
     )
 }

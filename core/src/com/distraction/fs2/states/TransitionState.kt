@@ -9,7 +9,6 @@ import com.distraction.fs2.use
 
 class TransitionState(context: Context, private val nextState: GameState, private val numPop: Int = 1) : GameState(context) {
 
-    private val dot = context.getImage("dot")
     private val duration = 0.5f
     private var time = 0f
     private var next = false
@@ -44,8 +43,8 @@ class TransitionState(context: Context, private val nextState: GameState, privat
         sb.color = Color.BLACK
         sb.projectionMatrix = camera.combined
         sb.use {
-            sb.draw(dot, 0f, Constants.HEIGHT, 1f * Constants.WIDTH, -perc * Constants.HEIGHT / 2)
-            sb.draw(dot, 0f, 0f, 1f * Constants.WIDTH, perc * Constants.HEIGHT / 2)
+            sb.draw(pixel, 0f, Constants.HEIGHT, 1f * Constants.WIDTH, -perc * Constants.HEIGHT / 2)
+            sb.draw(pixel, 0f, 0f, 1f * Constants.WIDTH, perc * Constants.HEIGHT / 2)
         }
         sb.color = c
     }

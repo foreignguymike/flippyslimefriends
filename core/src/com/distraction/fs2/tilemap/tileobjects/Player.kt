@@ -21,6 +21,8 @@ class Player(
         fun onIllegal()
     }
 
+    var players = listOf<Player>()
+
     private val animationSet = AnimationSet()
 
     override var speed = TileMap.TILE_SIZE * 2
@@ -76,20 +78,26 @@ class Player(
     }
 
     // handle movement
-    fun moveTile(rowdx: Int, coldx: Int) {
+    fun moveTile(drow: Int, dcol: Int) {
         // ignore movement while still moving to destination
         if (moving) return
 
         // ignore movement to invalid tiles
         // only valid for manual movement, players can still slide off the tilemap
-        if (!sliding && !superjump && !tileMap.isValidTile(row + rowdx, col + coldx)) return
+        if (!sliding && !superjump && !tileMap.isValidTile(row + drow, col + dcol)) return
 
         // ignore while on moving tile
         if (currentTile?.moving == true) return
 
         // ignore if the tile is blocked
         // but allow it if you're super jumping
-        if (tileMap.getTile(row + rowdx, col + coldx)?.isBlocked() == true && !superjump) {
+        if (tileMap.getTile(row + drow, col + dcol)?.isBlocked() == true && !superjump) {
+            sliding = false
+            return
+        }
+
+        // ignore if another player is on this tile, but allow if super jumping
+        if (!superjump && players.any { it.row == row + drow && it.col == col + dcol }) {
             sliding = false
             return
         }
@@ -99,16 +107,16 @@ class Player(
         // update direction
         if (!teleporting) {
             when {
-                coldx > 0 -> direction = Direction.RIGHT
-                coldx < 0 -> direction = Direction.LEFT
-                rowdx > 0 -> direction = Direction.DOWN
-                rowdx < 0 -> direction = Direction.UP
+                dcol > 0 -> direction = Direction.RIGHT
+                dcol < 0 -> direction = Direction.LEFT
+                drow > 0 -> direction = Direction.DOWN
+                drow < 0 -> direction = Direction.UP
             }
         }
 
         // update tile position and set destination
-        row += rowdx
-        col += coldx
+        row += drow
+        col += dcol
         tileMap.toPosition(row, col, pdest)
 
         totalDist = getRemainingDistance()
@@ -262,14 +270,18 @@ class Player(
         // if the player has reached destination
         if (atDestination()) {
 
-            // landed on illegal tile
-            if (!tileMap.isValidTile(row, col)) {
-                moveListener.onIllegal()
-                return
-            }
-
             // handle logic for player just finished moving (moving && atDestination())
             if (moving) {
+                // landed on illegal tile
+                if (!tileMap.isValidTile(row, col)) {
+                    moveListener.onIllegal()
+                    return
+                }
+                // landed on another player
+                if (players.any { it != this && it.row == row && it.col == col }) {
+                    moveListener.onIllegal()
+                    return
+                }
                 handleJustMoved(row, col)
             }
 

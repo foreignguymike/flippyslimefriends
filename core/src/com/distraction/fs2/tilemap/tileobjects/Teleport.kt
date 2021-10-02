@@ -15,7 +15,7 @@ import com.distraction.fs2.tilemap.TileMap
 class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) :
     TileObject(context, tileMap) {
     private val image = context.getImage("teleport")
-    private val dot = context.getImage("dot")
+    private val pixel = context.getImage("pixel")
     private val color = Color.valueOf("AAE2FF30")
     private val particles = arrayListOf<Vector3>()
     override var speed = 40f
@@ -56,7 +56,7 @@ class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) :
         particles.forEach {
             color.a = (it.z - it.y) / height
             sb.color = color
-            sb.draw(dot, it.x, it.y, 2f, 2f)
+            sb.draw(pixel, it.x, it.y, 2f, 2f)
         }
         sb.color = c
     }

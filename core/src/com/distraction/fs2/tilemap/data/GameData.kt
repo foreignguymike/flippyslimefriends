@@ -81,7 +81,9 @@ enum class GameColor(val r: Float, val g: Float, val b: Float, val a: Float = 1f
     SKY_BLUE(120f / 255f, 215 / 255f, 1f),
     TEAL(16f / 255f, 144f / 255f, 142f / 255f, 1f),
     DARK_TEAL(21f / 255f, 60 / 255f, 74 / 255f),
-    PURPLE(91f / 255f, 83f / 255f, 125f / 255f, 1f)
+    DARK_BLUE(26f / 255f, 70f / 255f, 107f / 255f, 1f),
+    PURPLE(91f / 255f, 83f / 255f, 125f / 255f, 1f),
+    BLACK_1(5f / 255f, 9f / 255f, 20f / 255f, 1f)
 }
 
 enum class Direction {
