@@ -55,8 +55,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
         if (tileMap.isFinished()) {
             ignoreInput = true
             hud.hideInfo = true
-            val newRecord = hud.getBest() < 0 || hud.getMoves() < hud.getBest()
-            if (newRecord) {
+            if (hud.getBest() < 0 || hud.getMoves() < hud.getBest()) {
                 context.scoreHandler.saveScore(area, level, hud.getMoves())
                 hud.setBest(hud.getMoves())
             }
@@ -67,8 +66,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
                     level,
                     hud.getMoves(),
                     hud.getBest(),
-                    hud.getGoal(),
-                    newRecord
+                    hud.getGoal()
                 )
             )
         }

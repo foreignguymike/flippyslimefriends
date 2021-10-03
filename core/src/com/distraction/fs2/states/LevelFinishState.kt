@@ -15,8 +15,7 @@ class LevelFinishState(
     private val level: Int,
     private val moves: Int,
     private val best: Int,
-    private val goal: Int,
-    private val newRecord: Boolean
+    private val goal: Int
 ) : GameState(context) {
 
     private val dimColor = Color(0f, 0f, 0f, 0f)
@@ -33,7 +32,7 @@ class LevelFinishState(
         context,
         Constants.WIDTH / 2f,
         Constants.HEIGHT / 2f,
-        Constants.WIDTH - 100f,
+        2f * Constants.WIDTH / 4f,
         4f * Constants.HEIGHT / 5f,
         GameColor.DARK_BLUE
     )
@@ -42,19 +41,31 @@ class LevelFinishState(
         ImageButton(context.getImage("complete"), Constants.WIDTH / 2f, Constants.HEIGHT - 50f)
 
     private val diamondEmpty =
-        ImageButton(context.getImage("diamondfinishempty"), Constants.WIDTH / 2, Constants.HEIGHT / 2 + 50f).apply {
+        ImageButton(
+            context.getImage("diamondfinishempty"),
+            Constants.WIDTH / 2f + 80f,
+            Constants.HEIGHT / 2 - infoBox.height / 2 + 64f
+        ).apply {
             alpha = 0f
             scale = 20f
         }
 
     private val diamond =
-        ImageButton(context.getImage("diamondfinish"), Constants.WIDTH / 2, Constants.HEIGHT / 2 + 50f).apply {
+        ImageButton(
+            context.getImage("diamondfinish"),
+            diamondEmpty.pos.x,
+            diamondEmpty.pos.y
+        ).apply {
             alpha = 0f
             scale = 20f
         }
 
     private val star =
-        ImageButton(context.getImage("starfinish"), Constants.WIDTH / 2, Constants.HEIGHT / 2 - 15f).apply {
+        ImageButton(
+            context.getImage("starfinish"),
+            Constants.WIDTH / 2f,
+            Constants.HEIGHT / 2f + 30f
+        ).apply {
             alpha = 0f
             scale = 20f
         }
@@ -62,48 +73,45 @@ class LevelFinishState(
     private val bestLabel = NumberLabel(
         context,
         context.getImage("best"),
-        Vector2(3f * Constants.WIDTH / 4f, Constants.HEIGHT / 2f - 20f),
+        Vector2(Constants.WIDTH / 2f - 60f, Constants.HEIGHT / 2 - infoBox.height / 2 + 64f),
         best
     )
 
     private val goalLabel = NumberLabel(
         context,
         context.getImage("goal"),
-        Vector2(3f * Constants.WIDTH / 4f, Constants.HEIGHT / 2f),
+        Vector2(Constants.WIDTH / 2f + 10, Constants.HEIGHT / 2 - infoBox.height / 2 + 54f),
         best
     )
 
     private val movesLabel = NumberLabel(
         context,
         context.getImage("moves"),
-        Vector2(3f * Constants.WIDTH / 4f, Constants.HEIGHT / 2f + 20),
+        Vector2(Constants.WIDTH / 2f + 10f, Constants.HEIGHT / 2 - infoBox.height / 2 + 74f),
         moves
     )
-
-    private val newRecordImage =
-        ImageButton(context.getImage("newrecord"), 3f * Constants.WIDTH / 4f, Constants.HEIGHT / 2f - 50)
 
     private val backButton = IconButton(
         context.getImage("backicon"),
         context.getImage("iconbuttonbg"),
-        Constants.WIDTH / 2 - infoBox.width / 2 + 24f,
-        Constants.HEIGHT / 2 + infoBox.height / 2 - 24f,
+        Constants.WIDTH / 2 - 80f,
+        Constants.HEIGHT / 2 - infoBox.height / 2 + 24f,
         5f
     )
 
     private val restartButton = IconButton(
         context.getImage("restarticon"),
         context.getImage("iconbuttonbg"),
-        Constants.WIDTH / 2 - infoBox.width / 2 + 64f,
-        Constants.HEIGHT / 2 + infoBox.height / 2 - 24f,
+        Constants.WIDTH / 2 - 40f,
+        Constants.HEIGHT / 2 - infoBox.height / 2 + 24f,
         5f
     )
 
     private val nextButton = IconButton(
         context.getImage("next"),
         context.getImage("buttonbg"),
-        Constants.WIDTH / 2f,
-        55f,
+        Constants.WIDTH / 2f + 50f,
+        Constants.HEIGHT / 2 - infoBox.height / 2 + 24f,
         5f
     )
 
@@ -203,9 +211,6 @@ class LevelFinishState(
             goalLabel.render(sb)
             bestLabel.render(sb)
             movesLabel.render(sb)
-            if (newRecord) {
-                newRecordImage.render(sb)
-            }
 
             restartButton.render(sb)
             backButton.render(sb)
