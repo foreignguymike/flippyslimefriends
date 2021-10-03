@@ -15,6 +15,7 @@ class LevelFinishState(
     private val level: Int,
     private val moves: Int,
     private val best: Int,
+    private val goal: Int,
     private val newRecord: Boolean
 ) : GameState(context) {
 
@@ -23,62 +24,129 @@ class LevelFinishState(
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
     }
 
-    private var bgHeight = 0f
-    private val maxBgHeight = 2 * Constants.HEIGHT / 4
+    private var time = 0f
+    private val time1 = 0.5f
+    var alpha = 0f
+    var scale = 0f
 
-    private val completeImage = ImageButton(context.getImage("complete"), Constants.WIDTH / 2f, Constants.HEIGHT / 2)
+    private val infoBox = InfoBox(
+        context,
+        Constants.WIDTH / 2f,
+        Constants.HEIGHT / 2f,
+        Constants.WIDTH - 100f,
+        4f * Constants.HEIGHT / 5f,
+        GameColor.DARK_BLUE
+    )
+
+    private val completeImage =
+        ImageButton(context.getImage("complete"), Constants.WIDTH / 2f, Constants.HEIGHT - 50f)
+
+    private val diamondEmpty =
+        ImageButton(context.getImage("diamondfinishempty"), Constants.WIDTH / 2, Constants.HEIGHT / 2 + 50f).apply {
+            alpha = 0f
+            scale = 20f
+        }
+
+    private val diamond =
+        ImageButton(context.getImage("diamondfinish"), Constants.WIDTH / 2, Constants.HEIGHT / 2 + 50f).apply {
+            alpha = 0f
+            scale = 20f
+        }
+
+    private val star =
+        ImageButton(context.getImage("starfinish"), Constants.WIDTH / 2, Constants.HEIGHT / 2 - 15f).apply {
+            alpha = 0f
+            scale = 20f
+        }
+
     private val bestLabel = NumberLabel(
         context,
         context.getImage("best"),
-        Vector2(Constants.WIDTH / 2 - 20f, Constants.HEIGHT  - 20f),
+        Vector2(3f * Constants.WIDTH / 4f, Constants.HEIGHT / 2f - 20f),
         best
     )
+
+    private val goalLabel = NumberLabel(
+        context,
+        context.getImage("goal"),
+        Vector2(3f * Constants.WIDTH / 4f, Constants.HEIGHT / 2f),
+        best
+    )
+
     private val movesLabel = NumberLabel(
         context,
         context.getImage("moves"),
-        Vector2(Constants.WIDTH / 2 - 25f, Constants.HEIGHT - 40f),
+        Vector2(3f * Constants.WIDTH / 4f, Constants.HEIGHT / 2f + 20),
         moves
     )
-    private val newRecordImage = ImageButton(context.getImage("newrecord"), Constants.WIDTH / 2f, Constants.HEIGHT / 4)
 
-    private val restartButton = TextButton(context.getImage("restart"), context.getImage("buttonbg"),50f, Constants.HEIGHT - 45f)
-    private val backButton = TextButton(context.getImage("back"), context.getImage("buttonbg"),50f, Constants.HEIGHT - 20f)
-    private val nextButton = TextButton(context.getImage("next"), context.getImage("buttonbg"),Constants.WIDTH / 2f, 15f)
+    private val newRecordImage =
+        ImageButton(context.getImage("newrecord"), 3f * Constants.WIDTH / 4f, Constants.HEIGHT / 2f - 50)
+
+    private val backButton = IconButton(
+        context.getImage("backicon"),
+        context.getImage("iconbuttonbg"),
+        Constants.WIDTH / 2 - infoBox.width / 2 + 24f,
+        Constants.HEIGHT / 2 + infoBox.height / 2 - 24f,
+        5f
+    )
+
+    private val restartButton = IconButton(
+        context.getImage("restarticon"),
+        context.getImage("iconbuttonbg"),
+        Constants.WIDTH / 2 - infoBox.width / 2 + 64f,
+        Constants.HEIGHT / 2 + infoBox.height / 2 - 24f,
+        5f
+    )
+
+    private val nextButton = IconButton(
+        context.getImage("next"),
+        context.getImage("buttonbg"),
+        Constants.WIDTH / 2f,
+        55f,
+        5f
+    )
 
     init {
         context.gsm.depth++
-        camera.position.y = Constants.HEIGHT
+        camera.position.y = 2f * Constants.HEIGHT
         camera.update()
     }
 
     private fun handleInput() {
         if (Gdx.input.justTouched()) {
             unprojectTouch()
-            if (level < context.gameData.getMapData(area).size - 1 && nextButton.containsPoint(touchPoint.x, touchPoint.y)) {
-                ignoreInput = true
-                context.gsm.push(
-                    TransitionState(
-                        context,
-                        PlayState(context, area, level + 1),
-                        2
-                    )
-                )
-            } else if (backButton.containsPoint(touchPoint.x, touchPoint.y)) {
-                ignoreInput = true
-                context.gsm.push(
-                    TransitionState(
-                        context,
-                        LevelSelectState(
+            when {
+                nextButton.containsPoint(touchPoint.x, touchPoint.y) -> {
+                    if (level < context.gameData.getMapData(area).size - 1) {
+                        ignoreInput = true
+                        context.gsm.push(
+                            TransitionState(
+                                context,
+                                PlayState(context, area, level + 1),
+                                2
+                            )
+                        )
+                    }
+                }
+                backButton.containsPoint(touchPoint.x, touchPoint.y) -> {
+                    ignoreInput = true
+                    context.gsm.push(
+                        TransitionState(
                             context,
-                            area,
-                            level
-                        ),
-                        2
+                            LevelSelectState(
+                                context,
+                                area,
+                                level
+                            ),
+                            2
+                        )
                     )
-                )
-            } else if (restartButton.containsPoint(touchPoint.x, touchPoint.y)) {
-                ignoreInput = true
-                context.gsm.push(TransitionState(context, PlayState(context, area, level), 2))
+                }
+                restartButton.containsPoint(touchPoint.x, touchPoint.y) -> {
+                    ignoreInput = true
+                    context.gsm.push(TransitionState(context, PlayState(context, area, level), 2))
+                }
             }
         }
     }
@@ -93,11 +161,23 @@ class LevelFinishState(
                 dimColor.a = 0.7f
             }
         }
-        if (bgHeight < maxBgHeight) {
-            bgHeight += 800f * dt
-            if (bgHeight > maxBgHeight) {
-                bgHeight = maxBgHeight
+        time += dt
+        if (time > time1) {
+            alpha = (time - time1) / (time1 / 2)
+            if (alpha > 1f) {
+                alpha = 1f
             }
+            scale = 50f / (49f * (time - time1) / (time1 / 2) + 1f)
+            if (scale < 1f) {
+                scale = 1f
+            }
+
+            diamondEmpty.alpha = alpha
+            diamondEmpty.scale = scale
+            diamond.alpha = alpha
+            diamond.scale = scale
+            star.alpha = alpha
+            star.scale = scale
         }
         camera.position.lerp(Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 0.1f)
         camera.update()
@@ -109,13 +189,18 @@ class LevelFinishState(
 
             sb.color = dimColor
             sb.draw(pixel, 0f, 0f, Constants.WIDTH, Constants.HEIGHT)
-            sb.setColor(GameColor.DARK_BLUE)
-            sb.draw(pixel, 0f, Constants.HEIGHT / 2 - bgHeight / 2, Constants.WIDTH, bgHeight)
 
             sb.projectionMatrix = camera.combined
 
             sb.resetColor()
+            infoBox.render(sb)
+            diamondEmpty.render(sb)
+            if (moves == goal) {
+                diamond.render(sb)
+            }
+            star.render(sb)
             completeImage.render(sb)
+            goalLabel.render(sb)
             bestLabel.render(sb)
             movesLabel.render(sb)
             if (newRecord) {

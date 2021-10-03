@@ -5,12 +5,12 @@ import com.distraction.fs2.tilemap.data.GameColor
 
 class InfoBox(
     context: Context,
-    private val x: Float,
-    private val y: Float,
-    private val width: Float,
-    private val height: Float,
+    x: Float,
+    y: Float,
+    width: Float,
+    height: Float,
     private val color: GameColor = GameColor.PURPLE
-) {
+): ImageButton(context.getImage("pixel"), x, y) {
 
     private val patch = Array(8) {
         context.getImage("infobox", it)
@@ -22,7 +22,12 @@ class InfoBox(
     private val top = y + height / 2
     private val bottom = y - height / 2
 
-    fun render(sb: SpriteBatch) {
+    init {
+        this.width = width
+        this.height = height
+    }
+
+    override fun render(sb: SpriteBatch) {
         sb.setColor(color)
         sb.draw(pixel, left, bottom, width, height)
         sb.resetColor()

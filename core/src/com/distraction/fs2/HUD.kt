@@ -13,10 +13,19 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
     private val touchPoint = Vector3()
     private val pixel = context.getImage("pixel")
 
+    var hideInfo = false
+
+    private val topCam = OrthographicCamera().apply {
+        setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
+    }
+    private val bottomCam = OrthographicCamera().apply {
+        setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
+    }
+
     // for arrow button placement
     private val a = Vector2(60f, 60f)
     private val dist = 22f
-    private val buttons = hashMapOf(
+    private val arrowButtons = mapOf(
         LEFT to
                 ImageButton(
                     context.getImage("upleftarrow"),
@@ -36,7 +45,9 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
                 ImageButton(
                     context.getImage("downleftarrow"),
                     a.x - dist, a.y - dist
-                ),
+                )
+    )
+    private val uiButtons = mapOf(
         BACK to
                 IconButton(
                     context.getImage("backicon"),
@@ -84,20 +95,37 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
         }
     }
 
+    fun getGoal() = labels[0].num
     fun getBest() = labels[1].num
-    fun incrementMoves() = labels[2].num++
     fun getMoves() = labels[2].num
 
-    private val cam = OrthographicCamera().apply {
-        setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
+    fun incrementMoves() = labels[2].num++
+
+    private fun updateVisibility() {
+        if (hideInfo) {
+            topCam.position.lerp(Constants.WIDTH / 2f, Constants.HEIGHT / 2f - HEIGHT * 2, 0f, 0.1f)
+            bottomCam.position.lerp(Constants.WIDTH / 2f, 300f, 0f, 0.1f)
+        } else {
+            topCam.position.lerp(Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 0.1f)
+            bottomCam.position.lerp(Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 0.1f)
+        }
+        topCam.update()
+        bottomCam.update()
     }
 
-    fun update() {
-        buttons.values.forEach { it.scale = 1f }
+    fun handleInput() {
+        arrowButtons.values.forEach { it.scale = 1f }
+        uiButtons.values.forEach { it.scale = 1f }
         if (Gdx.input.isTouched) {
             touchPoint.set(1f * Gdx.input.x, 1f * Gdx.input.y, 0f)
-            cam.unproject(touchPoint)
-            buttons.forEach { (key, value) ->
+            topCam.unproject(touchPoint)
+            arrowButtons.forEach { (key, value) ->
+                if (value.containsPoint(touchPoint.x, touchPoint.y)) {
+                    buttonListener.onButtonPressed(key)
+                    value.scale = 0.75f
+                }
+            }
+            uiButtons.forEach { (key, value) ->
                 if (value.containsPoint(touchPoint.x, touchPoint.y)) {
                     buttonListener.onButtonPressed(key)
                     value.scale = 0.75f
@@ -106,14 +134,21 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
         }
     }
 
+    fun update() {
+        updateVisibility()
+    }
+
     fun render(sb: SpriteBatch) {
-        sb.projectionMatrix = cam.combined
+        sb.projectionMatrix = topCam.combined
         sb.setColor(GameColor.DARK_TEAL)
         sb.draw(pixel, 0f, Constants.HEIGHT - HEIGHT, Constants.WIDTH, HEIGHT)
         sb.resetColor()
         sb.draw(pixel, 0f, Constants.HEIGHT - HEIGHT + 2f, Constants.WIDTH, 1f)
-        buttons.values.forEach { it.render(sb) }
         labels.forEach { it.render(sb) }
+        uiButtons.values.forEach { it.render(sb) }
+
+        sb.projectionMatrix = bottomCam.combined
+        arrowButtons.values.forEach { it.render(sb) }
     }
 
     companion object {

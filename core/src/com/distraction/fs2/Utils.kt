@@ -139,6 +139,11 @@ fun SpriteBatch.setColor(color: GameColor) {
     setColor(color.r, color.g, color.b, color.a)
 }
 
+fun SpriteBatch.setAlpha(a: Float) {
+    val c = color
+    setColor(c.r, c.g, c.b, a)
+}
+
 fun clearScreen(r: Int = 0, g: Int = 0, b: Int = 0, a: Int = 0) {
     Gdx.gl.glClearColor(r / 255f, g / 255f, b / 255f, a / 255f)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
@@ -149,7 +154,7 @@ fun clearScreen(color: GameColor) {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 }
 
-fun Vector3.lerp(x: Float, y: Float, z: Float, amount: Float): Vector3 {
+fun Vector3.lerp(x: Float, y: Float, z: Float, amount: Float = 0.1f): Vector3 {
     this.x += amount * (x - this.x)
     this.y += amount * (y - this.y)
     this.z += amount * (z - this.z)

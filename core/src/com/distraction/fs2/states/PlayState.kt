@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.distraction.fs2.*
-import com.distraction.fs2.tilemap.data.Area
 import com.distraction.fs2.tilemap.TileMap
+import com.distraction.fs2.tilemap.data.Area
 import com.distraction.fs2.tilemap.tileobjects.Player
 
 class PlayState(context: Context, private val area: Area, private val level: Int) :
@@ -33,7 +33,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
     }
 
     private val hud = HUD(context, this)
-    private val cameraOffset = Vector2(0f, 0f)
+    private val cameraOffset = Vector2(0f, HUD.HEIGHT / 2f)
 
     init {
         camera.position.set(-100f, player.isop.y + cameraOffset.y, 0f)
@@ -54,12 +54,23 @@ class PlayState(context: Context, private val area: Area, private val level: Int
     override fun onTileToggled(tileMap: TileMap) {
         if (tileMap.isFinished()) {
             ignoreInput = true
+            hud.hideInfo = true
             val newRecord = hud.getBest() < 0 || hud.getMoves() < hud.getBest()
             if (newRecord) {
                 context.scoreHandler.saveScore(area, level, hud.getMoves())
                 hud.setBest(hud.getMoves())
             }
-            context.gsm.push(LevelFinishState(context, area, level, hud.getMoves(), hud.getBest(), newRecord))
+            context.gsm.push(
+                LevelFinishState(
+                    context,
+                    area,
+                    level,
+                    hud.getMoves(),
+                    hud.getBest(),
+                    hud.getGoal(),
+                    newRecord
+                )
+            )
         }
     }
 
@@ -95,7 +106,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
 
     private fun handleInput() {
         unprojectTouch()
-        hud.update()
+        hud.handleInput()
         when {
             Gdx.input.isKeyPressed(Input.Keys.RIGHT) -> player.moveTile(0, 1)
             Gdx.input.isKeyPressed(Input.Keys.LEFT) -> player.moveTile(0, -1)
@@ -118,7 +129,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
         camera.position.set(
             camera.position.lerp(
                 player.isop.x + cameraOffset.x,
-                player.isop.y + cameraOffset.y + HUD.HEIGHT / 2,
+                player.isop.y + cameraOffset.y,
                 0f,
                 0.1f
             )
@@ -127,6 +138,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
 
         bg.update(dt)
         tileMap.update(dt)
+        hud.update()
     }
 
     override fun render(sb: SpriteBatch) {

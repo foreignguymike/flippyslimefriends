@@ -22,6 +22,7 @@ open class ImageButton(
     private var destination = Vector2()
 
     var scale = 1f
+    var alpha = 1f
 
     var flipped = false
 
@@ -60,6 +61,8 @@ open class ImageButton(
     open fun render(sb: SpriteBatch) {
         val scaledWidth = width * scale
         val scaledHeight = height * scale
+        val temp = sb.color.a
+        sb.setAlpha(alpha)
         if (flipped) {
             sb.drawHFlip(
                 image,
@@ -77,6 +80,7 @@ open class ImageButton(
                 scaledHeight
             )
         }
+        sb.setAlpha(temp)
     }
 
 }

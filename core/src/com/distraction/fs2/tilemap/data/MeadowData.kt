@@ -371,15 +371,29 @@ object MeadowData {
         MapData(
             numRows = 5, numCols = 5,
             map = intArrayOf(
+                e, e, e, 0, 0,
                 0, 0, 0, 0, 0,
+                0, e, 0, e, 0,
                 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0
-            ), target = 28,
-            playerPositions = listOf(TilePoint(0, 0), TilePoint(4, 4)),
+                0, 0, e, e, e
+            ), target = 15,
+            playerPositions = listOf(TilePoint(4, 0), TilePoint(0, 4)),
             objects = listOf(
-                SuperJumpData(2, 3)
+                ArrowData(2, 2, Direction.UP)
+            )
+        ),
+        MapData(
+            numRows = 4, numCols = 5,
+            map = intArrayOf(
+                e, 0, 0, 0, e,
+                e, 0, 0, 0, 0,
+                0, 0, e, 0, e,
+                0, 0, 0, 0, 0
+            ), target = 15,
+            playerPositions = listOf(TilePoint(2, 0), TilePoint(2, 1)),
+            objects = listOf(
+                ArrowData(3, 2, Direction.LEFT),
+                ArrowData(1, 2, Direction.RIGHT)
             )
         )
     )
