@@ -45,10 +45,7 @@ class LevelFinishState(
             context.getImage("diamondfinishempty"),
             Constants.WIDTH / 2f + 80f,
             Constants.HEIGHT / 2 - infoBox.height / 2 + 64f
-        ).apply {
-            alpha = 0f
-            scale = 20f
-        }
+        )
 
     private val diamond =
         ImageButton(
@@ -69,6 +66,8 @@ class LevelFinishState(
             alpha = 0f
             scale = 20f
         }
+
+    private val lights = SpinningLights(context, star.pos.x, star.pos.y, 5, -40f)
 
     private val bestLabel = NumberLabel(
         context,
@@ -180,8 +179,6 @@ class LevelFinishState(
                 scale = 1f
             }
 
-            diamondEmpty.alpha = alpha
-            diamondEmpty.scale = scale
             diamond.alpha = alpha
             diamond.scale = scale
             star.alpha = alpha
@@ -189,6 +186,7 @@ class LevelFinishState(
         }
         camera.position.lerp(Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 0.1f)
         camera.update()
+        lights.update(dt)
     }
 
     override fun render(sb: SpriteBatch) {
@@ -205,6 +203,9 @@ class LevelFinishState(
             diamondEmpty.render(sb)
             if (moves == goal) {
                 diamond.render(sb)
+            }
+            if (star.scale < 2) {
+                lights.render(sb)
             }
             star.render(sb)
             completeImage.render(sb)

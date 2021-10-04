@@ -29,22 +29,22 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
         LEFT to
                 ImageButton(
                     context.getImage("upleftarrow"),
-                    a.x - dist, a.y + dist
+                    a.x - dist, a.y + dist, 5f
                 ),
         UP to
                 ImageButton(
                     context.getImage("uprightarrow"),
-                    a.x + dist, a.y + dist
+                    a.x + dist, a.y + dist, 5f
                 ),
         RIGHT to
                 ImageButton(
                     context.getImage("downrightarrow"),
-                    a.x + dist, a.y - dist
+                    a.x + dist, a.y - dist, 5f
                 ),
         DOWN to
                 ImageButton(
                     context.getImage("downleftarrow"),
-                    a.x - dist, a.y - dist
+                    a.x - dist, a.y - dist, 5f
                 )
     )
     private val uiButtons = mapOf(
@@ -140,10 +140,9 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
 
     fun render(sb: SpriteBatch) {
         sb.projectionMatrix = topCam.combined
-        sb.setColor(GameColor.DARK_TEAL)
+        sb.setColor(GameColor.DARK_TEAL, 0.5f)
         sb.draw(pixel, 0f, Constants.HEIGHT - HEIGHT, Constants.WIDTH, HEIGHT)
         sb.resetColor()
-        sb.draw(pixel, 0f, Constants.HEIGHT - HEIGHT + 2f, Constants.WIDTH, 1f)
         labels.forEach { it.render(sb) }
         uiButtons.values.forEach { it.render(sb) }
 
@@ -152,7 +151,7 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
     }
 
     companion object {
-        const val HEIGHT = 50f
+        const val HEIGHT = 48f
     }
 }
 

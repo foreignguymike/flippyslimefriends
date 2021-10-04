@@ -32,6 +32,15 @@ fun Int.pmod(other: Int): Int {
     return p
 }
 
+/**
+ * Map in place
+ */
+fun <T> MutableList<T>.mapInPlace(mapper: (T) -> (T)) {
+    forEachIndexed { index, value ->
+        this[index] = mapper(value)
+    }
+}
+
 fun AssetManager.getAtlas(): TextureAtlas = get("fs2.atlas", TextureAtlas::class.java)
 
 inline fun SpriteBatch.use(action: () -> Unit) {
@@ -87,13 +96,7 @@ fun SpriteBatch.drawHFlip(
     w: Float = textureRegion.regionWidth.toFloat(),
     h: Float = textureRegion.regionHeight.toFloat()
 ) {
-    draw(
-        textureRegion,
-        x,
-        y,
-        -textureRegion.regionWidth.toFloat(),
-        textureRegion.regionHeight.toFloat()
-    )
+    draw(textureRegion, x, y, -w, h)
 }
 
 fun SpriteBatch.drawVFlip(textureRegion: TextureRegion, x: Float, y: Float) {
@@ -116,15 +119,22 @@ fun SpriteBatch.drawVHFlip(textureRegion: TextureRegion, x: Float, y: Float) {
     )
 }
 
-fun SpriteBatch.drawRotated(textureRegion: TextureRegion, x: Float, y: Float, degrees: Float) {
+fun SpriteBatch.drawRotated(
+    image: TextureRegion,
+    x: Float,
+    y: Float,
+    degrees: Float,
+    originx: Float = image.regionWidth / 2f,
+    originy: Float = image.regionHeight / 2f
+) {
     draw(
-        textureRegion,
-        x,
-        y,
-        textureRegion.regionWidth / 2f,
-        textureRegion.regionHeight / 2f,
-        1f * textureRegion.regionWidth,
-        1f * textureRegion.regionHeight,
+        image,
+        x - image.regionWidth / 2f,
+        y - image.regionHeight / 2f,
+        originx,
+        originy,
+        1f * image.regionWidth,
+        1f * image.regionHeight,
         1f,
         1f,
         degrees
@@ -137,6 +147,10 @@ fun SpriteBatch.resetColor() {
 
 fun SpriteBatch.setColor(color: GameColor) {
     setColor(color.r, color.g, color.b, color.a)
+}
+
+fun SpriteBatch.setColor(color: GameColor, a: Float) {
+    setColor(color.r, color.g, color.b, a)
 }
 
 fun SpriteBatch.setAlpha(a: Float) {

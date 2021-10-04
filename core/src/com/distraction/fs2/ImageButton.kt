@@ -49,7 +49,7 @@ open class ImageButton(
                 && pos.y + scaledHeight / 2 + padding >= y
     }
 
-    fun update(dt: Float) {
+    open fun update(dt: Float) {
         if (lerpAlpha >= 0f) {
             pos.lerp(destination, lerpAlpha)
         }
