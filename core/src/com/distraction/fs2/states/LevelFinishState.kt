@@ -19,6 +19,7 @@ class LevelFinishState(
 ) : GameState(context) {
 
     private val dimColor = Color(0f, 0f, 0f, 0f)
+    private val maxDimAlpha = 0.4f
     private val staticCam = OrthographicCamera().apply {
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
     }
@@ -33,7 +34,7 @@ class LevelFinishState(
         Constants.WIDTH / 2f,
         Constants.HEIGHT / 2f,
         2f * Constants.WIDTH / 4f,
-        4f * Constants.HEIGHT / 5f,
+        4f * Constants.HEIGHT / 5f + 10,
         GameColor.DARK_BLUE
     )
 
@@ -67,7 +68,8 @@ class LevelFinishState(
             scale = 20f
         }
 
-    private val lights = SpinningLights(context, star.pos.x, star.pos.y, 5, -40f)
+    private val lights = SpinningLights(context, star.pos.x, star.pos.y, 5)
+    private val diamondLights = SpinningLights(context, diamond.pos.x, diamond.pos.y, 5, 0.5f)
 
     private val bestLabel = NumberLabel(
         context,
@@ -80,7 +82,7 @@ class LevelFinishState(
         context,
         context.getImage("goal"),
         Vector2(Constants.WIDTH / 2f + 10, Constants.HEIGHT / 2 - infoBox.height / 2 + 54f),
-        best
+        goal
     )
 
     private val movesLabel = NumberLabel(
@@ -94,7 +96,7 @@ class LevelFinishState(
         context.getImage("backicon"),
         context.getImage("iconbuttonbg"),
         Constants.WIDTH / 2 - 80f,
-        Constants.HEIGHT / 2 - infoBox.height / 2 + 24f,
+        Constants.HEIGHT / 2 - infoBox.height / 2 + 26f,
         5f
     )
 
@@ -102,7 +104,7 @@ class LevelFinishState(
         context.getImage("restarticon"),
         context.getImage("iconbuttonbg"),
         Constants.WIDTH / 2 - 40f,
-        Constants.HEIGHT / 2 - infoBox.height / 2 + 24f,
+        Constants.HEIGHT / 2 - infoBox.height / 2 + 26f,
         5f
     )
 
@@ -110,7 +112,7 @@ class LevelFinishState(
         context.getImage("next"),
         context.getImage("buttonbg"),
         Constants.WIDTH / 2f + 50f,
-        Constants.HEIGHT / 2 - infoBox.height / 2 + 24f,
+        Constants.HEIGHT / 2 - infoBox.height / 2 + 26f,
         5f
     )
 
@@ -162,10 +164,10 @@ class LevelFinishState(
         if (!ignoreInput) {
             handleInput()
         }
-        if (dimColor.a < 0.7f) {
+        if (dimColor.a < maxDimAlpha) {
             dimColor.a += 2f * dt
-            if (dimColor.a > 0.7f) {
-                dimColor.a = 0.7f
+            if (dimColor.a > maxDimAlpha) {
+                dimColor.a = maxDimAlpha
             }
         }
         time += dt
@@ -187,6 +189,7 @@ class LevelFinishState(
         camera.position.lerp(Constants.WIDTH / 2f, Constants.HEIGHT / 2f, 0f, 0.1f)
         camera.update()
         lights.update(dt)
+        diamondLights.update(dt)
     }
 
     override fun render(sb: SpriteBatch) {
@@ -201,7 +204,10 @@ class LevelFinishState(
             sb.resetColor()
             infoBox.render(sb)
             diamondEmpty.render(sb)
-            if (moves == goal) {
+            if (moves <= goal) {
+                if (diamond.scale < 2) {
+                    diamondLights.render(sb)
+                }
                 diamond.render(sb)
             }
             if (star.scale < 2) {

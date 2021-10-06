@@ -30,6 +30,10 @@ class InfoBox(
     override fun render(sb: SpriteBatch) {
         sb.setColor(color)
         sb.draw(pixel, left, bottom, width, height)
+        sb.setColor(GameColor.DARK_TEAL)
+        sb.draw(pixel, left, bottom, width / 5, height)
+        sb.draw(pixel, left + 2 * width / 5, bottom, width / 5, height)
+        sb.draw(pixel, left + 4 * width / 5, bottom, width / 5, height)
         sb.resetColor()
         sb.drawCentered(patch[1], left, top, width, patch[1].regionHeight.toFloat())
         sb.drawCentered(patch[6], left, bottom, width, patch[6].regionHeight.toFloat())

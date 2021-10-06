@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.ButtonListener.ButtonType.*
 import com.distraction.fs2.tilemap.data.GameColor
 
-class HUD(context: Context, private val buttonListener: ButtonListener) {
+class HUD(context: Context, private val level: Int, private val buttonListener: ButtonListener) {
     private val touchPoint = Vector3()
     private val pixel = context.getImage("pixel")
 
@@ -52,17 +52,19 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
                 IconButton(
                     context.getImage("backicon"),
                     context.getImage("iconbuttonbg"),
-                    25f, Constants.HEIGHT - 22f,
+                    25f, Constants.HEIGHT - HEIGHT / 2f,
                     5f
                 ),
         RESTART to
                 IconButton(
                     context.getImage("restarticon"),
                     context.getImage("iconbuttonbg"),
-                    65f, Constants.HEIGHT - 22f,
+                    65f, Constants.HEIGHT - HEIGHT / 2f,
                     5f
                 )
-    )
+    ).also {
+        println("setting up title to ${level + 1}")
+    }
 
     private val labels = arrayOf(
         NumberLabel(
@@ -80,26 +82,33 @@ class HUD(context: Context, private val buttonListener: ButtonListener) {
             context.getImage("moves"),
             Vector2(Constants.WIDTH - 130f, Constants.HEIGHT - 35f),
             0
+        ),
+        NumberLabel(
+            context,
+            context.getImage("leveltitle"),
+            Vector2(130f, Constants.HEIGHT - HEIGHT / 2f),
+            level + 1,
+            NumberFont.NumberSize.LARGE
         )
     )
 
     fun setTarget(target: Int) {
-        labels[0].num = target
+        labels[0].font.num = target
     }
 
     fun setBest(best: Int) {
         if (best == 0) {
-            labels[1].num = -1
+            labels[1].font.num = -1
         } else {
-            labels[1].num = best
+            labels[1].font.num = best
         }
     }
 
-    fun getGoal() = labels[0].num
-    fun getBest() = labels[1].num
-    fun getMoves() = labels[2].num
+    fun getGoal() = labels[0].font.num
+    fun getBest() = labels[1].font.num
+    fun getMoves() = labels[2].font.num
 
-    fun incrementMoves() = labels[2].num++
+    fun incrementMoves() = labels[2].font.num++
 
     private fun updateVisibility() {
         if (hideInfo) {
@@ -172,11 +181,17 @@ class NumberLabel(
     context: Context,
     private val image: TextureRegion,
     private val pos: Vector2,
-    var num: Int = -1
+    num: Int = -1,
+    size: NumberFont.NumberSize = NumberFont.NumberSize.MEDIUM
 ) {
-    private val numberFont = NumberFont(context)
+    val font = NumberFont(context, size = size)
+
+    init {
+        font.num = num
+    }
+
     fun render(sb: SpriteBatch) {
         sb.draw(image, pos.x - image.regionWidth / 2, pos.y - image.regionHeight / 2)
-        numberFont.render(sb, pos.x + image.regionWidth / 2 + 5, pos.y, num)
+        font.render(sb, pos.x + image.regionWidth / 2 + 5, pos.y)
     }
 }

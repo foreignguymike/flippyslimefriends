@@ -32,7 +32,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
     }
 
-    private val hud = HUD(context, this)
+    private val hud = HUD(context, level, this)
     private val cameraOffset = Vector2(0f, HUD.HEIGHT / 2f)
 
     init {

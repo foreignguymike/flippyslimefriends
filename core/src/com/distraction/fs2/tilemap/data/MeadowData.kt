@@ -369,6 +369,27 @@ object MeadowData {
             )
         ),
         MapData(
+            numRows = 8, numCols = 5,
+            map = intArrayOf(
+                e, e, e, 0, e,
+                e, e, e, 0, 0,
+                e, e, e, 0, e,
+                e, e, e, 0, e,
+                e, 0, 0, 0, e,
+                0, 0, 0, 0, e,
+                0, 0, 0, 0, e,
+                e, 0, 0, e, e
+            ),
+            target = 23,
+            playerPositions = listOf(TilePoint(6, 0)),
+            objects = listOf(
+                ArrowData(5, 3, Direction.UP),
+                ArrowData(4, 3, Direction.DOWN),
+                SuperJumpData(4, 3),
+                SuperJumpData(5, 3)
+            )
+        ),
+        MapData(
             numRows = 5, numCols = 5,
             map = intArrayOf(
                 e, e, e, 0, 0,

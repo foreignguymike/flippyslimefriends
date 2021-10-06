@@ -15,7 +15,8 @@ class LevelSelectState(
     level: Int = -1
 ) : GameState(context) {
 
-    private val levelCheck = context.getImage("levelcheck")
+    private val diamond = context.getImage("leveldiamondicon")
+    private val diamondEmpty = context.getImage("leveldiamondemptyicon")
     private val numRows = 3
     private val numCols = 5
     private val pageSize = numRows * numCols
@@ -128,22 +129,24 @@ class LevelSelectState(
 
             sb.projectionMatrix = camera.combined
             levels.forEachIndexed { i, it ->
-                val c = sb.color
+                sb.resetColor()
                 val best = context.scoreHandler.getScores(area)[i]
                 if (best == 0) {
                     sb.color = disableColor
                 }
                 it.render(sb)
                 numberFont.num = i + 1
-                numberFont.render(sb, it.pos.x, it.pos.y + 1)
-                sb.color = c
-                if (best > 0 && best <= levelData[i].target) {
-                    sb.draw(
-                        levelCheck,
-                        it.pos.x - levelCheck.regionWidth / 2,
-                        it.pos.y - levelCheck.regionHeight / 2 + 14
-                    )
-                }
+                numberFont.render(sb, it.pos.x, it.pos.y - 5)
+                sb.resetColor()
+                sb.draw(
+                    if (best > 0 && best <= levelData[i].target) {
+                        diamond
+                    } else {
+                        diamondEmpty
+                    },
+                    it.pos.x - diamond.regionWidth / 2,
+                    it.pos.y - diamond.regionHeight / 2 + 13
+                )
             }
         }
     }

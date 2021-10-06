@@ -24,6 +24,7 @@ class TilePanel(private val clickTypeListener: ClickTypeListener) : JPanel(), Ac
         LEFT,
         JUMP,
         TELEPORT,
+        ICE,
         CLEAR(false),
         DEACTIVATE(false)
     }

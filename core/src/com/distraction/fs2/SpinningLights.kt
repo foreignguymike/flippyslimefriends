@@ -2,7 +2,14 @@ package com.distraction.fs2
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 
-class SpinningLights(context: Context, x: Float, y: Float, spokes: Int, val rotationSpeedDeg: Float = -360f) :
+class SpinningLights(
+    context: Context,
+    x: Float,
+    y: Float,
+    spokes: Int,
+    scale: Float = 1f,
+    private val rotationSpeedDeg: Float = -40f
+) :
     ImageButton(context.getImage("pixel"), x, y) {
 
     private val spotlight = context.getImage("spotlight")
@@ -10,6 +17,7 @@ class SpinningLights(context: Context, x: Float, y: Float, spokes: Int, val rota
 
     init {
         pos.y = y + spotlight.regionHeight / 2f
+        this.scale = scale
     }
 
     override fun update(dt: Float) {
@@ -18,7 +26,7 @@ class SpinningLights(context: Context, x: Float, y: Float, spokes: Int, val rota
 
     override fun render(sb: SpriteBatch) {
         degrees.forEach {
-            sb.drawRotated(spotlight, pos.x, pos.y, it, spotlight.regionWidth / 2f, 0f)
+            sb.drawRotated(spotlight, pos.x, pos.y, it, spotlight.regionWidth / 2f, 0f, scale)
         }
     }
 

@@ -1,5 +1,8 @@
 package com.distraction.fs2.tilemap.data
 
+import com.distraction.fs2.tilemap.data.GameData.Companion.b
+import com.distraction.fs2.tilemap.data.GameData.Companion.e
+
 object TundraData {
 
     val data = listOf(
@@ -37,7 +40,51 @@ object TundraData {
                 IceData(1, 1),
                 IceData(2, 2)
             )
+        ),
+
+
+
+        MapData(
+            numRows = 5, numCols = 5,
+            map = intArrayOf(
+                0, e, e, b, e,
+                0, 0, 0, 0, e,
+                0, e, e, 0, e,
+                0, 0, 0, 0, b,
+                b, e, e, e, e
+            ),
+            target = 10,
+            playerPositions = listOf(TilePoint(0, 0)),
+            objects = listOf(
+                IceData(1, 0),
+                IceData(2, 0),
+                IceData(3, 0),
+                IceData(3, 1),
+                IceData(3, 2),
+                IceData(3, 3),
+                IceData(2, 3),
+                IceData(1, 3),
+                IceData(1, 2)
+            )
+        ),
+
+
+
+
+        MapData(
+            numRows = 3, numCols = 5,
+            map = intArrayOf(
+                e, e, 0, e, e,
+                0, 0, 0, 0, 0,
+                e, e, 0, e, e
+            ),
+            target = 7,
+            playerPositions = listOf(TilePoint(1, 0), TilePoint(1, 4)),
+            objects = listOf(
+                IceData(1, 1),
+                IceData(1, 2),
+                IceData(1, 3)
+            )
         )
     )
-
 }

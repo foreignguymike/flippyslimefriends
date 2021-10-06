@@ -34,8 +34,10 @@ class NumberFont(
             val s = value.toString()
             length = 0
             for (c in s) {
-                val n = c.intValue()
-                length += images[n].regionWidth + 1
+                if (c != '-') {
+                    val n = c.intValue()
+                    length += images[n].regionWidth + 1
+                }
             }
             field = value
         }
@@ -50,6 +52,7 @@ class NumberFont(
             return
         }
         val s = num.toString()
+//        println("drawing $s")
         var offset = 0
         if (centerAlign) {
             for (c in s) {

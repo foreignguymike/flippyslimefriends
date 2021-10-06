@@ -115,7 +115,7 @@ class TileMap(
         getTile(row, col)?.setType(index)
     }
 
-    fun toIndex(row: Int, col: Int) = MathUtils.clamp(row * numCols + col, 0, map.size)
+    fun toIndex(row: Int, col: Int) = MathUtils.clamp(row * numCols + col, 0, map.size - 1)
 
     fun getTile(row: Int, col: Int) = map[toIndex(row, col)]
 

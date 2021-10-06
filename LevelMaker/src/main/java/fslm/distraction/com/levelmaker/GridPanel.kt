@@ -16,6 +16,7 @@ class Tile(var row: Int, var col: Int, val rect: Rectangle = Rectangle(), tile: 
         DOWN,
         LEFT,
         JUMP,
+        ICE,
         TELEPORT;
 
         fun isArrow() = this == RIGHT || this == UP || this == DOWN || this == LEFT
@@ -44,6 +45,7 @@ class Tile(var row: Int, var col: Int, val rect: Rectangle = Rectangle(), tile: 
     private val activeColor = Color(0, 220, 0)
     private val arrowColor = Color(40, 100, 250)
     private val jumpColor = Color(250, 250, 40)
+    private val iceColor = Color(176, 255, 241)
     private val teleportColor = Color(50, 150, 255)
     private val stroke3 = BasicStroke(3f)
 
@@ -128,6 +130,10 @@ class Tile(var row: Int, var col: Int, val rect: Rectangle = Rectangle(), tile: 
                 JUMP -> {
                     g.color = jumpColor
                     g.drawRect(rect.width / 4, rect.height / 4, rect.width / 2, rect.height / 2)
+                }
+                ICE -> {
+                    g.color = iceColor
+                    g.fillRect(rect.width / 4, rect.height / 4, rect.width / 2, rect.height / 2)
                 }
                 else -> {
                 }
@@ -256,6 +262,7 @@ class GridPanel : JPanel() {
                             TilePanel.ClickType.DOWN -> tileObject(DOWN)
                             TilePanel.ClickType.LEFT -> tileObject(LEFT)
                             TilePanel.ClickType.JUMP -> tileObject(JUMP)
+                            TilePanel.ClickType.ICE -> tileObject(ICE)
                             TilePanel.ClickType.TELEPORT -> {
                                 gridTele?.let {
                                     if (tile) {
@@ -310,6 +317,27 @@ class GridPanel : JPanel() {
     fun indexToTile(index: Int) = Vector2(index / numCols, index % numCols)
     fun tileToIndex(row: Int, col: Int) = row * numCols + col
 
+    /**
+     * format:
+    MapData(
+    numRows = 4, numCols = 4,
+    map = intArrayOf(
+    0, 0, 0, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0
+    ),
+    target = 19,
+    playerPositions = listOf(TilePoint(3, 3)),
+    objects = listOf(
+    ArrowData(1, 0, Direction.RIGHT),
+    ArrowData(2, 3, Direction.LEFT),
+    IceData(1, 1),
+    IceData(2, 2)
+    )
+    )
+     *
+     */
     fun createLevelText(active: Boolean = false): String {
         val sb = StringBuilder()
 
@@ -335,10 +363,9 @@ class GridPanel : JPanel() {
             }
         }
 
-        val gridRows = maxRow - minRow + 1
-        val gridCols = maxCol - minCol + 1
-        val minIndex = tileToIndex(minRow, minCol)
-        val grid = ArrayList<Int>(gridRows * gridCols)
+        val numRows = maxRow - minRow + 1
+        val numCols = maxCol - minCol + 1
+        val grid = ArrayList<Char>(numRows * numCols)
         val objects = ArrayList<TileObjectData>()
 
         for (row in minRow..maxRow) {
@@ -349,8 +376,8 @@ class GridPanel : JPanel() {
                 val acol = col - minCol
                 grid.add(
                         if (tile.tile) {
-                            if (active && tile.active) 2 else 1
-                        } else 0
+                            if (active && tile.active) '1' else '0'
+                        } else 'e'
                 )
                 for (tileObject in tile.objects) {
                     if (tileObject == TELEPORT) {
@@ -369,20 +396,29 @@ class GridPanel : JPanel() {
             if (t1.tileObject.isArrow()) -1 else 1
         })
 
-        sb.append("TileMapDataModel($gridRows, $gridCols, intArrayOf(\n")
-        sb.append("\t${grid.joinToString(", ", "\n", gridCols)}\n)${if (objects.size > 0) ", arrayOf(\n" else ")"}")
+        sb.append("MapData(\n")
+        sb.append("\tnumRows = $numRows, numCols = $numCols,\n")
+        sb.append("\tmap = intArrayOf(\n")
+        sb.append("${grid.joinToString(", ", "\n", numCols)}\n")
+        sb.append("\t),\n")
+        sb.append("\ttarget = 0,\n")
+        sb.append("\tplayerPositions = listOf(TilePoint(0, 0)),\n")
         if (objects.size > 0) {
+            sb.append("\tobjects = listOf(\n")
             sb.append("\t\t${objects.joinToString(",\n", transform = {
                 when (it.tileObject) {
-                    RIGHT -> "arrowRight(${it.row}, ${it.col})"
-                    UP -> "arrowUp(${it.row}, ${it.col})"
-                    DOWN -> "arrowDown(${it.row}, ${it.col})"
-                    LEFT -> "arrowLeft(${it.row}, ${it.col})"
-                    JUMP -> "superJump(${it.row}, ${it.col})"
+                    RIGHT -> "ArrowData(${it.row}, ${it.col}, Direction.RIGHT)"
+                    UP -> "ArrowData(${it.row}, ${it.col}, Direction.UP)"
+                    DOWN -> "ArrowData(${it.row}, ${it.col}, Direction.DOWN)"
+                    LEFT -> "ArrowData(${it.row}, ${it.col}, Direction.LEFT)"
+                    JUMP -> "SuperJumpData(${it.row}, ${it.col})"
+                    ICE -> "IceData(${it.row}, ${it.col})"
                     TELEPORT -> "teleport(${it.row}, ${it.col}, ${it.row2}, ${it.col2})"
                 }
-            })}))")
+            })}\n")
+            sb.append("\t)\n")
         }
+        sb.append("\t)")
         return sb.toString()
     }
 }

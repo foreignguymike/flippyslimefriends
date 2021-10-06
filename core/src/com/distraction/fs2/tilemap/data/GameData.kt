@@ -39,6 +39,7 @@ class GameData(val context: Context) {
 
     companion object {
         const val e = -1
+        const val b = 5
         const val g = 100
     }
 

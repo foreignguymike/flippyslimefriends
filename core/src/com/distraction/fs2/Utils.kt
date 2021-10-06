@@ -125,7 +125,8 @@ fun SpriteBatch.drawRotated(
     y: Float,
     degrees: Float,
     originx: Float = image.regionWidth / 2f,
-    originy: Float = image.regionHeight / 2f
+    originy: Float = image.regionHeight / 2f,
+    scale: Float = 1f
 ) {
     draw(
         image,
@@ -135,8 +136,8 @@ fun SpriteBatch.drawRotated(
         originy,
         1f * image.regionWidth,
         1f * image.regionHeight,
-        1f,
-        1f,
+        scale,
+        scale,
         degrees
     )
 }

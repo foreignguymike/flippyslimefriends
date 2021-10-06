@@ -58,7 +58,11 @@ class Player(
         )
         animationSet.addAnimation(
             "jumpr",
-            Animation(context.getImage("playerjumpr").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0], 0.1f, 1)
+            Animation(
+                context.getImage("playerjumpr").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0],
+                0.1f,
+                1
+            )
         )
         animationSet.addAnimation(
             "crouch",
@@ -91,13 +95,7 @@ class Player(
 
         // ignore if the tile is blocked
         // but allow it if you're super jumping
-        if (tileMap.getTile(row + drow, col + dcol)?.isBlocked() == true && !superjump) {
-            sliding = false
-            return
-        }
-
-        // ignore if another player is on this tile, but allow if super jumping
-        if (!superjump && players.any { it.row == row + drow && it.col == col + dcol }) {
+        if (!superjump && isTileBlocked(row + drow, col + dcol)) {
             sliding = false
             return
         }
@@ -131,6 +129,13 @@ class Player(
             tile.lock = true
         }
     }
+
+    /**
+     * Tile is blocked or there is another player in the way.
+     */
+    private fun isTileBlocked(row: Int, col: Int) =
+        tileMap.getTile(row, col)?.isBlocked() == true
+                || players.any { it.row == row && it.col == col }
 
     private fun getRemainingDistance() = Utils.dist(pdest.x, pdest.y, p.x, p.y)
 
@@ -248,8 +253,7 @@ class Player(
     }
 
     override fun update(dt: Float) {
-        // if player is on a moving tile and the player is currently not moving
-        // match the player's position with tile's position
+        // stick the player on moving tiles
         currentTile?.let {
             if (!moving && it.moving) {
                 p.set(it.p.x, it.p.y, p.z)
@@ -259,7 +263,7 @@ class Player(
             }
         }
 
-        // if player is not at destination, move player's position towards destination by dist amount
+        // move towards destination by dist amount
         if (!atDestination()) {
             val dist = dt *
                     (if (teleporting && justTeleported) teleportSpeed else speed) * // base speed
@@ -283,10 +287,8 @@ class Player(
                     return
                 }
                 handleJustMoved(row, col)
+                handleTileObjects(row, col)
             }
-
-            // handle any tile objects
-            handleTileObjects(row, col)
         }
 
         updateBounceHeight()
