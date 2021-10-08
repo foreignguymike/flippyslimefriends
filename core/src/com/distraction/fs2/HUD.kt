@@ -9,7 +9,12 @@ import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.ButtonListener.ButtonType.*
 import com.distraction.fs2.tilemap.data.GameColor
 
-class HUD(context: Context, private val level: Int, private val buttonListener: ButtonListener) {
+class HUD(
+    context: Context,
+    level: Int,
+    private val buttonListener: ButtonListener,
+    private val multiplayer: Boolean
+) {
     private val touchPoint = Vector3()
     private val pixel = context.getImage("pixel")
 
@@ -25,7 +30,7 @@ class HUD(context: Context, private val level: Int, private val buttonListener: 
     // for arrow button placement
     private val a = Vector2(60f, 60f)
     private val dist = 22f
-    private val arrowButtons = mapOf(
+    private val bottomButtons = mapOf(
         LEFT to
                 ImageButton(
                     context.getImage("upleftarrow"),
@@ -47,7 +52,7 @@ class HUD(context: Context, private val level: Int, private val buttonListener: 
                     a.x - dist, a.y - dist, 5f
                 )
     )
-    private val uiButtons = mapOf(
+    private val topButtons = mapOf(
         BACK to
                 IconButton(
                     context.getImage("backicon"),
@@ -62,9 +67,12 @@ class HUD(context: Context, private val level: Int, private val buttonListener: 
                     65f, Constants.HEIGHT - HEIGHT / 2f,
                     5f
                 )
-    ).also {
-        println("setting up title to ${level + 1}")
-    }
+    )
+    private val switchButton = TextButton(
+        context.getImage("switch"),
+        context.getImage("buttonbg"),
+        Constants.WIDTH / 2f, 30f, 5f
+    )
 
     private val labels = arrayOf(
         NumberLabel(
@@ -123,22 +131,37 @@ class HUD(context: Context, private val level: Int, private val buttonListener: 
     }
 
     fun handleInput() {
-        arrowButtons.values.forEach { it.scale = 1f }
-        uiButtons.values.forEach { it.scale = 1f }
+        topButtons.values.forEach { it.scale = 1f }
+        bottomButtons.values.forEach { it.scale = 1f }
+        switchButton.scale = 1f
         if (Gdx.input.isTouched) {
             touchPoint.set(1f * Gdx.input.x, 1f * Gdx.input.y, 0f)
             topCam.unproject(touchPoint)
-            arrowButtons.forEach { (key, value) ->
+            topButtons.forEach { (key, value) ->
                 if (value.containsPoint(touchPoint.x, touchPoint.y)) {
                     buttonListener.onButtonPressed(key)
                     value.scale = 0.75f
+                } else {
+                    value.scale = 1f
                 }
             }
-            uiButtons.forEach { (key, value) ->
+            touchPoint.set(1f * Gdx.input.x, 1f * Gdx.input.y, 0f)
+            bottomCam.unproject(touchPoint)
+            bottomButtons.forEach { (key, value) ->
                 if (value.containsPoint(touchPoint.x, touchPoint.y)) {
                     buttonListener.onButtonPressed(key)
                     value.scale = 0.75f
+                } else {
+                    value.scale = 1f
                 }
+            }
+            if (switchButton.containsPoint(touchPoint.x, touchPoint.y)) {
+                switchButton.scale = 0.75f
+            }
+        }
+        if (Gdx.input.justTouched()) {
+            if (switchButton.scale < 1f) {
+                buttonListener.onButtonPressed(SWITCH)
             }
         }
     }
@@ -153,10 +176,13 @@ class HUD(context: Context, private val level: Int, private val buttonListener: 
         sb.draw(pixel, 0f, Constants.HEIGHT - HEIGHT, Constants.WIDTH, HEIGHT)
         sb.resetColor()
         labels.forEach { it.render(sb) }
-        uiButtons.values.forEach { it.render(sb) }
+        topButtons.forEach { it.value.render(sb) }
 
         sb.projectionMatrix = bottomCam.combined
-        arrowButtons.values.forEach { it.render(sb) }
+        bottomButtons.forEach { it.value.render(sb) }
+        if (multiplayer) {
+            switchButton.render(sb)
+        }
     }
 
     companion object {
@@ -171,7 +197,8 @@ interface ButtonListener {
         DOWN,
         RIGHT,
         RESTART,
-        BACK
+        BACK,
+        SWITCH
     }
 
     fun onButtonPressed(type: ButtonType)

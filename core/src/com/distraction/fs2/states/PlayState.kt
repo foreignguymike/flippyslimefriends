@@ -32,7 +32,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
     }
 
-    private val hud = HUD(context, level, this)
+    private val hud = HUD(context, level, this, players.size > 1)
     private val cameraOffset = Vector2(0f, HUD.HEIGHT / 2f)
 
     init {
@@ -97,6 +97,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
             ButtonListener.ButtonType.LEFT -> player.moveTile(0, -1)
             ButtonListener.ButtonType.DOWN -> player.moveTile(1, 0)
             ButtonListener.ButtonType.RIGHT -> player.moveTile(0, 1)
+            ButtonListener.ButtonType.SWITCH -> playerIndex = (playerIndex + 1) % players.size
             ButtonListener.ButtonType.RESTART -> onIllegal()
             ButtonListener.ButtonType.BACK -> back()
         }

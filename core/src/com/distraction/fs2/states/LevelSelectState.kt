@@ -12,7 +12,7 @@ import com.distraction.fs2.tilemap.data.GameColor
 class LevelSelectState(
     context: Context,
     private val area: Area,
-    level: Int = -1
+    private val level: Int = -1
 ) : GameState(context) {
 
     private val diamond = context.getImage("leveldiamondicon")
@@ -40,8 +40,15 @@ class LevelSelectState(
     }
 
     private val numberFont = NumberFont(context, true, NumberFont.NumberSize.LARGE)
+    private val levelSelectedBorder = BreathingImage(
+        context.getImage("levelselectedborder"),
+        if (level < 0) 0f else levels[level].pos.x,
+        if (level < 0) 0f else levels[level].pos.y,
+        offset = 0.03f
+    )
     private val levelSelectImage = context.getImage("levelselect")
-    private val backButton = TextButton(context.getImage("back"), context.getImage("buttonbg"), Constants.WIDTH / 2, 20f)
+    private val backButton =
+        TextButton(context.getImage("back"), context.getImage("buttonbg"), Constants.WIDTH / 2, 20f)
     private val disableColor = Color(0.3f, 0.3f, 0.3f, 1f)
     private val staticCam = OrthographicCamera().apply {
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
@@ -59,41 +66,73 @@ class LevelSelectState(
     init {
         camera.position.set(Constants.WIDTH * page + Constants.WIDTH / 2, Constants.HEIGHT / 2, 0f)
         camera.update()
+
+        rightButton.setPosition(
+            Constants.WIDTH + if (page == maxPages - 1) 50f else -50f,
+            rightButton.pos.y
+        )
+        leftButton.setPosition(if (page == 0) -50f else 50f, leftButton.pos.y)
+    }
+
+    private fun incrementPage() {
+        if (page < maxPages - 1) {
+            page++
+            updateNavButtons()
+        }
+    }
+
+    private fun decrementPage() {
+        if (page > 0) {
+            page--
+            updateNavButtons()
+        }
+    }
+
+    private fun updateNavButtons() {
+        if (page == maxPages - 1) {
+            rightButton.lerpTo(Constants.WIDTH + 50f, rightButton.pos.y, 0.06f)
+        } else {
+            rightButton.lerpTo(Constants.WIDTH - 50f, rightButton.pos.y)
+        }
+        if (page == 0) {
+            leftButton.lerpTo(-50f, leftButton.pos.y, 0.06f)
+        } else {
+            leftButton.lerpTo(50f, leftButton.pos.y)
+        }
+    }
+
+    private fun handleInput() {
+        if (Gdx.input.justTouched()) {
+            unprojectTouch()
+            levels.forEachIndexed { i, it ->
+                if (it.containsPoint(touchPoint.x, touchPoint.y) && i < numLevels) {
+                    ignoreInput = true
+                    context.gsm.push(TransitionState(context, PlayState(context, area, i)))
+                    return@forEachIndexed
+                }
+            }
+
+            unprojectTouch(staticCam)
+            if (backButton.containsPoint(touchPoint.x, touchPoint.y)) {
+                ignoreInput = true
+                context.gsm.push(
+                    TransitionState(
+                        context,
+                        AreaSelectState(context, area.ordinal)
+                    )
+                )
+            }
+            if (leftButton.containsPoint(touchPoint.x, touchPoint.y)) {
+                decrementPage()
+            } else if (rightButton.containsPoint(touchPoint.x, touchPoint.y)) {
+                incrementPage()
+            }
+        }
     }
 
     override fun update(dt: Float) {
         if (!ignoreInput) {
-            if (Gdx.input.justTouched()) {
-                unprojectTouch()
-                levels.forEachIndexed { i, it ->
-                    if (it.containsPoint(touchPoint.x, touchPoint.y) && i < numLevels) {
-                        ignoreInput = true
-                        context.gsm.push(TransitionState(context, PlayState(context, area, i)))
-                        return@forEachIndexed
-                    }
-                }
-
-                touchPoint.set(1f * Gdx.input.x, 1f * Gdx.input.y, 0f)
-                staticCam.unproject(touchPoint)
-                if (backButton.containsPoint(touchPoint.x, touchPoint.y)) {
-                    ignoreInput = true
-                    context.gsm.push(
-                        TransitionState(
-                            context,
-                            AreaSelectState(context, area.ordinal)
-                        )
-                    )
-                }
-                if (leftButton.containsPoint(touchPoint.x, touchPoint.y)) {
-                    if (page > 0) {
-                        page--
-                    }
-                } else if (rightButton.containsPoint(touchPoint.x, touchPoint.y)) {
-                    if (page < maxPages - 1) {
-                        page++
-                    }
-                }
-            }
+            handleInput()
         }
         camera.position.set(
             camera.position.lerp(
@@ -104,6 +143,9 @@ class LevelSelectState(
             )
         )
         camera.update()
+        levelSelectedBorder.update(dt)
+        leftButton.update(dt)
+        rightButton.update(dt)
     }
 
     override fun render(sb: SpriteBatch) {
@@ -123,9 +165,6 @@ class LevelSelectState(
                 Constants.HEIGHT - levelSelectImage.regionHeight - 8
             )
             backButton.render(sb)
-
-            if (page > 0) leftButton.render(sb)
-            if (page < maxPages - 1) rightButton.render(sb)
 
             sb.projectionMatrix = camera.combined
             levels.forEachIndexed { i, it ->
@@ -147,7 +186,14 @@ class LevelSelectState(
                     it.pos.x - diamond.regionWidth / 2,
                     it.pos.y - diamond.regionHeight / 2 + 13
                 )
+                if (level == i) {
+                    levelSelectedBorder.render(sb)
+                }
             }
+
+            sb.projectionMatrix = staticCam.combined
+            leftButton.render(sb)
+            rightButton.render(sb)
         }
     }
 }

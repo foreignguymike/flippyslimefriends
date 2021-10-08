@@ -16,12 +16,9 @@ object TundraData {
             target = 11,
             playerPositions = listOf(TilePoint(0, 0)),
             objects = listOf(
-                IceData(0, 1),
-                IceData(0, 2),
                 IceData(1, 1),
                 IceData(1, 2),
-                IceData(2, 1),
-                IceData(2, 2)
+                IceData(1, 3)
             )
         ),
         MapData(
@@ -41,7 +38,66 @@ object TundraData {
                 IceData(2, 2)
             )
         ),
-
+        MapData(
+            numRows = 4, numCols = 5,
+            map = intArrayOf(
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                e, 0, 0, 0, 0
+            ),
+            target = 28,
+            playerPositions = listOf(TilePoint(3, 4)),
+            objects = listOf(
+                IceData(0, 2),
+                IceData(1, 1),
+                IceData(1, 2),
+                IceData(1, 3),
+                IceData(2, 2),
+                IceData(2, 3),
+                IceData(3, 3)
+            )
+        ),
+        MapData(
+            numRows = 5, numCols = 5,
+            map = intArrayOf(
+                e, 0, 0, 0, e,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                e, 0, 0, 0, e
+            ),
+            target = 28,
+            playerPositions = listOf(TilePoint(0, 2)),
+            objects = listOf(
+                IceData(1, 2),
+                IceData(2, 1),
+                IceData(2, 2),
+                IceData(2, 3),
+                IceData(3, 2)
+            )
+        ),
+        MapData(
+            numRows = 5, numCols = 5,
+            map = intArrayOf(
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0
+            ),
+            target = 0,
+            playerPositions = listOf(TilePoint(0, 0)),
+            objects = listOf(
+                ArrowData(4, 0, Direction.RIGHT),
+                ArrowData(0, 4, Direction.LEFT),
+                IceData(0, 4),
+                IceData(1, 3),
+                IceData(2, 2),
+                IceData(3, 1),
+                IceData(4, 0)
+            )
+        ),
 
 
         MapData(
@@ -67,7 +123,26 @@ object TundraData {
                 IceData(1, 2)
             )
         ),
-
+        MapData(
+            numRows = 6, numCols = 5,
+            map = intArrayOf(
+                e, e, 0, 0, 0,
+                e, e, 0, b, 0,
+                e, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0, 0, 0, e, e
+            ),
+            target = 23,
+            playerPositions = listOf(TilePoint(3, 1)),
+            objects = listOf(
+                IceData(2, 2),
+                IceData(2, 3),
+                SuperJumpData(3, 2),
+                IceData(3, 3),
+                IceData(4, 2)
+            )
+        ),
 
 
 
