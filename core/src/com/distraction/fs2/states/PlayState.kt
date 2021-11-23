@@ -43,6 +43,10 @@ class PlayState(context: Context, private val area: Area, private val level: Int
         context.scoreHandler.scores[area]?.let {
             hud.setBest(it[level])
         }
+
+        if (players.size > 1) {
+            player.showSelected(true)
+        }
     }
 
     override fun onMoved() {
@@ -91,13 +95,22 @@ class PlayState(context: Context, private val area: Area, private val level: Int
         }
     }
 
+    private fun switchPlayer(di: Int) {
+        playerIndex = (playerIndex + di).pmod(players.size)
+        if (players.size > 1) {
+            players.forEachIndexed { index, player ->
+                player.showSelected(index == playerIndex)
+            }
+        }
+    }
+
     override fun onButtonPressed(type: ButtonListener.ButtonType) {
         when (type) {
             ButtonListener.ButtonType.UP -> player.moveTile(-1, 0)
             ButtonListener.ButtonType.LEFT -> player.moveTile(0, -1)
             ButtonListener.ButtonType.DOWN -> player.moveTile(1, 0)
             ButtonListener.ButtonType.RIGHT -> player.moveTile(0, 1)
-            ButtonListener.ButtonType.SWITCH -> playerIndex = (playerIndex + 1) % players.size
+            ButtonListener.ButtonType.SWITCH -> switchPlayer(1)
             ButtonListener.ButtonType.RESTART -> onIllegal()
             ButtonListener.ButtonType.BACK -> back()
         }
@@ -112,8 +125,8 @@ class PlayState(context: Context, private val area: Area, private val level: Int
             Gdx.input.isKeyPressed(Input.Keys.UP) -> player.moveTile(-1, 0)
             Gdx.input.isKeyPressed(Input.Keys.DOWN) -> player.moveTile(1, 0)
             Gdx.input.isKeyJustPressed(Input.Keys.R) -> onIllegal()
-            Gdx.input.isKeyJustPressed(Input.Keys.A) -> playerIndex = (playerIndex - 1).pmod(players.size)
-            Gdx.input.isKeyJustPressed(Input.Keys.D) -> playerIndex = (playerIndex + 1) % players.size
+            Gdx.input.isKeyJustPressed(Input.Keys.A) -> switchPlayer(1)
+            Gdx.input.isKeyJustPressed(Input.Keys.D) -> switchPlayer(-1)
         }
     }
 
@@ -130,7 +143,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
                 player.isop.x + cameraOffset.x,
                 player.isop.y + cameraOffset.y,
                 0f,
-                0.1f
+                4f * dt
             )
         )
         camera.update()

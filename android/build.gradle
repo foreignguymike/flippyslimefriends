@@ -17,7 +17,7 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "com.distraction.flippyslime"
+        applicationId "com.distraction.fs2"
         minSdkVersion 14
         targetSdkVersion 29
         versionCode 3

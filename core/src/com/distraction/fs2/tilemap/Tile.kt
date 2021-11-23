@@ -49,7 +49,7 @@ class Tile(
 
     var image = context.gameData.getTile(index)
     var bottomImage =
-        areaMap[area]?.let { context.getImage(it) } ?: run { context.getImage("tilegrass") }
+        areaTileType[area]?.let { context.getImage(it) } ?: run { context.getImage("tilegrass") }
 
     init {
         tileMap.toPosition(row, col, p)
@@ -183,7 +183,8 @@ class Tile(
             Arrow::class.java
         )
 
-        val areaMap = mapOf(
+        val areaTileType = mapOf(
+            Area.TUTORIAL to "tiletutorial",
             Area.MEADOW to "tilegrass",
             Area.TUNDRA to "tilesnow"
         )

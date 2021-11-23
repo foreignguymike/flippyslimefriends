@@ -43,7 +43,7 @@ object TutorialData {
                 e, e, e,
                 0, 0, 0
             ),
-            target = 5,
+            target = 4,
             playerPositions = listOf(TilePoint(0, 0), TilePoint(2, 2))
         )
     )

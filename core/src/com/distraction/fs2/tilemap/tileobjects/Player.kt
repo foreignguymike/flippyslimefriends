@@ -7,6 +7,7 @@ import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.data.Direction
 import kotlin.math.absoluteValue
+import kotlin.math.sin
 
 class Player(
     context: Context,
@@ -25,7 +26,7 @@ class Player(
 
     private val animationSet = AnimationSet()
 
-    override var speed = TileMap.TILE_SIZE * 2
+    override var speed = TileMap.TILE_SIZE * 1.85f
 
     private val jumpHeight = 40f
     private var totalDist = 0f
@@ -36,6 +37,10 @@ class Player(
     private var justTeleported = false
     private var teleportSpeed = 0f
     private var direction = Direction.RIGHT
+
+    private var selected = false
+    private var selectedTimer = 0f
+    private var pointerImage = context.getImage("slimepointer")
 
     init {
         setPositionFromTile(startRow, startCol)
@@ -79,6 +84,11 @@ class Player(
     override fun setPositionFromTile(row: Int, col: Int) {
         super.setPositionFromTile(row, col)
         tileMap.toggleTile(row, col)
+    }
+
+    fun showSelected(selected: Boolean) {
+        this.selected = selected
+        selectedTimer = 0f
     }
 
     // handle movement
@@ -253,6 +263,8 @@ class Player(
     }
 
     override fun update(dt: Float) {
+        selectedTimer += dt
+
         // stick the player on moving tiles
         currentTile?.let {
             if (!moving && it.moving) {
@@ -265,10 +277,10 @@ class Player(
 
         // move towards destination by dist amount
         if (!atDestination()) {
-            val dist = dt *
-                    (if (teleporting && justTeleported) teleportSpeed else speed) * // base speed
-                    (if (superjump) 2f else if (sliding) 3f else 1f)                // multiplier
-            p.moveTo(pdest, dist)
+            val dist = dt * (if (teleporting && justTeleported) teleportSpeed else speed)
+            val multiplier =
+                if (superjump) SUPER_JUMP_MULTIPLIER else if (sliding) SLIDING_MULTIPLIER else 1f
+            p.moveTo(pdest, dist * multiplier)
         }
 
         // if the player has reached destination
@@ -313,6 +325,9 @@ class Player(
                     animationSet.getImage().regionHeight * 1f
                 )
             }
+            if (selected && selectedTimer < 3 && (selectedTimer * 10).toInt() % 5 < 3) {
+                sb.draw(pointerImage, isop.x - pointerImage.regionWidth / 2, isop.y + p.z - 20f + 2 * sin(3 * selectedTimer))
+            }
         }
     }
 
@@ -320,6 +335,9 @@ class Player(
         const val SPRITE_WIDTH = 30
         const val SPRITE_HEIGHT = 30
         const val BASELINE = -3f
+
+        const val SUPER_JUMP_MULTIPLIER = 2f
+        const val SLIDING_MULTIPLIER = 2.5f
     }
 
 }

@@ -278,7 +278,7 @@ object MeadowData {
                 0, 0, g, 0, 0,
                 e, 0, 0, 0, e
             ),
-            target = 20,
+            target = 19,
             playerPositions = listOf(TilePoint(1, 0)),
             objects = listOf(
                 SuperJumpData(1, 3),
@@ -415,6 +415,100 @@ object MeadowData {
             objects = listOf(
                 ArrowData(3, 2, Direction.LEFT),
                 ArrowData(1, 2, Direction.RIGHT)
+            )
+        ),
+        MapData(
+            numRows = 3, numCols = 4,
+            map = intArrayOf(
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0
+            ),
+            target = 10,
+            playerPositions = listOf(TilePoint(0, 3), TilePoint(2, 3)),
+            objects = listOf(
+                ArrowData(2, 1, Direction.UP),
+                ArrowData(1, 0, Direction.UP)
+            )
+        ),
+        MapData(
+            numRows = 5, numCols = 4,
+            map = intArrayOf(
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, e, e, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0
+            ),
+            target = 25,
+            playerPositions = listOf(TilePoint(2, 0)),
+            objects = listOf(
+                ArrowData(3, 1, Direction.RIGHT),
+                ArrowData(1, 2, Direction.LEFT),
+                SuperJumpData(1, 1),
+                SuperJumpData(1, 2),
+                SuperJumpData(3, 1),
+                SuperJumpData(3, 2)
+            )
+        ),
+        MapData(
+            numRows = 7, numCols = 7,
+            map = intArrayOf(
+                e, e, 0, 0, 0, e, e,
+                e, 0, 0, 0, 0, e, e,
+                0, 0, 0, 0, 0, e, e,
+                e, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, e,
+                e, e, 0, 0, 0, 0, 0,
+                e, e, e, 0, e, e, e
+            ),
+            target = 33,
+            playerPositions = listOf(TilePoint(6, 3)),
+            objects = listOf(
+                ArrowData(5, 6, Direction.UP),
+                ArrowData(4, 0, Direction.RIGHT),
+                ArrowData(3, 6, Direction.LEFT),
+                ArrowData(2, 3, Direction.DOWN),
+                ArrowData(2, 0, Direction.DOWN),
+                SuperJumpData(2, 0),
+                SuperJumpData(5, 6)
+            )
+        ),
+        MapData(
+            numRows = 6, numCols = 5,
+            map = intArrayOf(
+                0, 0, 0, 0, 0,
+                0, e, 0, e, 0,
+                0, e, 0, 0, 0,
+                0, e, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0
+            ),
+            target = 37,
+            playerPositions = listOf(TilePoint(5, 1)),
+            objects = listOf(
+                ArrowData(5, 2, Direction.LEFT),
+                ArrowData(4, 2, Direction.RIGHT),
+                ArrowData(2, 3, Direction.DOWN),
+                SuperJumpData(3, 3)
+            )
+        ),
+        MapData(
+            numRows = 5, numCols = 6,
+            map = intArrayOf(
+                e, e, 0, 0, 0, e,
+                e, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, e
+            ),
+            target = 32,
+            playerPositions = listOf(TilePoint(4, 0)),
+            objects = listOf(
+                ArrowData(4, 4, Direction.UP),
+                ArrowData(0, 4, Direction.DOWN),
+                SuperJumpData(2, 2),
+                SuperJumpData(3, 3)
             )
         )
     )

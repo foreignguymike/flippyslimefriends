@@ -12,7 +12,7 @@ class GameData(val context: Context) {
         Area.MEADOW to MeadowData.data,
         Area.TUNDRA to TundraData.data,
         Area.SANDS to listOf(),
-        Area.RUINS to listOf(),
+        Area.RUINS to RuinsData.data,
         Area.SUNKEN to listOf(),
         Area.MATRIX to listOf()
     )
@@ -40,7 +40,7 @@ class GameData(val context: Context) {
     companion object {
         const val e = -1
         const val b = 5
-        const val g = 100
+        const val g = 100 // non active tile
     }
 
 }
@@ -73,8 +73,13 @@ class TeleportData(row: Int, col: Int, val destRow: Int, val destCol: Int) :
     TileObjectData(row, col)
 
 class TilePoint(var row: Int = 0, var col: Int = 0)
-class PathPointData(val tilePoint: TilePoint, val time: Float = 0f) {
+open class PathPointData(val tilePoint: TilePoint, val time: Float = 0f) {
     constructor(row: Int, col: Int, time: Float = 0f) : this(TilePoint(row, col), time)
+}
+class StopPathPointData(row: Int, col: Int) : PathPointData(TilePoint(row, col), DEFAULT_STOP_TIME) {
+    companion object {
+        const val DEFAULT_STOP_TIME = 3f
+    }
 }
 
 enum class GameColor(val r: Float, val g: Float, val b: Float, val a: Float = 1f) {

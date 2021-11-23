@@ -54,13 +54,13 @@ class LevelSelectState(
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
     }
 
-    private val leftButton = ImageButton(
+    private val leftButton = BreathingImage(
         context.getImage("areaselectarrow"),
-        50f, Constants.HEIGHT / 2, 10f
+        50f, Constants.HEIGHT / 2
     ).apply { flipped = true }
-    private val rightButton = ImageButton(
+    private val rightButton = BreathingImage(
         context.getImage("areaselectarrow"),
-        Constants.WIDTH - 50f, Constants.HEIGHT / 2 - 5f, 10f
+        Constants.WIDTH - 50f, Constants.HEIGHT / 2 - 5f
     )
 
     init {
@@ -68,7 +68,7 @@ class LevelSelectState(
         camera.update()
 
         rightButton.setPosition(
-            Constants.WIDTH + if (page == maxPages - 1) 50f else -50f,
+            Constants.WIDTH + if (page >= maxPages - 1) 50f else -50f,
             rightButton.pos.y
         )
         leftButton.setPosition(if (page == 0) -50f else 50f, leftButton.pos.y)
@@ -89,15 +89,15 @@ class LevelSelectState(
     }
 
     private fun updateNavButtons() {
-        if (page == maxPages - 1) {
-            rightButton.lerpTo(Constants.WIDTH + 50f, rightButton.pos.y, 0.06f)
+        if (page >= maxPages - 1) {
+            rightButton.lerpTo(Constants.WIDTH + 50f, rightButton.pos.y, 8f)
         } else {
-            rightButton.lerpTo(Constants.WIDTH - 50f, rightButton.pos.y)
+            rightButton.lerpTo(Constants.WIDTH - 50f, rightButton.pos.y, 8f)
         }
         if (page == 0) {
-            leftButton.lerpTo(-50f, leftButton.pos.y, 0.06f)
+            leftButton.lerpTo(-50f, leftButton.pos.y, 8f)
         } else {
-            leftButton.lerpTo(50f, leftButton.pos.y)
+            leftButton.lerpTo(50f, leftButton.pos.y, 8f)
         }
     }
 
@@ -139,7 +139,7 @@ class LevelSelectState(
                 Constants.WIDTH * page + Constants.WIDTH / 2,
                 Constants.HEIGHT / 2,
                 0f,
-                0.17f
+                8f * dt
             )
         )
         camera.update()

@@ -18,7 +18,7 @@ class SuperJumpLight(context: Context, tileMap: TileMap, row: Int, col: Int) : T
 
     init {
         setPositionFromTile(row, col)
-        p.z = -2f
+        p.z = 0f
     }
 
     override fun update(dt: Float) {

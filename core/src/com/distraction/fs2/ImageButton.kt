@@ -11,7 +11,7 @@ open class ImageButton(
     protected val image: TextureRegion,
     x: Float = 0f,
     y: Float = 0f,
-    private val padding: Float = 0f
+    var padding: Float = 0f
 ) {
 
     var pos = Vector2()
@@ -35,7 +35,7 @@ open class ImageButton(
         pos.y = y
     }
 
-    fun lerpTo(x: Float, y: Float, a: Float = 0.1f) {
+    fun lerpTo(x: Float, y: Float, a: Float = 4f) {
         destination.set(x, y)
         lerpAlpha = a
     }
@@ -51,7 +51,7 @@ open class ImageButton(
 
     open fun update(dt: Float) {
         if (lerpAlpha >= 0f) {
-            pos.lerp(destination, lerpAlpha)
+            pos.lerp(destination, lerpAlpha * dt)
         }
         if (destination.diff(pos) < 0.1f) {
             lerpAlpha = -1f
