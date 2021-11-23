@@ -1,5 +1,6 @@
 package com.distraction.fs2
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.tilemap.data.GameColor
 
@@ -9,8 +10,8 @@ class InfoBox(
     y: Float,
     width: Float,
     height: Float,
-    private val color: GameColor = GameColor.PURPLE
-): ImageButton(context.getImage("pixel"), x, y) {
+    private val color: Color = GameColor.PURPLE
+) : ImageButton(context.getImage("pixel"), x, y) {
 
     private val patch = Array(8) {
         context.getImage("infobox", it)
@@ -28,9 +29,9 @@ class InfoBox(
     }
 
     override fun render(sb: SpriteBatch) {
-        sb.setColor(color)
+        sb.color = color
         sb.draw(pixel, left, bottom, width, height)
-        sb.setColor(GameColor.DARK_TEAL)
+        sb.color = GameColor.DARK_TEAL
         sb.draw(pixel, left, bottom, width / 5, height)
         sb.draw(pixel, left + 2 * width / 5, bottom, width / 5, height)
         sb.draw(pixel, left + 4 * width / 5, bottom, width / 5, height)

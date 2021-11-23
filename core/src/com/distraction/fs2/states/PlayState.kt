@@ -17,7 +17,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
     private val tileMap = TileMap(context, this, area, level)
 
     private val players = tileMap.mapData.playerPositions.map {
-        Player(context, tileMap, this, it.row, it.col)
+        Player(context, tileMap, this, it.row, it.col, tileMap.startBubble)
     }.also { players -> players.forEach { it.players = players } }
     private var playerIndex = 0
     set(value) {
@@ -27,7 +27,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
     private var player = players[0]
     private val sortedPlayers = players.toMutableList()
 
-    private val bg = Background(context)
+    private val bg = Background(context, area)
     private val bgCam = OrthographicCamera().apply {
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
     }

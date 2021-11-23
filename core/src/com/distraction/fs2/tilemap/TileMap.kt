@@ -22,6 +22,7 @@ class TileMap(
     val mapData = context.gameData.mapData[area]?.getOrNull(level)
         ?: throw IllegalStateException("level not found [${area}][$level]")
     val otherObjects = arrayListOf<TileObject>()
+    val startBubble = mapData.startBubble
 
     val numRows = mapData.numRows
     val numCols = mapData.numCols

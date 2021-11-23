@@ -2,6 +2,7 @@ package com.distraction.fs2
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
@@ -9,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
-import com.distraction.fs2.tilemap.data.GameColor
 import kotlin.math.absoluteValue
 import kotlin.math.sqrt
 
@@ -146,11 +146,7 @@ fun SpriteBatch.resetColor() {
     setColor(1f, 1f, 1f, 1f)
 }
 
-fun SpriteBatch.setColor(color: GameColor) {
-    setColor(color.r, color.g, color.b, color.a)
-}
-
-fun SpriteBatch.setColor(color: GameColor, a: Float) {
+fun SpriteBatch.setColor(color: Color, a: Float) {
     setColor(color.r, color.g, color.b, a)
 }
 
@@ -164,7 +160,7 @@ fun clearScreen(r: Int = 0, g: Int = 0, b: Int = 0, a: Int = 0) {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 }
 
-fun clearScreen(color: GameColor) {
+fun clearScreen(color: Color) {
     Gdx.gl.glClearColor(color.r, color.g, color.b, color.a)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 }

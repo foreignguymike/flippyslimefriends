@@ -3,12 +3,13 @@ package com.distraction.fs2
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector3
-import com.distraction.fs2.tilemap.data.GameColor
+import com.distraction.fs2.tilemap.data.Area
 
-class Background(val context: Context, private var color: GameColor = GameColor.SKY_BLUE) {
+class Background(val context: Context, area: Area) {
 
     private val pixel = context.getImage("pixel")
     private val image = context.getImage("bgs")
+    private var color = area.color
 
     private val bgs = arrayListOf<Vector3>()
     private val speed = 5f
@@ -52,7 +53,7 @@ class Background(val context: Context, private var color: GameColor = GameColor.
     }
 
     fun render(sb: SpriteBatch) {
-        sb.setColor(color)
+        sb.color = color
         sb.draw(pixel, 0f, 0f, Constants.WIDTH, Constants.HEIGHT)
         sb.resetColor()
         bgs.forEach {

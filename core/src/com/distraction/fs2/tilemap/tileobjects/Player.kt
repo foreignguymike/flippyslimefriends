@@ -8,7 +8,6 @@ import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.data.Direction
 import kotlin.math.absoluteValue
 import kotlin.math.max
-import kotlin.math.min
 import kotlin.math.sin
 
 class Player(
@@ -16,7 +15,8 @@ class Player(
     tileMap: TileMap,
     private val moveListener: MoveListener,
     startRow: Int,
-    startCol: Int
+    startCol: Int,
+    bubbling: Boolean = false
 ) : TileObject(context, tileMap), Tile.TileMoveListener {
 
     interface MoveListener {
@@ -47,12 +47,13 @@ class Player(
     var dropping = false
 
     private val pointerImage = context.getImage("slimepointer")
-    private val bubble = context.getImage("bubble")
+    private val bubble = BreathingImage(context.getImage("bubble"), interval = 2f, offset = 0.03f)
     private val bubblex = BreathingImage(context.getImage("bubbledropx"))
     private val bubbleo = BreathingImage(context.getImage("bubbledropo"))
     var canDrop = false
 
     init {
+        this.bubbling = bubbling
         setPositionFromTile(startRow, startCol)
         p.z = BASELINE
         pdest.set(p)
@@ -93,7 +94,9 @@ class Player(
 
     override fun setPositionFromTile(row: Int, col: Int) {
         super.setPositionFromTile(row, col)
-        tileMap.toggleTile(row, col)
+        if (!bubbling) {
+            tileMap.toggleTile(row, col)
+        }
     }
 
     fun showSelected(selected: Boolean) {
@@ -225,8 +228,10 @@ class Player(
         tileMap.getTile(row, col)?.objects?.forEach {
             when {
                 it is Bubble -> {
-                    bubbling = true
-                    it.resetting = true
+                    if (!it.resetting) {
+                        bubbling = true
+                        it.resetting = true
+                    }
                 }
                 it is Arrow -> {
                     sliding = true
@@ -374,6 +379,7 @@ class Player(
         updateBounceHeight(dt)
         updateAnimations(dt)
         if (bubbling) {
+            bubble.update(dt)
             bubbleo.update(dt)
             bubblex.update(dt)
         }
@@ -382,16 +388,19 @@ class Player(
     override fun render(sb: SpriteBatch) {
         tileMap.toIsometric(p.x, p.y, isop)
         if (!teleporting) {
-            if (bubbling && p.z == BASELINE + BUBBLE_HEIGHT) {
+            if (bubbling) {
                 if (!dropping) {
-                    sb.drawCentered(bubble, isop.x, isop.y + p.z + 10)
+                    bubble.setPosition(isop.x, isop.y + p.z + 10)
+                    bubble.render(sb)
                 }
-                if (canDrop) {
-                    bubbleo.setPosition(isop.x, isop.y)
-                    bubbleo.render(sb)
-                } else {
-                    bubblex.setPosition(isop.x, isop.y)
-                    bubblex.render(sb)
+                if (p.z == BASELINE + BUBBLE_HEIGHT) {
+                    if (canDrop) {
+                        bubbleo.setPosition(isop.x, isop.y)
+                        bubbleo.render(sb)
+                    } else {
+                        bubblex.setPosition(isop.x, isop.y)
+                        bubblex.render(sb)
+                    }
                 }
             }
             if (direction == Direction.RIGHT || direction == Direction.UP) {

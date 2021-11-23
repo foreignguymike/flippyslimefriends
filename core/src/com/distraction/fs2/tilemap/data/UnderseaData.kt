@@ -12,9 +12,22 @@ object UnderseaData {
                 e, e, e,
                 0, 0, 0
             ),
-            target = 6,
+            target = 5,
             playerPositions = listOf(TilePoint(0, 0)),
             objects = listOf(BubbleData(0, 2))
+        ),
+        MapData(
+            numRows = 5, numCols = 3,
+            map = intArrayOf(
+                0, 0, 0,
+                0, e, 0,
+                0, 0, 0,
+                0, e, 0,
+                0, 0, 0
+            ),
+            target = 13,
+            playerPositions = listOf(TilePoint(0, 0)),
+            startBubble = true
         )
     )
 

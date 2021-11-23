@@ -1,5 +1,6 @@
 package com.distraction.fs2.tilemap.data
 
+import com.badlogic.gdx.graphics.Color
 import com.distraction.fs2.Context
 
 /**
@@ -44,13 +45,13 @@ class GameData(val context: Context) {
 
 }
 
-enum class Area(val text: String) {
-    TUTORIAL("tutorial"),
-    MEADOW("meadow"),
-    TUNDRA("tundra"),
-    RUINS("ruins"),
-    UNDERSEA("undersea"),
-    MATRIX("matrix")
+enum class Area(val text: String, val color: Color = GameColor.CALM_BLUE) {
+    TUTORIAL("tutorial", GameColor.DARK_TEAL),
+    MEADOW("meadow", GameColor.GREEN),
+    TUNDRA("tundra", GameColor.LIGHT_GRAY),
+    RUINS("ruins", GameColor.PEACH),
+    UNDERSEA("undersea", GameColor.DARK_BLUE),
+    MATRIX("matrix", GameColor.TEAL)
 }
 
 class MapData(
@@ -60,7 +61,8 @@ class MapData(
     val target: Int,
     val playerPositions: List<TilePoint>,
     val objects: List<TileObjectData> = listOf(),
-    val path: List<List<PathPointData>>? = null
+    val path: List<List<PathPointData>>? = null,
+    val startBubble: Boolean = false
 )
 
 abstract class TileObjectData(val row: Int, val col: Int)
@@ -81,14 +83,17 @@ class StopPathPointData(row: Int, col: Int) : PathPointData(TilePoint(row, col),
     }
 }
 
-enum class GameColor(val r: Float, val g: Float, val b: Float, val a: Float = 1f) {
-    CALM_BLUE(72f / 255f, 139f / 255f, 212f / 255f, 1f),
-    SKY_BLUE(120f / 255f, 215 / 255f, 1f),
-    TEAL(16f / 255f, 144f / 255f, 142f / 255f, 1f),
-    DARK_TEAL(21f / 255f, 60 / 255f, 74 / 255f),
-    DARK_BLUE(26f / 255f, 70f / 255f, 107f / 255f, 1f),
-    PURPLE(91f / 255f, 83f / 255f, 125f / 255f, 1f),
-    BLACK_1(5f / 255f, 9f / 255f, 20f / 255f, 1f)
+object GameColor {
+    val CALM_BLUE = Color(72f / 255f, 139f / 255f, 212f / 255f, 1f)
+    val SKY_BLUE = Color(120f / 255f, 215 / 255f, 1f, 1f)
+    val TEAL = Color(16f / 255f, 144f / 255f, 142f / 255f, 1f)
+    val GREEN = Color(119 / 255f, 176 / 255f, 42 / 255f, 1f)
+    val DARK_TEAL = Color(21f / 255f, 60 / 255f, 74 / 255f, 1f)
+    val DARK_BLUE = Color(26f / 255f, 70f / 255f, 107f / 255f, 1f)
+    val PURPLE = Color(91f / 255f, 83f / 255f, 125f / 255f, 1f)
+    val LIGHT_GRAY = Color(199 / 255f, 212 / 255f, 225 / 255f, 1f)
+    val PEACH = Color(255 / 255f, 207 / 255f, 142 / 255f, 1f)
+    val BLACK_1 = Color(5f / 255f, 9f / 255f, 20f / 255f, 1f)
 }
 
 enum class Direction {
