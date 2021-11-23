@@ -186,7 +186,9 @@ class Tile(
         val areaTileType = mapOf(
             Area.TUTORIAL to "tiletutorial",
             Area.MEADOW to "tilegrass",
-            Area.TUNDRA to "tilesnow"
+            Area.TUNDRA to "tilesnow",
+            Area.RUINS to "tileruins",
+            Area.UNDERSEA to "tilesea"
         )
     }
 }

@@ -32,6 +32,9 @@ class TileMap(
     private var numTilesMoving = 0
     private val orderedMap = map.sortedBy { it?.isop?.y }.toMutableList()
 
+    /**
+     * Convert map data to tiles
+     */
     private fun parseMapData(map: IntArray): MutableList<Tile?> {
         return MutableList(map.size) {
             if (mapData.map[it] < 0) {
@@ -51,6 +54,7 @@ class TileMap(
                     area
                 )
                     .apply {
+                        // add moving tiles
                         mapData.path?.forEach { ppd ->
                             if (row == ppd[0].tilePoint.row && col == ppd[0].tilePoint.col) {
                                 this.path = ppd
@@ -59,6 +63,7 @@ class TileMap(
                         }
                     }
 
+                // add tile objects
                 mapData.objects
                     .filter { objData -> objData.row == row && objData.col == col }
                     .map { objData ->
@@ -85,6 +90,9 @@ class TileMap(
                                 objData.destRow,
                                 objData.destCol
                             ).apply {
+                                currentTile = tile
+                            }
+                            is BubbleData -> Bubble(context, this, row, col).apply {
                                 currentTile = tile
                             }
                             else -> throw IllegalArgumentException("incorrect tile object data")

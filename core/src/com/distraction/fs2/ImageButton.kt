@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2
  * Need to be wary that Rectangle uses x,y as the bottom left corner.
  */
 open class ImageButton(
-    protected val image: TextureRegion,
+    protected var image: TextureRegion,
     x: Float = 0f,
     y: Float = 0f,
     var padding: Float = 0f

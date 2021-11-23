@@ -11,9 +11,8 @@ class GameData(val context: Context) {
         Area.TUTORIAL to TutorialData.data,
         Area.MEADOW to MeadowData.data,
         Area.TUNDRA to TundraData.data,
-        Area.SANDS to listOf(),
         Area.RUINS to RuinsData.data,
-        Area.SUNKEN to listOf(),
+        Area.UNDERSEA to UnderseaData.data,
         Area.MATRIX to listOf()
     )
 
@@ -49,9 +48,8 @@ enum class Area(val text: String) {
     TUTORIAL("tutorial"),
     MEADOW("meadow"),
     TUNDRA("tundra"),
-    SANDS("sands"),
     RUINS("ruins"),
-    SUNKEN("sunken"),
+    UNDERSEA("undersea"),
     MATRIX("matrix")
 }
 
@@ -71,6 +69,7 @@ class SuperJumpData(row: Int, col: Int) : TileObjectData(row, col)
 class IceData(row: Int, col: Int) : TileObjectData(row, col)
 class TeleportData(row: Int, col: Int, val destRow: Int, val destCol: Int) :
     TileObjectData(row, col)
+class BubbleData(row: Int, col: Int) : TileObjectData(row, col)
 
 class TilePoint(var row: Int = 0, var col: Int = 0)
 open class PathPointData(val tilePoint: TilePoint, val time: Float = 0f) {

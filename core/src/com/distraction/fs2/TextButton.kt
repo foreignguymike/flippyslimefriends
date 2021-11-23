@@ -13,6 +13,10 @@ class TextButton(
     padding: Float = 0f
 ) : ImageButton(bgImage, x, y, padding) {
 
+    fun setImageBg(bgImage: TextureRegion) {
+        image = bgImage
+    }
+
     override fun render(sb: SpriteBatch) {
         super.render(sb)
         val scaledWidth = textImage.regionWidth * scale

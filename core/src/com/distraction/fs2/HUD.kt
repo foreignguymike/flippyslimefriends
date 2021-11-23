@@ -8,17 +8,19 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.ButtonListener.ButtonType.*
 import com.distraction.fs2.tilemap.data.GameColor
+import com.distraction.fs2.tilemap.tileobjects.Player
 
 class HUD(
     context: Context,
     level: Int,
     private val buttonListener: ButtonListener,
-    private val multiplayer: Boolean
+    private val players: List<Player>
 ) {
     private val touchPoint = Vector3()
     private val pixel = context.getImage("pixel")
 
     var hideInfo = false
+    var currentPlayer = 0
 
     private val topCam = OrthographicCamera().apply {
         setToOrtho(false, Constants.WIDTH, Constants.HEIGHT)
@@ -72,6 +74,11 @@ class HUD(
         context.getImage("switch"),
         context.getImage("buttonbg"),
         Constants.WIDTH / 2f, 30f, 5f
+    )
+    private val bubbleDropButton = IconButton(
+        context.getImage("bubbledropicon"),
+        context.getImage("iconbuttonbg"),
+        Constants.WIDTH - 25f, 25f, 5f
     )
 
     private val labels = arrayOf(
@@ -134,6 +141,7 @@ class HUD(
         topButtons.values.forEach { it.scale = 1f }
         bottomButtons.values.forEach { it.scale = 1f }
         switchButton.scale = 1f
+        bubbleDropButton.scale = 1f
         if (Gdx.input.isTouched) {
             touchPoint.set(1f * Gdx.input.x, 1f * Gdx.input.y, 0f)
             topCam.unproject(touchPoint)
@@ -158,10 +166,16 @@ class HUD(
             if (switchButton.containsPoint(touchPoint.x, touchPoint.y)) {
                 switchButton.scale = 0.75f
             }
+            if (bubbleDropButton.containsPoint(touchPoint.x, touchPoint.y)) {
+                bubbleDropButton.scale = 0.75f
+            }
         }
         if (Gdx.input.justTouched()) {
             if (switchButton.scale < 1f) {
                 buttonListener.onButtonPressed(SWITCH)
+            }
+            if (bubbleDropButton.scale < 1f && players[currentPlayer].canDrop) {
+                buttonListener.onButtonPressed(BUBBLE_DROP)
             }
         }
     }
@@ -180,8 +194,11 @@ class HUD(
 
         sb.projectionMatrix = bottomCam.combined
         bottomButtons.forEach { it.value.render(sb) }
-        if (multiplayer) {
+        if (players.size > 1) {
             switchButton.render(sb)
+        }
+        if (players[currentPlayer].bubbling) {
+            bubbleDropButton.render(sb)
         }
     }
 
@@ -198,7 +215,8 @@ interface ButtonListener {
         RIGHT,
         RESTART,
         BACK,
-        SWITCH
+        SWITCH,
+        BUBBLE_DROP
     }
 
     fun onButtonPressed(type: ButtonType)

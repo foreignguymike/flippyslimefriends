@@ -6,12 +6,12 @@ object RuinsData {
 
     val data = listOf(
         MapData(
-            numRows = 4, numCols = 3,
+            numRows = 4, numCols = 4,
             map = intArrayOf(
-                0, e, e,
-                0, e, 0,
-                0, e, 0,
-                e, e, e
+                0, e, e, 0,
+                0, e, 0, 0,
+                0, e, 0, 0,
+                e, e, e, 0
             ),
             target = 4,
             playerPositions = listOf(TilePoint(2, 0)),

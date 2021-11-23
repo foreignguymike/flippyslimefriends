@@ -7,6 +7,8 @@ import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.data.Direction
 import kotlin.math.absoluteValue
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sin
 
 class Player(
@@ -40,7 +42,15 @@ class Player(
 
     private var selected = false
     private var selectedTimer = 0f
-    private var pointerImage = context.getImage("slimepointer")
+
+    var bubbling = false
+    var dropping = false
+
+    private val pointerImage = context.getImage("slimepointer")
+    private val bubble = context.getImage("bubble")
+    private val bubblex = BreathingImage(context.getImage("bubbledropx"))
+    private val bubbleo = BreathingImage(context.getImage("bubbledropo"))
+    var canDrop = false
 
     init {
         setPositionFromTile(startRow, startCol)
@@ -91,23 +101,48 @@ class Player(
         selectedTimer = 0f
     }
 
+    private fun updateCanDrop() {
+        canDrop =
+            !moving && bubbling && p.z == BASELINE + BUBBLE_HEIGHT && tileMap.isValidTile(row, col)
+    }
+
+    fun dropBubble() {
+        if (bubbling) {
+            dropping = true
+        }
+    }
+
     // handle movement
     fun moveTile(drow: Int, dcol: Int) {
         // ignore movement while still moving to destination
         if (moving) return
 
-        // ignore movement to invalid tiles
-        // only valid for manual movement, players can still slide off the tilemap
-        if (!sliding && !superjump && !tileMap.isValidTile(row + drow, col + dcol)) return
+        // if in bubble, ignore everything, just move
+        if (!bubbling) {
 
-        // ignore while on moving tile
-        if (currentTile?.moving == true) return
+            // ignore movement to invalid tiles
+            // only valid for manual movement, players can still slide off the tilemap
+            if (!sliding && !superjump && !tileMap.isValidTile(row + drow, col + dcol)) return
 
-        // ignore if the tile is blocked
-        // but allow it if you're super jumping
-        if (!superjump && isTileBlocked(row + drow, col + dcol)) {
-            sliding = false
-            return
+            // ignore while on moving tile
+            if (currentTile?.moving == true) return
+
+            // ignore if the tile is blocked
+            // but allow it if you're super jumping
+            if (!superjump && isTileBlocked(row + drow, col + dcol)) {
+                sliding = false
+                return
+            }
+        } else {
+            // wait until finish rising in bubble
+            if (p.z < BASELINE + BUBBLE_HEIGHT) return
+
+            // don't go far out of map bounds
+            if (row + drow >= tileMap.numRows + 1 || row + drow < -1
+                || col + dcol >= tileMap.numCols + 1 || col + dcol < -1
+            ) {
+                return
+            }
         }
 
         // valid tiles start here
@@ -155,12 +190,14 @@ class Player(
      * Function to handle that the player has just landed on a tile.
      */
     private fun handleJustMoved(row: Int, col: Int) {
-        // notify listeners
-        moveListener.onMoved()
+        if (!bubbling) {
+            // notify listeners
+            moveListener.onMoved()
 
-        // if the map isn't finished, toggle the tile
-        if (!tileMap.isFinished()) {
-            tileMap.toggleTile(row, col)
+            // if the map isn't finished, toggle the tile
+            if (!tileMap.isFinished()) {
+                tileMap.toggleTile(row, col)
+            }
         }
 
         // reset all movement flags
@@ -187,6 +224,10 @@ class Player(
     private fun handleTileObjects(row: Int, col: Int) {
         tileMap.getTile(row, col)?.objects?.forEach {
             when {
+                it is Bubble -> {
+                    bubbling = true
+                    it.resetting = true
+                }
                 it is Arrow -> {
                     sliding = true
                     direction = it.direction
@@ -228,19 +269,51 @@ class Player(
         }
     }
 
-    private fun updateBounceHeight() {
+    private fun updateBounceHeight(dt: Float) {
         when {
             superjump -> p.z = BASELINE + jumpHeight * 1.5f * getArc()
             sliding -> p.z = BASELINE
+            dropping -> p.z = max(p.z - dt * BUBBLE_DROP_SPEED, BASELINE)
+            bubbling -> {
+                if (p.z < BASELINE + BUBBLE_HEIGHT) {
+                    p.z += dt * BUBBLE_HEIGHT_SPEED
+                    if (p.z > BASELINE + BUBBLE_HEIGHT) {
+                        p.z = BASELINE + BUBBLE_HEIGHT
+                        updateCanDrop()
+                    }
+                }
+            }
             else -> p.z = BASELINE + jumpHeight * getArc()
         }
     }
 
     private fun getArc() = MathUtils.sin(3.14f * getRemainingDistance() / totalDist)
 
+    private fun handleReachedDestination(dt: Float) {
+        if (!bubbling) {
+            // landed on illegal tile
+            if (!tileMap.isValidTile(row, col)) {
+                moveListener.onIllegal()
+                return
+            }
+            // landed on another player
+            if (players.any { it != this && it.row == row && it.col == col }) {
+                moveListener.onIllegal()
+                return
+            }
+        }
+        handleJustMoved(row, col)
+        if (!bubbling) {
+            handleTileObjects(row, col)
+        }
+        updateCanDrop()
+    }
+
     private fun updateAnimations(dt: Float) {
         if (sliding) {
             animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "crouch" else "crouchr")
+        } else if (dropping) {
+            animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "jump" else "jumpr")
         } else if (atDestination()) {
             if ((animationSet.currentAnimationKey == "jump" || animationSet.currentAnimationKey == "jumpr")) {
                 animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "crouch" else "crouchr")
@@ -265,6 +338,15 @@ class Player(
     override fun update(dt: Float) {
         selectedTimer += dt
 
+        // handle dropping
+        if (dropping) {
+            if (p.z == BASELINE) {
+                dropping = false
+                bubbling = false
+                handleReachedDestination(dt)
+            }
+        }
+
         // stick the player on moving tiles
         currentTile?.let {
             if (!moving && it.moving) {
@@ -283,33 +365,35 @@ class Player(
             p.moveTo(pdest, dist * multiplier)
         }
 
+        // handle logic for player just finished moving (moving && atDestination())
         // if the player has reached destination
-        if (atDestination()) {
-
-            // handle logic for player just finished moving (moving && atDestination())
-            if (moving) {
-                // landed on illegal tile
-                if (!tileMap.isValidTile(row, col)) {
-                    moveListener.onIllegal()
-                    return
-                }
-                // landed on another player
-                if (players.any { it != this && it.row == row && it.col == col }) {
-                    moveListener.onIllegal()
-                    return
-                }
-                handleJustMoved(row, col)
-                handleTileObjects(row, col)
-            }
+        if (atDestination() && moving) {
+            handleReachedDestination(dt)
         }
 
-        updateBounceHeight()
+        updateBounceHeight(dt)
         updateAnimations(dt)
+        if (bubbling) {
+            bubbleo.update(dt)
+            bubblex.update(dt)
+        }
     }
 
     override fun render(sb: SpriteBatch) {
         tileMap.toIsometric(p.x, p.y, isop)
         if (!teleporting) {
+            if (bubbling && p.z == BASELINE + BUBBLE_HEIGHT) {
+                if (!dropping) {
+                    sb.drawCentered(bubble, isop.x, isop.y + p.z + 10)
+                }
+                if (canDrop) {
+                    bubbleo.setPosition(isop.x, isop.y)
+                    bubbleo.render(sb)
+                } else {
+                    bubblex.setPosition(isop.x, isop.y)
+                    bubblex.render(sb)
+                }
+            }
             if (direction == Direction.RIGHT || direction == Direction.UP) {
                 sb.draw(
                     animationSet.getImage(),
@@ -326,7 +410,11 @@ class Player(
                 )
             }
             if (selected && selectedTimer < 3 && (selectedTimer * 10).toInt() % 5 < 3) {
-                sb.draw(pointerImage, isop.x - pointerImage.regionWidth / 2, isop.y + p.z - 20f + 2 * sin(3 * selectedTimer))
+                sb.draw(
+                    pointerImage,
+                    isop.x - pointerImage.regionWidth / 2,
+                    isop.y + p.z - 20f + 2 * sin(3 * selectedTimer)
+                )
             }
         }
     }
@@ -335,6 +423,9 @@ class Player(
         const val SPRITE_WIDTH = 30
         const val SPRITE_HEIGHT = 30
         const val BASELINE = -3f
+        const val BUBBLE_HEIGHT = 40f
+        const val BUBBLE_HEIGHT_SPEED = 50f
+        const val BUBBLE_DROP_SPEED = 300f
 
         const val SUPER_JUMP_MULTIPLIER = 2f
         const val SLIDING_MULTIPLIER = 2.5f

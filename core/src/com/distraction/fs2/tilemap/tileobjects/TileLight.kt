@@ -2,7 +2,6 @@ package com.distraction.fs2.tilemap.tileobjects
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.Context
-import com.distraction.fs2.getAtlas
 import com.distraction.fs2.tilemap.TileMap
 import kotlin.math.min
 

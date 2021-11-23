@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.MathUtils
 
 class BreathingImage(
     image: TextureRegion,
-    x: Float,
-    y: Float,
+    x: Float = 0f,
+    y: Float = 0f,
     padding: Float = 0f,
     private val interval: Float = 1f,
     private val offset: Float = 0.1f
