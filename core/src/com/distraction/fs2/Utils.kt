@@ -202,3 +202,5 @@ fun Vector3.moveTo(pdest: Vector3, dist: Float) {
         }
     }
 }
+
+fun Float.map(A: Float, B: Float, C: Float, D: Float) = (this - A) / ( B - A) * (D - C) + C

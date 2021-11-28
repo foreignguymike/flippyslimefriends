@@ -352,6 +352,11 @@ class Player(
             }
         }
 
+        // handle arrows while blocks
+        if (atDestination() && tileMap.getTile(row, col)?.objects?.any { it is Arrow } == true && !bubbling) {
+            handleTileObjects(row, col)
+        }
+
         // stick the player on moving tiles
         currentTile?.let {
             if (!moving && it.moving) {

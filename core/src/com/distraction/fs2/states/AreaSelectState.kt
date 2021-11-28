@@ -28,6 +28,7 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
         Constants.HEIGHT / 4,
         20f
     )
+    private val color = Area.values()[currentIndex].colorCopy()
 
     init {
         moveAreaButtons(false)
@@ -64,20 +65,6 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
                     rightArrow.containsPoint(touchPoint.x, touchPoint.y) -> moveRight()
                     areaButtons[currentIndex].containsPoint(touchPoint.x, touchPoint.y) ->
                         goToLevelSelect()
-                    // maybe
-//                    else -> {
-//                        val index = areaButtons.indexOfFirst {
-//                            it.containsPoint(touchPoint.x, touchPoint.y)
-//                        }
-//                        if (index >= 0) {
-//                            if (index == currentIndex) {
-//                                goToLevelSelect()
-//                            } else {
-//                                currentIndex = index
-//                                moveAreaButtons()
-//                            }
-//                        }
-//                    }
                 }
             }
         }
@@ -103,15 +90,17 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
         if (!ignoreInput) {
             handleInput()
         }
-        areaButtons.forEachIndexed { index, areaButton ->
-            areaButton.scale =
-                1f / (1f + (Constants.WIDTH / 2 - areaButton.pos.x).absoluteValue / 100f)
-            areaButton.update(dt)
+        areaButtons.forEach {
+            it.scale = 1f / (1f + (Constants.WIDTH / 2 - it.pos.x).absoluteValue / 100f)
+            it.update(dt)
+        }
+        Area.values()[currentIndex].color.let {
+            color.lerp(it.r, it.g, it.b, it.a, 4 * dt)
         }
     }
 
     override fun render(sb: SpriteBatch) {
-        clearScreen(GameColor.SKY_BLUE)
+        clearScreen(color)
         sb.use {
             sb.projectionMatrix = camera.combined
 

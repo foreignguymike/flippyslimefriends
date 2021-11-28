@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils
 import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.data.Area
 import com.distraction.fs2.tilemap.data.GameColor
+import kotlin.math.abs
 
 class LevelSelectState(
     context: Context,
@@ -56,12 +57,14 @@ class LevelSelectState(
 
     private val leftButton = BreathingImage(
         context.getImage("areaselectarrow"),
-        50f, Constants.HEIGHT / 2
+        50f, Constants.HEIGHT / 2, 10f
     ).apply { flipped = true }
     private val rightButton = BreathingImage(
         context.getImage("areaselectarrow"),
-        Constants.WIDTH - 50f, Constants.HEIGHT / 2 - 5f
+        Constants.WIDTH - 50f, Constants.HEIGHT / 2 - 5f, 10f
     )
+
+    private val color = area.colorCopy()
 
     init {
         camera.position.set(Constants.WIDTH * page + Constants.WIDTH / 2, Constants.HEIGHT / 2, 0f)
@@ -101,14 +104,18 @@ class LevelSelectState(
         }
     }
 
+    private fun getCamPosition() = Constants.WIDTH * page + Constants.WIDTH / 2
+
     private fun handleInput() {
         if (Gdx.input.justTouched()) {
-            unprojectTouch()
-            levels.forEachIndexed { i, it ->
-                if (it.containsPoint(touchPoint.x, touchPoint.y) && i < numLevels) {
-                    ignoreInput = true
-                    context.gsm.push(TransitionState(context, PlayState(context, area, i)))
-                    return@forEachIndexed
+            if (abs(getCamPosition() - camera.position.x) < 10) {
+                unprojectTouch()
+                levels.forEachIndexed { i, it ->
+                    if (it.containsPoint(touchPoint.x, touchPoint.y) && i < numLevels) {
+                        ignoreInput = true
+                        context.gsm.push(TransitionState(context, PlayState(context, area, i)))
+                        return@forEachIndexed
+                    }
                 }
             }
 
@@ -136,7 +143,7 @@ class LevelSelectState(
         }
         camera.position.set(
             camera.position.lerp(
-                Constants.WIDTH * page + Constants.WIDTH / 2,
+                getCamPosition(),
                 Constants.HEIGHT / 2,
                 0f,
                 8f * dt
@@ -149,7 +156,7 @@ class LevelSelectState(
     }
 
     override fun render(sb: SpriteBatch) {
-        clearScreen(GameColor.SKY_BLUE)
+        clearScreen(color)
         sb.use {
             sb.projectionMatrix = staticCam.combined
             sb.color = GameColor.DARK_TEAL

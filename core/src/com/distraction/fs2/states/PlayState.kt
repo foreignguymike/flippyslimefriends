@@ -129,6 +129,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
             Gdx.input.isKeyJustPressed(Input.Keys.R) -> onIllegal()
             Gdx.input.isKeyJustPressed(Input.Keys.A) -> switchPlayer(1)
             Gdx.input.isKeyJustPressed(Input.Keys.D) -> switchPlayer(-1)
+            Gdx.input.isKeyJustPressed(Input.Keys.SPACE) -> if (player.canDrop) player.dropBubble()
         }
     }
 

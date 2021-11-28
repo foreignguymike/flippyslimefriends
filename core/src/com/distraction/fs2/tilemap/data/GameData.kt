@@ -46,12 +46,14 @@ class GameData(val context: Context) {
 }
 
 enum class Area(val text: String, val color: Color = GameColor.CALM_BLUE) {
-    TUTORIAL("tutorial", GameColor.DARK_TEAL),
-    MEADOW("meadow", GameColor.GREEN),
+    TUTORIAL("tutorial", GameColor.SKY_BLUE),
+    MEADOW("meadow", GameColor.BRIGHT_SKY_BLUE),
     TUNDRA("tundra", GameColor.LIGHT_GRAY),
     RUINS("ruins", GameColor.PEACH),
     UNDERSEA("undersea", GameColor.DARK_BLUE),
-    MATRIX("matrix", GameColor.TEAL)
+    MATRIX("matrix", GameColor.TEAL);
+
+    fun colorCopy() = Color(color)
 }
 
 class MapData(
@@ -85,6 +87,7 @@ class StopPathPointData(row: Int, col: Int) : PathPointData(TilePoint(row, col),
 
 object GameColor {
     val CALM_BLUE = Color(72f / 255f, 139f / 255f, 212f / 255f, 1f)
+    val BRIGHT_SKY_BLUE = Color(176 / 255f, 255 / 255f, 241 / 255f, 1f)
     val SKY_BLUE = Color(120f / 255f, 215 / 255f, 1f, 1f)
     val TEAL = Color(16f / 255f, 144f / 255f, 142f / 255f, 1f)
     val GREEN = Color(119 / 255f, 176 / 255f, 42 / 255f, 1f)

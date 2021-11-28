@@ -40,10 +40,10 @@ object TutorialData {
             numRows = 3, numCols = 3,
             map = intArrayOf(
                 0, 0, 0,
-                e, e, e,
+                0, e, 0,
                 0, 0, 0
             ),
-            target = 4,
+            target = 6,
             playerPositions = listOf(TilePoint(0, 0), TilePoint(2, 2))
         )
     )
