@@ -45,17 +45,6 @@ class GameData(val context: Context) {
 
 }
 
-enum class Area(val text: String, val color: Color = GameColor.CALM_BLUE) {
-    TUTORIAL("tutorial", GameColor.SKY_BLUE),
-    MEADOW("meadow", GameColor.BRIGHT_SKY_BLUE),
-    TUNDRA("tundra", GameColor.LIGHT_GRAY),
-    RUINS("ruins", GameColor.PEACH),
-    UNDERSEA("undersea", GameColor.DARK_BLUE),
-    MATRIX("matrix", GameColor.TEAL);
-
-    fun colorCopy() = Color(color)
-}
-
 class MapData(
     val numRows: Int,
     val numCols: Int,
@@ -97,6 +86,21 @@ object GameColor {
     val LIGHT_GRAY = Color(199 / 255f, 212 / 255f, 225 / 255f, 1f)
     val PEACH = Color(255 / 255f, 207 / 255f, 142 / 255f, 1f)
     val BLACK_1 = Color(5f / 255f, 9f / 255f, 20f / 255f, 1f)
+    val BRIGHT_YELLOW = Color(248 / 255f, 255 / 255f, 184 / 255f, 1f)
+    val LIME_GREEN = Color(198 / 255f, 216 / 255f, 49 / 255f, 1f)
+    val ORANGE = Color(255 / 255f, 184 / 255f, 74 / 255f, 1f)
+    val TAN = Color(240 / 255f, 194 / 255f, 151 / 255f, 1f)
+}
+
+enum class Area(val text: String, val color: Color = GameColor.CALM_BLUE, val bg: String = "bgs", val bgColor: Color = Color.WHITE) {
+    TUTORIAL("tutorial", GameColor.SKY_BLUE),
+    MEADOW("meadow", GameColor.BRIGHT_SKY_BLUE, "meadowbg", GameColor.SKY_BLUE),
+    TUNDRA("tundra", GameColor.LIGHT_GRAY, "tundrabg"),
+    RUINS("ruins", GameColor.TAN, "ruinsbg", GameColor.BRIGHT_YELLOW),
+    UNDERSEA("undersea", GameColor.DARK_BLUE, "underseabg", GameColor.CALM_BLUE),
+    MATRIX("matrix", GameColor.TEAL);
+
+    fun colorCopy() = Color(color)
 }
 
 enum class Direction {

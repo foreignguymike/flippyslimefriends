@@ -5,10 +5,10 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.tilemap.data.Area
 
-class Background(val context: Context, area: Area) {
+class Background(context: Context, private val area: Area) {
 
     private val pixel = context.getImage("pixel")
-    private val image = context.getImage("bgs")
+    private val image = context.getImage(area.bg)
     private var color = area.color
 
     private val bgs = arrayListOf<Vector3>()
@@ -41,7 +41,7 @@ class Background(val context: Context, area: Area) {
                 bgs.add(Vector3(1f * i * Constants.WIDTH / 4, -speed * interval, 0f))
             }
         }
-        rot = MathUtils.sin(time2)
+        rot = time2 * 5
         bgs.forEach {
             it.x += speed * dt
             it.y += speed * dt
@@ -55,16 +55,18 @@ class Background(val context: Context, area: Area) {
     fun render(sb: SpriteBatch) {
         sb.color = color
         sb.draw(pixel, 0f, 0f, Constants.WIDTH, Constants.HEIGHT)
-        sb.resetColor()
+        sb.color = area.bgColor
         bgs.forEach {
-            sb.draw(
-                image,
-                it.x - rot * image.regionWidth / 2,
-                it.y,
-                rot * image.regionWidth,
-                1f * image.regionHeight
-            )
+            sb.drawRotated(image, it.x, it.y, rot)
+//            sb.draw(
+//                image,
+//                it.x - rot * image.regionWidth / 2,
+//                it.y,
+//                rot * image.regionWidth,
+//                1f * image.regionHeight
+//            )
         }
+        sb.resetColor()
     }
 
 }
