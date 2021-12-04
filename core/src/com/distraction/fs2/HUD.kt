@@ -187,7 +187,6 @@ class HUD(
     fun render(sb: SpriteBatch) {
         sb.projectionMatrix = topCam.combined
         sb.setColor(GameColor.DARK_TEAL, 0.5f)
-        sb.draw(pixel, 0f, Constants.HEIGHT - HEIGHT, Constants.WIDTH, HEIGHT)
         sb.resetColor()
         labels.forEach { it.render(sb) }
         topButtons.forEach { it.value.render(sb) }

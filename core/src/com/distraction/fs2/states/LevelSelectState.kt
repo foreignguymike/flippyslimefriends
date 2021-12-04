@@ -159,7 +159,7 @@ class LevelSelectState(
         clearScreen(color)
         sb.use {
             sb.projectionMatrix = staticCam.combined
-            sb.color = GameColor.DARK_TEAL
+            sb.color = GameColor.MIDNIGHT_BLUE
             sb.draw(pixel, 0f, 0f, Constants.WIDTH, 60f)
             sb.draw(pixel, 0f, Constants.HEIGHT - 60f, Constants.WIDTH, 60f)
             sb.resetColor()

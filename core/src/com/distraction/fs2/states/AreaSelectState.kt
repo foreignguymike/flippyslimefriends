@@ -104,7 +104,7 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
         sb.use {
             sb.projectionMatrix = camera.combined
 
-            sb.color = GameColor.DARK_TEAL
+            sb.color = GameColor.MIDNIGHT_BLUE
             sb.draw(pixel, 0f, 0f, Constants.WIDTH, 60f)
             sb.draw(pixel, 0f, Constants.HEIGHT - 60f, Constants.WIDTH, 60f)
             sb.resetColor()

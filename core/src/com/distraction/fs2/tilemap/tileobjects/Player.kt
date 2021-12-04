@@ -189,6 +189,13 @@ class Player(
 
     private fun atDestination() = p.x == pdest.x && p.y == pdest.y
 
+    private fun resetMovement() {
+        moving = false
+        sliding = false
+        superjump = false
+        teleporting = false
+    }
+
     /**
      * Function to handle that the player has just landed on a tile.
      */
@@ -204,10 +211,7 @@ class Player(
         }
 
         // reset all movement flags
-        moving = false
-        sliding = false
-        superjump = false
-        teleporting = false
+        resetMovement()
 
         // set the current tile
         // if the destination tile is locked, unlock it
@@ -228,9 +232,9 @@ class Player(
         tileMap.getTile(row, col)?.objects?.forEach {
             when {
                 it is Bubble -> {
-                    if (!it.resetting) {
+                    if (!it.bubbleBase.resetting) {
                         bubbling = true
-                        it.resetting = true
+                        it.bubbleBase.resetting = true
                     }
                 }
                 it is Arrow -> {
@@ -294,15 +298,12 @@ class Player(
 
     private fun getArc() = MathUtils.sin(3.14f * getRemainingDistance() / totalDist)
 
-    private fun handleReachedDestination(dt: Float) {
+    private fun handleReachedDestination() {
         if (!bubbling) {
-            // landed on illegal tile
-            if (!tileMap.isValidTile(row, col)) {
-                moveListener.onIllegal()
-                return
-            }
-            // landed on another player
-            if (players.any { it != this && it.row == row && it.col == col }) {
+            // landed on illegal tile or another player
+            if (!tileMap.isValidTile(row, col)
+                || players.any { it != this && it.row == row && it.col == col }) {
+                resetMovement()
                 moveListener.onIllegal()
                 return
             }
@@ -348,7 +349,7 @@ class Player(
             if (p.z == BASELINE) {
                 dropping = false
                 bubbling = false
-                handleReachedDestination(dt)
+                handleReachedDestination()
             }
         }
 
@@ -378,7 +379,7 @@ class Player(
         // handle logic for player just finished moving (moving && atDestination())
         // if the player has reached destination
         if (atDestination() && moving) {
-            handleReachedDestination(dt)
+            handleReachedDestination()
         }
 
         updateBounceHeight(dt)
@@ -388,10 +389,10 @@ class Player(
             bubbleo.update(dt)
             bubblex.update(dt)
         }
+        tileMap.toIsometric(p.x, p.y, isop)
     }
 
     override fun render(sb: SpriteBatch) {
-        tileMap.toIsometric(p.x, p.y, isop)
         if (!teleporting) {
             if (bubbling) {
                 if (!dropping) {

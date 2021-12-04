@@ -10,16 +10,8 @@ import kotlin.math.max
 class Bubble(context: Context, tileMap: TileMap, row: Int, col: Int) :
     TileObject(context, tileMap) {
 
-    private val bubbleBase = BubbleBase(context, tileMap, row, col)
     private val bubbleMaker = context.getImage("bubblemaker")
-
-    var resetting: Boolean
-        get() {
-            return bubbleBase.resetting
-        }
-        set(value) {
-            bubbleBase.resetting = value
-        }
+    val bubbleBase = BubbleBase(context, tileMap, row, col)
 
     init {
         setPositionFromTile(row, col)
@@ -52,7 +44,6 @@ class BubbleBase(context: Context, tileMap: TileMap, row: Int, col: Int) :
         setPositionFromTile(row, col)
         resetTime = RESET_INTERVAL
         resetting = false
-        tileMap.otherObjects.add(this)
     }
 
     override fun update(dt: Float) {

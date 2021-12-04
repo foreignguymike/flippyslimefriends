@@ -33,7 +33,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
     }
 
     private val hud = HUD(context, level, this, players)
-    private val cameraOffset = Vector2(0f, HUD.HEIGHT / 2f)
+    private val cameraOffset = Vector2(0f, 0f)
 
     init {
         camera.position.set(-100f, player.isop.y + cameraOffset.y, 0f)
@@ -163,8 +163,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
 
             sb.projectionMatrix = camera.combined
             tileMap.render(sb)
-            sortedPlayers.forEach { it.render(sb) }
-            tileMap.renderOther(sb)
+            tileMap.renderTop(sb, sortedPlayers)
 
             hud.render(sb)
         }

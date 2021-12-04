@@ -80,7 +80,9 @@ object GameColor {
     val SKY_BLUE = Color(120f / 255f, 215 / 255f, 1f, 1f)
     val TEAL = Color(16f / 255f, 144f / 255f, 142f / 255f, 1f)
     val GREEN = Color(119 / 255f, 176 / 255f, 42 / 255f, 1f)
+    val DARK_GREEN = Color(66 / 255f, 144 / 255f, 88 / 255f, 1f)
     val DARK_TEAL = Color(21f / 255f, 60 / 255f, 74 / 255f, 1f)
+    val MIDNIGHT_BLUE = Color(5 / 255f, 9 / 255f, 20 / 255f, 1f)
     val DARK_BLUE = Color(26f / 255f, 70f / 255f, 107f / 255f, 1f)
     val PURPLE = Color(91f / 255f, 83f / 255f, 125f / 255f, 1f)
     val LIGHT_GRAY = Color(199 / 255f, 212 / 255f, 225 / 255f, 1f)
@@ -94,7 +96,7 @@ object GameColor {
 
 enum class Area(val text: String, val color: Color = GameColor.CALM_BLUE, val bg: String = "bgs", val bgColor: Color = Color.WHITE) {
     TUTORIAL("tutorial", GameColor.SKY_BLUE),
-    MEADOW("meadow", GameColor.BRIGHT_SKY_BLUE, "meadowbg", GameColor.SKY_BLUE),
+    MEADOW("meadow", GameColor.DARK_GREEN, "meadowbg", GameColor.GREEN),
     TUNDRA("tundra", GameColor.LIGHT_GRAY, "tundrabg"),
     RUINS("ruins", GameColor.TAN, "ruinsbg", GameColor.BRIGHT_YELLOW),
     UNDERSEA("undersea", GameColor.DARK_BLUE, "underseabg", GameColor.CALM_BLUE),

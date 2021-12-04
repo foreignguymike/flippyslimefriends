@@ -17,6 +17,7 @@ class Tile(var row: Int, var col: Int, val rect: Rectangle = Rectangle(), tile: 
         LEFT,
         JUMP,
         ICE,
+        BUBBLE,
         TELEPORT;
 
         fun isArrow() = this == RIGHT || this == UP || this == DOWN || this == LEFT
@@ -134,6 +135,10 @@ class Tile(var row: Int, var col: Int, val rect: Rectangle = Rectangle(), tile: 
                 ICE -> {
                     g.color = iceColor
                     g.fillRect(rect.width / 4, rect.height / 4, rect.width / 2, rect.height / 2)
+                }
+                BUBBLE -> {
+                    g.color = iceColor
+                    g.drawOval(rect.width / 4, rect.height / 4, rect.width / 2, rect.height / 2)
                 }
                 else -> {
                 }
@@ -263,6 +268,7 @@ class GridPanel : JPanel() {
                             TilePanel.ClickType.LEFT -> tileObject(LEFT)
                             TilePanel.ClickType.JUMP -> tileObject(JUMP)
                             TilePanel.ClickType.ICE -> tileObject(ICE)
+                            TilePanel.ClickType.BUBBLE -> tileObject(BUBBLE)
                             TilePanel.ClickType.TELEPORT -> {
                                 gridTele?.let {
                                     if (tile) {
@@ -413,6 +419,7 @@ class GridPanel : JPanel() {
                     LEFT -> "ArrowData(${it.row}, ${it.col}, Direction.LEFT)"
                     JUMP -> "SuperJumpData(${it.row}, ${it.col})"
                     ICE -> "IceData(${it.row}, ${it.col})"
+                    BUBBLE -> "BubbleData(${it.row}, ${it.col})"
                     TELEPORT -> "teleport(${it.row}, ${it.col}, ${it.row2}, ${it.col2})"
                 }
             })}\n")

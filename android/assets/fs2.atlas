@@ -6,7 +6,7 @@ filter: Nearest,Nearest
 repeat: none
 -
   rotate: false
-  xy: 1083, 46
+  xy: 1234, 49
   size: 6, 3
   orig: 6, 3
   offset: 0, 0
@@ -27,56 +27,56 @@ leveldiamondicon
   index: -1
 areaselectarrow
   rotate: false
-  xy: 1993, 42
+  xy: 1189, 18
   size: 30, 52
   orig: 30, 52
   offset: 0, 0
   index: -1
 arrow
   rotate: false
-  xy: 1231, 24
+  xy: 1608, 28
   size: 22, 15
   orig: 22, 15
   offset: 0, 0
   index: 2
 arrow
   rotate: false
-  xy: 1348, 56
+  xy: 1632, 27
   size: 22, 15
   orig: 22, 15
   offset: 0, 0
   index: 1
 avatar
   rotate: false
-  xy: 1015, 46
+  xy: 1162, 72
   size: 66, 14
   orig: 66, 14
   offset: 0, 0
   index: -1
 back
   rotate: false
-  xy: 1169, 75
+  xy: 1020, 17
   size: 33, 11
   orig: 33, 11
   offset: 0, 0
   index: -1
 backicon
   rotate: false
-  xy: 1372, 59
+  xy: 1020, 3
   size: 18, 12
   orig: 18, 12
   offset: 0, 0
   index: -1
 best
   rotate: false
-  xy: 1577, 64
+  xy: 1703, 53
   size: 37, 11
   orig: 37, 11
   offset: 0, 0
   index: -1
 bgs
   rotate: false
-  xy: 1083, 51
+  xy: 1151, 52
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
@@ -111,14 +111,14 @@ bubbledropx
   index: -1
 bubbleidle
   rotate: false
-  xy: 1320, 45
+  xy: 992, 2
   size: 26, 26
   orig: 26, 26
   offset: 0, 0
   index: -1
 bubblemaker
   rotate: false
-  xy: 1405, 65
+  xy: 992, 30
   size: 10, 6
   orig: 10, 6
   offset: 0, 0
@@ -146,49 +146,49 @@ complete
   index: -1
 diamondfinish
   rotate: false
-  xy: 1755, 65
+  xy: 1807, 65
   size: 43, 28
   orig: 43, 28
   offset: 0, 0
   index: -1
 diamondfinishempty
   rotate: false
-  xy: 1800, 65
+  xy: 1531, 49
   size: 43, 28
   orig: 43, 28
   offset: 0, 0
   index: -1
 downleftarrow
   rotate: false
-  xy: 1845, 54
+  xy: 1936, 55
   size: 35, 39
   orig: 35, 39
   offset: 0, 0
   index: -1
 downrightarrow
   rotate: false
-  xy: 1956, 55
+  xy: 1114, 22
   size: 35, 39
   orig: 35, 39
   offset: 0, 0
   index: -1
 goal
   rotate: false
-  xy: 1100, 53
+  xy: 1703, 40
   size: 35, 11
   orig: 35, 11
   offset: 0, 0
   index: -1
 ice
   rotate: false
-  xy: 1703, 68
+  xy: 1755, 68
   size: 50, 25
   orig: 50, 25
   offset: 0, 0
   index: -1
 iconbuttonbg
   rotate: false
-  xy: 1099, 12
+  xy: 1576, 36
   size: 30, 39
   orig: 30, 39
   offset: 0, 0
@@ -223,35 +223,35 @@ infobox
   index: 7
 infobox
   rotate: false
-  xy: 2045, 92
+  xy: 1159, 47
   size: 1, 3
   orig: 1, 3
   offset: 0, 0
   index: 1
 infobox
   rotate: false
-  xy: 2045, 92
+  xy: 1159, 47
   size: 1, 3
   orig: 1, 3
   offset: 0, 0
   index: 6
 infobox
   rotate: false
-  xy: 918, 25
+  xy: 1235, 2
   size: 3, 1
   orig: 3, 1
   offset: 0, 0
   index: 3
 infobox
   rotate: false
-  xy: 918, 25
+  xy: 1235, 2
   size: 3, 1
   orig: 3, 1
   offset: 0, 0
   index: 4
 levelbutton
   rotate: false
-  xy: 1059, 2
+  xy: 1896, 52
   size: 38, 42
   orig: 38, 42
   offset: 0, 0
@@ -272,7 +272,7 @@ levelselect
   index: -1
 levelselectedborder
   rotate: false
-  xy: 1015, 2
+  xy: 1852, 51
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
@@ -286,21 +286,21 @@ leveltitle
   index: -1
 matrix
   rotate: false
-  xy: 573, 11
+  xy: 456, 11
   size: 115, 115
   orig: 115, 115
   offset: 0, 0
   index: -1
 meadow
   rotate: false
-  xy: 339, 11
+  xy: 573, 11
   size: 115, 115
   orig: 115, 115
   offset: 0, 0
   index: -1
 meadowbg
   rotate: false
-  xy: 1263, 43
+  xy: 1672, 46
   size: 29, 28
   orig: 29, 28
   offset: 0, 0
@@ -335,137 +335,137 @@ num2
   index: 1
 num2
   rotate: false
-  xy: 1137, 53
+  xy: 1742, 53
   size: 6, 11
   orig: 6, 11
   offset: 0, 0
   index: 0
 num2
   rotate: false
-  xy: 1131, 40
+  xy: 1235, 5
   size: 6, 11
   orig: 6, 11
   offset: 0, 0
   index: 2
 num2
   rotate: false
-  xy: 1255, 28
+  xy: 1740, 40
   size: 6, 11
   orig: 6, 11
   offset: 0, 0
   index: 3
 num2
   rotate: false
-  xy: 1263, 30
+  xy: 1151, 39
+  size: 6, 11
+  orig: 6, 11
+  offset: 0, 0
+  index: 4
+num2
+  rotate: false
+  xy: 1040, 4
   size: 6, 11
   orig: 6, 11
   offset: 0, 0
   index: 5
 num2
   rotate: false
-  xy: 1681, 63
+  xy: 1142, 9
   size: 6, 11
   orig: 6, 11
   offset: 0, 0
   index: 6
 num2
   rotate: false
-  xy: 1131, 27
+  xy: 1254, 60
   size: 6, 11
   orig: 6, 11
   offset: 0, 0
   index: 7
 num2
   rotate: false
-  xy: 1271, 30
+  xy: 1151, 26
   size: 6, 11
   orig: 6, 11
   offset: 0, 0
   index: 8
 num2
   rotate: false
-  xy: 1689, 63
+  xy: 1048, 4
   size: 6, 11
   orig: 6, 11
   offset: 0, 0
   index: 9
-num2
-  rotate: false
-  xy: 1131, 14
-  size: 6, 11
-  orig: 6, 11
-  offset: 0, 0
-  index: 4
 num3
   rotate: false
-  xy: 2025, 78
+  xy: 1077, 2
   size: 11, 17
   orig: 11, 17
   offset: 0, 0
-  index: 6
+  index: 5
 num3
   rotate: false
-  xy: 2025, 59
-  size: 11, 17
-  orig: 11, 17
-  offset: 0, 0
-  index: 0
-num3
-  rotate: false
-  xy: 2025, 40
+  xy: 1090, 2
   size: 11, 17
   orig: 11, 17
   offset: 0, 0
   index: 2
 num3
   rotate: false
-  xy: 1392, 54
+  xy: 1103, 2
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 0
+num3
+  rotate: false
+  xy: 1116, 3
   size: 11, 17
   orig: 11, 17
   offset: 0, 0
   index: 3
 num3
   rotate: false
-  xy: 2038, 78
+  xy: 1129, 3
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 4
+num3
+  rotate: false
+  xy: 1673, 27
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 6
+num3
+  rotate: false
+  xy: 1686, 27
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 7
+num3
+  rotate: false
+  xy: 1221, 53
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 8
+num3
+  rotate: false
+  xy: 1234, 54
+  size: 11, 17
+  orig: 11, 17
+  offset: 0, 0
+  index: 9
+num3
+  rotate: false
+  xy: 1247, 54
   size: 5, 17
   orig: 5, 17
   offset: 0, 0
   index: 1
-num3
-  rotate: false
-  xy: 1616, 58
-  size: 11, 17
-  orig: 11, 17
-  offset: 0, 0
-  index: 4
-num3
-  rotate: false
-  xy: 1629, 58
-  size: 11, 17
-  orig: 11, 17
-  offset: 0, 0
-  index: 5
-num3
-  rotate: false
-  xy: 1642, 57
-  size: 11, 17
-  orig: 11, 17
-  offset: 0, 0
-  index: 7
-num3
-  rotate: false
-  xy: 1655, 57
-  size: 11, 17
-  orig: 11, 17
-  offset: 0, 0
-  index: 8
-num3
-  rotate: false
-  xy: 1668, 57
-  size: 11, 17
-  orig: 11, 17
-  offset: 0, 0
-  index: 9
 online
   rotate: false
   xy: 1580, 77
@@ -475,28 +475,28 @@ online
   index: -1
 pixel
   rotate: false
-  xy: 2045, 89
+  xy: 1159, 44
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 play
   rotate: false
-  xy: 1531, 63
+  xy: 1189, 2
   size: 44, 14
   orig: 44, 14
   offset: 0, 0
   index: -1
-playercrouchr
+playercrouch
   rotate: false
-  xy: 1231, 41
+  xy: 1640, 44
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
   index: -1
-playercrouch
+playercrouchr
   rotate: false
-  xy: 1231, 41
+  xy: 1608, 45
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
@@ -510,7 +510,7 @@ playeridle
   index: -1
 playeridler
   rotate: false
-  xy: 1890, 96
+  xy: 1015, 30
   size: 60, 30
   orig: 60, 30
   offset: 0, 0
@@ -524,7 +524,7 @@ playerjump
   index: -1
 playerjumpr
   rotate: false
-  xy: 1952, 96
+  xy: 1100, 63
   size: 60, 30
   orig: 60, 30
   offset: 0, 0
@@ -552,7 +552,7 @@ ruins
   index: -1
 ruinsbg
   rotate: false
-  xy: 1152, 78
+  xy: 1656, 27
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
@@ -566,7 +566,7 @@ slimepointer
   index: -1
 spotlight
   rotate: false
-  xy: 1204, 18
+  xy: 1162, 2
   size: 25, 68
   orig: 25, 68
   offset: 0, 0
@@ -580,7 +580,7 @@ starfinish
   index: -1
 superjump
   rotate: false
-  xy: 1100, 66
+  xy: 1703, 66
   size: 50, 27
   orig: 50, 27
   offset: 0, 0
@@ -594,7 +594,7 @@ switch
   index: -1
 teleport
   rotate: false
-  xy: 1294, 42
+  xy: 1221, 18
   size: 24, 29
   orig: 24, 29
   offset: 0, 0
@@ -657,21 +657,21 @@ tileperm3
   index: -1
 tileruins
   rotate: false
-  xy: 1231, 73
+  xy: 1417, 73
   size: 60, 53
   orig: 60, 53
   offset: 0, 0
   index: -1
 tilesea
   rotate: false
-  xy: 1417, 71
+  xy: 1293, 71
   size: 60, 55
   orig: 60, 55
   offset: 0, 0
   index: -1
 tilesnow
   rotate: false
-  xy: 1293, 73
+  xy: 1231, 73
   size: 60, 53
   orig: 60, 53
   offset: 0, 0
@@ -692,7 +692,7 @@ title
   index: -1
 tundra
   rotate: false
-  xy: 456, 11
+  xy: 339, 11
   size: 115, 115
   orig: 115, 115
   offset: 0, 0
@@ -720,21 +720,21 @@ undersea
   index: -1
 underseabg
   rotate: false
-  xy: 992, 25
+  xy: 1055, 17
   size: 20, 11
   orig: 20, 11
   offset: 0, 0
   index: -1
 upleftarrow
   rotate: false
-  xy: 1882, 54
+  xy: 1973, 55
   size: 35, 39
   orig: 35, 39
   offset: 0, 0
   index: -1
 uprightarrow
   rotate: false
-  xy: 1919, 55
+  xy: 1077, 21
   size: 35, 39
   orig: 35, 39
   offset: 0, 0

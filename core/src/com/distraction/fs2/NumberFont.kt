@@ -52,7 +52,6 @@ class NumberFont(
             return
         }
         val s = num.toString()
-//        println("drawing $s")
         var offset = 0
         if (centerAlign) {
             for (c in s) {

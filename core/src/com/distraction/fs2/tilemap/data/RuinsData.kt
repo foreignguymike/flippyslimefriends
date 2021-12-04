@@ -15,6 +15,7 @@ object RuinsData {
             ),
             target = 4,
             playerPositions = listOf(TilePoint(2, 0)),
+            objects = listOf(SuperJumpData(0, 0), IceData(0, 0), ArrowData(0, 0, Direction.UP)),
             path = listOf(
                 listOf(
                     StopPathPointData(0, 0),

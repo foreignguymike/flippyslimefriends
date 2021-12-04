@@ -21,7 +21,6 @@ class TileMap(
 
     val mapData = context.gameData.mapData[area]?.getOrNull(level)
         ?: throw IllegalStateException("level not found [${area}][$level]")
-    val otherObjects = arrayListOf<TileObject>()
     val startBubble = mapData.startBubble
 
     val numRows = mapData.numRows
@@ -32,6 +31,8 @@ class TileMap(
     // orderedMap is used to determine rendering order
     private var numTilesMoving = 0
     private val orderedMap = map.sortedBy { it?.isop?.y }.toMutableList()
+
+    val players = listOf<Player>()
 
     /**
      * Convert map data to tiles
@@ -46,23 +47,15 @@ class TileMap(
                 val col = it % numCols
 
                 val index = map[it]
-                val tile = Tile(
-                    context,
-                    this,
-                    row,
-                    col,
-                    index,
-                    area
-                )
-                    .apply {
-                        // add moving tiles
-                        mapData.path?.forEach { ppd ->
-                            if (row == ppd[0].tilePoint.row && col == ppd[0].tilePoint.col) {
-                                this.path = ppd
-                                moveListeners.add(tileMap)
-                            }
+                val tile = Tile(context, this, row, col, index, area).apply {
+                    // add moving tiles
+                    mapData.path?.forEach { ppd ->
+                        if (row == ppd[0].tilePoint.row && col == ppd[0].tilePoint.col) {
+                            this.path = ppd
+                            moveListeners.add(tileMap)
                         }
                     }
+                }
 
                 // add tile objects
                 mapData.objects
@@ -94,6 +87,7 @@ class TileMap(
                                 currentTile = tile
                             }
                             is BubbleData -> Bubble(context, this, row, col).apply {
+                                tile.addTopObject(bubbleBase)
                                 currentTile = tile
                             }
                             else -> throw IllegalArgumentException("incorrect tile object data")
@@ -111,7 +105,7 @@ class TileMap(
                 tileListener.onTileToggled(this)
             }
             if (it.isActive()) {
-                otherObjects.add(TileLight(context, this, row, col))
+                it.addTopObject(TileLight(context, this, row, col))
             }
         }
     }
@@ -164,15 +158,6 @@ class TileMap(
         map.forEach {
             it?.update(dt)
         }
-        otherObjects.forEach {
-            it.currentTile?.let { tile ->
-                if (tile.isMovingTile()) {
-                    it.setPosition(tile.p.x, tile.p.y)
-                }
-            }
-            it.update(dt)
-        }
-        otherObjects.removeAll { it.remove }
     }
 
     fun render(sb: SpriteBatch) {
@@ -183,14 +168,27 @@ class TileMap(
             // plus i don't have to care about figuring out when to sort
             orderedMap.sortByDescending { it?.isop?.y }
         }
-        orderedMap.forEach { it?.renderBottom(sb) }
-        orderedMap.forEach { it?.render(sb) }
+        orderedMap.forEach { tile ->
+            tile?.renderBottom(sb)
+            tile?.render(sb)
+        }
     }
 
-    fun renderOther(sb: SpriteBatch) {
-        otherObjects.forEach {
-            it.render(sb)
+    fun renderTop(sb: SpriteBatch, sortedPlayers: List<Player>) {
+        var playerIndex = 0
+        for (i in 0 until orderedMap.size - 1) {
+            val item = orderedMap[i] ?: continue
+            val item2 = orderedMap[i + 1] ?: continue
+            if (i < orderedMap.size - 1 && playerIndex < sortedPlayers.size) {
+                val playery = -sortedPlayers[playerIndex].isop.y
+                if (playery >= -item.isop.y && playery <= -item2.isop.y) {
+                    sortedPlayers[playerIndex].render(sb)
+                    playerIndex++
+                }
+            }
+            item.renderTop(sb)
         }
+        for (i in playerIndex until sortedPlayers.size) sortedPlayers[i].render(sb)
     }
 
     companion object {

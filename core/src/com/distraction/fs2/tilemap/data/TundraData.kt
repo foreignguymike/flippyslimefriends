@@ -135,15 +135,15 @@ object TundraData {
             )
         ),
         MapData(
-            numRows = 5, numCols = 3,
+            numRows = 5, numCols = 4,
             map = intArrayOf(
-                0, e, e,
-                0, 0, 0,
-                0, 0, 0,
-                0, 0, 0,
-                e, e, 0
+                0, e, e, e,
+                0, 0, 0, 0,
+                0, 0, 0, e,
+                0, 0, 0, e,
+                e, e, 0, e
             ),
-            target = 9,
+            target = 10,
             playerPositions = listOf(TilePoint(0, 0), TilePoint(4, 2)),
             objects = listOf(
                 IceData(1, 1),
@@ -334,7 +334,7 @@ object TundraData {
                 0, 0, 0, 0, 0, 0,
                 e, 0, 0, 0, 0, e
             ),
-            target = 22,
+            target = 20,
             playerPositions = listOf(TilePoint(0, 4), TilePoint(1, 5)),
             objects = listOf(
                 IceData(1, 1),

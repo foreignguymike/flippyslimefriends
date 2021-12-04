@@ -7,8 +7,7 @@ import com.distraction.fs2.drawPadded
 import com.distraction.fs2.moveTo
 import com.distraction.fs2.tilemap.data.Area
 import com.distraction.fs2.tilemap.data.PathPointData
-import com.distraction.fs2.tilemap.tileobjects.Arrow
-import com.distraction.fs2.tilemap.tileobjects.TileObject
+import com.distraction.fs2.tilemap.tileobjects.*
 
 class Tile(
     val context: Context,
@@ -26,6 +25,8 @@ class Tile(
 
     // tile objects, use Tile.addObject() to add so that the objects are sorted
     val objects = arrayListOf<TileObject>()
+    val topObjects = arrayListOf<TileObject>()
+    val topObjectsToAdd = arrayListOf<TileObject>()
 
     // moving tile params
     var path: List<PathPointData>? = null
@@ -76,6 +77,11 @@ class Tile(
     fun addObject(tileObject: TileObject) {
         objects.add(tileObject)
         objects.sortBy { tileObjectRenderOrder.indexOf(tileObject::class.java) }
+    }
+
+    fun addTopObject(tileObject: TileObject) {
+        topObjectsToAdd.add(tileObject)
+        topObjectsToAdd.sortBy { tileObjectRenderOrder.indexOf(tileObject::class.java) }
     }
 
     fun isActive() = index == 1
@@ -151,21 +157,20 @@ class Tile(
             }
         }
 
-        objects.forEach {
-            it.update(dt)
-            if (isMovingTile()) {
-                it.setPosition(it.p.x, it.p.y)
-            }
+        if (topObjectsToAdd.isNotEmpty()) {
+            topObjects.addAll(topObjectsToAdd)
+            topObjects.sortBy { tileObjectRenderOrder.indexOf(it::class.java) }
+            topObjectsToAdd.clear()
         }
+        objects.forEach { it.update(dt) }
+        topObjects.forEach { it.update(dt) }
+        topObjects.removeAll { it.remove }
     }
 
     fun render(sb: SpriteBatch) {
         tileMap.toIsometric(p.x, p.y, isop)
         sb.drawPadded(image, isop.x - TileMap.TILE_IWIDTH / 2, isop.y - TileMap.TILE_IHEIGHT / 2)
-
-        objects.forEach {
-            it.render(sb)
-        }
+        objects.forEach { it.render(sb) }
     }
 
     fun renderBottom(sb: SpriteBatch) {
@@ -177,10 +182,18 @@ class Tile(
         )
     }
 
+    fun renderTop(sb: SpriteBatch) {
+        tileMap.toIsometric(p.x, p.y, isop)
+        topObjects.forEach { it.render(sb) }
+    }
+
     companion object {
         // rendering order for tile objects
         val tileObjectRenderOrder = listOf(
-            Arrow::class.java
+            Ice::class.java,
+            Arrow::class.java,
+            SuperJumpLight::class.java,
+            TeleportLight::class.java
         )
 
         val areaTileType = mapOf(
