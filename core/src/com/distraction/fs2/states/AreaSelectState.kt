@@ -7,6 +7,7 @@ import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.data.Area
 import com.distraction.fs2.tilemap.data.GameColor
 import kotlin.math.absoluteValue
+import kotlin.math.max
 
 class AreaSelectState(context: Context, private var currentIndex: Int = 0) : GameState(context) {
 
@@ -92,7 +93,7 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
         }
         areaButtons.forEach {
             it.scale = 1f / (1f + (Constants.WIDTH / 2 - it.pos.x).absoluteValue / 100f)
-            it.alpha = 1f / (1f + (Constants.WIDTH / 2 - it.pos.x).absoluteValue / 20f)
+            it.alpha = max(0f, (1f - (Constants.WIDTH / 2 - it.pos.x).absoluteValue / 300f) / 1f)
             it.update(dt)
         }
         leftArrow.update(dt)
