@@ -106,8 +106,15 @@ enum class Area(val text: String, val color: Color = GameColor.CALM_BLUE, val bg
 }
 
 enum class Direction {
+    LEFT,
     UP,
-    RIGHT,
     DOWN,
-    LEFT
+    RIGHT;
+
+    fun opposite() = when (this) {
+        UP -> DOWN
+        DOWN -> UP
+        LEFT -> RIGHT
+        RIGHT -> LEFT
+    }
 }

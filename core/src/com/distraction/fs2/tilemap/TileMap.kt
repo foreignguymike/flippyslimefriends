@@ -32,7 +32,7 @@ class TileMap(
     private var numTilesMoving = 0
     private val orderedMap = map.sortedBy { it?.isop?.y }.toMutableList()
 
-    val players = listOf<Player>()
+    private var tilePathRenderer: TilePathRenderer? = null
 
     /**
      * Convert map data to tiles
@@ -96,6 +96,10 @@ class TileMap(
                     .forEach { tileObject -> tile.addObject(tileObject) }
                 tile
             }
+        }.also {
+            mapData.path?.let { path ->
+                tilePathRenderer = TilePathRenderer(context, this, path)
+            }
         }
     }
 
@@ -158,6 +162,7 @@ class TileMap(
         map.forEach {
             it?.update(dt)
         }
+        tilePathRenderer?.update(dt)
     }
 
     fun render(sb: SpriteBatch) {
@@ -172,6 +177,7 @@ class TileMap(
             tile?.renderBottom(sb)
             tile?.render(sb)
         }
+        tilePathRenderer?.render(sb)
     }
 
     fun renderTop(sb: SpriteBatch, sortedPlayers: List<Player>) {

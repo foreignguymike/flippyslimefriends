@@ -389,10 +389,10 @@ class Player(
             bubbleo.update(dt)
             bubblex.update(dt)
         }
-        tileMap.toIsometric(p.x, p.y, isop)
     }
 
     override fun render(sb: SpriteBatch) {
+        tileMap.toIsometric(p.x, p.y, isop)
         if (!teleporting) {
             if (bubbling) {
                 if (!dropping) {

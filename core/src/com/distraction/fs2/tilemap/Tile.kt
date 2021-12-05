@@ -30,6 +30,14 @@ class Tile(
 
     // moving tile params
     var path: List<PathPointData>? = null
+    set(value) {
+        field = value
+        if (value != null) {
+            if (area == Area.RUINS) {
+                bottomImage = context.getImage("${areaTileType[area]}glow")
+            }
+        }
+    }
     var pathIndex = 0
     val speed = 100f
     var stayTimer = 0f

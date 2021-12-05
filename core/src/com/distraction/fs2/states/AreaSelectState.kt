@@ -16,16 +16,16 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
             setPosition(Constants.WIDTH / 2 + index * width, Constants.HEIGHT / 2)
         }
     }
-    private val leftArrow = ImageButton(
+    private val leftArrow = BreathingImage(
         context.getImage("areaselectarrow"),
         50f,
-        Constants.HEIGHT / 4,
+        Constants.HEIGHT / 2,
         20f
     ).apply { flipped = true }
-    private val rightArrow = ImageButton(
+    private val rightArrow = BreathingImage(
         context.getImage("areaselectarrow"),
         Constants.WIDTH - 50f,
-        Constants.HEIGHT / 4,
+        Constants.HEIGHT / 2,
         20f
     )
     private val color = Area.values()[currentIndex].colorCopy()
@@ -92,8 +92,11 @@ class AreaSelectState(context: Context, private var currentIndex: Int = 0) : Gam
         }
         areaButtons.forEach {
             it.scale = 1f / (1f + (Constants.WIDTH / 2 - it.pos.x).absoluteValue / 100f)
+            it.alpha = 1f / (1f + (Constants.WIDTH / 2 - it.pos.x).absoluteValue / 20f)
             it.update(dt)
         }
+        leftArrow.update(dt)
+        rightArrow.update(dt)
         Area.values()[currentIndex].color.let {
             color.lerp(it.r, it.g, it.b, it.a, 4 * dt)
         }
