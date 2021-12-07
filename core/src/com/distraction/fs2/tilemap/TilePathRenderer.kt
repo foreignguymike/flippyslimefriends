@@ -5,9 +5,7 @@ import com.badlogic.gdx.math.MathUtils
 import com.distraction.fs2.Context
 import com.distraction.fs2.drawCentered
 import com.distraction.fs2.resetColor
-import com.distraction.fs2.setColor
 import com.distraction.fs2.tilemap.data.Direction
-import com.distraction.fs2.tilemap.data.GameColor
 import com.distraction.fs2.tilemap.data.PathPointData
 import com.distraction.fs2.tilemap.tileobjects.TileObject
 
@@ -20,7 +18,8 @@ class TilePathRenderer(
     private val renderList = mutableListOf<TilePathRenderObject>()
     private val renderCenters = mutableListOf<TilePathRenderObject>()
 
-    private var alpha = 1f
+    private val orderedList: List<TilePathRenderObject>
+
     private var timer = 0f
 
     init {
@@ -89,17 +88,19 @@ class TilePathRenderer(
                 }
             }
         }
-        renderList.sortBy { it.direction?.ordinal }
+        orderedList = renderList.sortedBy { it.direction?.ordinal }.distinct()
     }
 
     fun update(dt: Float) {
         timer += dt
-        alpha = MathUtils.sin(timer * MathUtils.PI) * 0.375f + 0.5f
+
+        for (i in renderList.indices) {
+            renderList[i].alpha = MathUtils.sin((i * -0.2f + timer) * MathUtils.PI) * 0.375f + 0.5f
+        }
     }
 
     fun render(sb: SpriteBatch) {
-        sb.setColor(1f, 1f, 1f, alpha)
-        renderList.forEach { it.render(sb) }
+        orderedList.forEach { it.render(sb) }
         sb.resetColor()
         renderCenters.forEach { it.render(sb) }
     }
@@ -118,6 +119,8 @@ class TilePathRenderer(
         private val right = context.getImage("tilepathright")
         private val down = context.getImage("tilepathdown")
 
+        var alpha = 1f
+
         init {
             setPositionFromTile(row, col)
         }
@@ -127,14 +130,45 @@ class TilePathRenderer(
 
         override fun render(sb: SpriteBatch) {
             tileMap.toIsometric(p.x, p.y, isop)
+            sb.setColor(1f, 1f, 1f, alpha)
             when (direction) {
-                Direction.UP -> sb.drawCentered(up, isop.x + up.regionWidth / 2 - 1, isop.y + up.regionHeight / 2 - 1)
-                Direction.RIGHT -> sb.drawCentered(right, isop.x + right.regionWidth / 2 - 1, isop.y - right.regionHeight / 2 + 2)
-                Direction.DOWN -> sb.drawCentered(down, isop.x - down.regionWidth / 2, isop.y - down.regionHeight / 2 + 2)
-                Direction.LEFT -> sb.drawCentered(left, isop.x - left.regionWidth / 2, isop.y + left.regionHeight / 2 - 1)
+                Direction.UP -> sb.drawCentered(
+                    up,
+                    isop.x + up.regionWidth / 2 - 1,
+                    isop.y + up.regionHeight / 2 - 1
+                )
+                Direction.RIGHT -> sb.drawCentered(
+                    right,
+                    isop.x + right.regionWidth / 2 - 1,
+                    isop.y - right.regionHeight / 2 + 2
+                )
+                Direction.DOWN -> sb.drawCentered(
+                    down,
+                    isop.x - down.regionWidth / 2,
+                    isop.y - down.regionHeight / 2 + 2
+                )
+                Direction.LEFT -> sb.drawCentered(
+                    left,
+                    isop.x - left.regionWidth / 2,
+                    isop.y + left.regionHeight / 2 - 1
+                )
                 null -> sb.drawCentered(center, isop.x, isop.y)
             }
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as TilePathRenderObject
+
+            if (direction != other.direction) return false
+            if (row != other.row) return false
+            if (col != other.col) return false
+
+            return true
+        }
+
     }
 
 }

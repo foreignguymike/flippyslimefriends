@@ -329,6 +329,21 @@ object TundraData {
         MapData(
             numRows = 4, numCols = 6,
             map = intArrayOf(
+                e, e, e, e, 0, e,
+                0, 0, 0, 0, 0, 0,
+                e, 0, 0, 0, 0, e,
+                e, 0, 0, e, e, e
+            ),
+            target = 26,
+            playerPositions = listOf(TilePoint(1, 2)),
+            objects = listOf(
+                IceData(1, 4),
+                IceData(2, 2)
+            )
+        ),
+        MapData(
+            numRows = 4, numCols = 6,
+            map = intArrayOf(
                 e, 0, 0, 0, 0, e,
                 0, 0, b, b, 0, 0,
                 0, 0, 0, 0, 0, 0,

@@ -70,7 +70,7 @@ open class PathPointData(val tilePoint: TilePoint, val time: Float = 0f) {
 }
 class StopPathPointData(row: Int, col: Int) : PathPointData(TilePoint(row, col), DEFAULT_STOP_TIME) {
     companion object {
-        const val DEFAULT_STOP_TIME = 3f
+        const val DEFAULT_STOP_TIME = 2f
     }
 }
 

@@ -94,6 +94,21 @@ object UnderseaData {
             )
         ),
         MapData(
+            numRows = 5, numCols = 4,
+            map = intArrayOf(
+                e, 0, 0, e,
+                0, 0, 0, e,
+                0, 0, e, 0,
+                e, 0, 0, 0,
+                e, e, 0, 0
+            ),
+            target = 12,
+            playerPositions = listOf(TilePoint(2, 1)),
+            objects = listOf(
+                BubbleData(1, 2)
+            )
+        ),
+        MapData(
             numRows = 5, numCols = 3,
             map = intArrayOf(
                 0, 0, 0,
