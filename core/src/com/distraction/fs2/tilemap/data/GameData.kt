@@ -14,7 +14,7 @@ class GameData(val context: Context) {
         Area.TUNDRA to TundraData.data,
         Area.RUINS to RuinsData.data,
         Area.UNDERSEA to UnderseaData.data,
-        Area.MATRIX to listOf()
+        Area.MATRIX to MatrixData.data
     )
 
     fun getMapData(area: Area) =
@@ -60,15 +60,17 @@ abstract class TileObjectData(val row: Int, val col: Int)
 class ArrowData(row: Int, col: Int, val direction: Direction) : TileObjectData(row, col)
 class SuperJumpData(row: Int, col: Int) : TileObjectData(row, col)
 class IceData(row: Int, col: Int) : TileObjectData(row, col)
+class BubbleData(row: Int, col: Int) : TileObjectData(row, col)
 class TeleportData(row: Int, col: Int, val destRow: Int, val destCol: Int) :
     TileObjectData(row, col)
-class BubbleData(row: Int, col: Int) : TileObjectData(row, col)
 
 class TilePoint(var row: Int = 0, var col: Int = 0)
 open class PathPointData(val tilePoint: TilePoint, val time: Float = 0f) {
     constructor(row: Int, col: Int, time: Float = 0f) : this(TilePoint(row, col), time)
 }
-class StopPathPointData(row: Int, col: Int) : PathPointData(TilePoint(row, col), DEFAULT_STOP_TIME) {
+
+class StopPathPointData(row: Int, col: Int) :
+    PathPointData(TilePoint(row, col), DEFAULT_STOP_TIME) {
     companion object {
         const val DEFAULT_STOP_TIME = 2f
     }
@@ -85,22 +87,37 @@ object GameColor {
     val MIDNIGHT_BLUE = Color(5 / 255f, 9 / 255f, 20 / 255f, 1f)
     val DARK_BLUE = Color(26f / 255f, 70f / 255f, 107f / 255f, 1f)
     val PURPLE = Color(91f / 255f, 83f / 255f, 125f / 255f, 1f)
-    val LIGHT_GRAY = Color(199 / 255f, 212 / 255f, 225 / 255f, 1f)
+    val LIGHT_GRAY_PURPLE = Color(199 / 255f, 212 / 255f, 225 / 255f, 1f)
     val PEACH = Color(255 / 255f, 207 / 255f, 142 / 255f, 1f)
     val BLACK_1 = Color(5f / 255f, 9f / 255f, 20f / 255f, 1f)
     val BRIGHT_YELLOW = Color(248 / 255f, 255 / 255f, 184 / 255f, 1f)
     val LIME_GREEN = Color(198 / 255f, 216 / 255f, 49 / 255f, 1f)
     val ORANGE = Color(255 / 255f, 184 / 255f, 74 / 255f, 1f)
     val TAN = Color(240 / 255f, 194 / 255f, 151 / 255f, 1f)
+
+    // grayscale
+    val BLACK = Color(0f, 0f, 0f, 255f)
+    val VERY_DARK_GRAY = Color(32 / 255f, 32 / 255f, 32 / 255f, 1f)
+    val DARK_GRAY = Color(96 / 255f, 96 / 255f, 96 / 255f, 1f)
+    val GRAY = Color(159 / 255f, 159 / 255f, 159 / 255f, 1f)
+    val LIGHT_GRAY = Color(223 / 255f, 223 / 255f, 223 / 255f, 1f)
+    val WHITE = Color(1f, 1f, 1f, 1f)
 }
 
-enum class Area(val text: String, val color: Color = GameColor.CALM_BLUE, val bg: String = "bgs", val bgColor: Color = Color.WHITE) {
-    TUTORIAL("tutorial", GameColor.SKY_BLUE),
-    MEADOW("meadow", GameColor.DARK_GREEN, "meadowbg", GameColor.GREEN),
-    TUNDRA("tundra", GameColor.LIGHT_GRAY, "tundrabg"),
-    RUINS("ruins", GameColor.TAN, "ruinsbg", GameColor.BRIGHT_YELLOW),
-    UNDERSEA("undersea", GameColor.DARK_BLUE, "underseabg", GameColor.CALM_BLUE),
-    MATRIX("matrix", GameColor.TEAL);
+enum class Area(
+    val text: String,
+    val color: Color = GameColor.CALM_BLUE,
+    val bg: String = "bgs",
+    val bgIconColor: Color = Color.WHITE,
+    val tilesetOn: String = "tiletutorial",
+    val tilesetOff: String = tilesetOn
+) {
+    TUTORIAL("tutorial", GameColor.SKY_BLUE, "bgs", GameColor.WHITE, "tiletutorial"),
+    MEADOW("meadow", GameColor.DARK_GREEN, "meadowbg", GameColor.GREEN, "tilegrass"),
+    TUNDRA("tundra", GameColor.LIGHT_GRAY_PURPLE, "tundrabg", GameColor.WHITE, "tilesnow"),
+    RUINS("ruins", GameColor.TAN, "ruinsbg", GameColor.BRIGHT_YELLOW, "tileruins"),
+    UNDERSEA("undersea", GameColor.DARK_BLUE, "underseabg", GameColor.CALM_BLUE, "tilesea"),
+    MATRIX("matrix", GameColor.BLACK, "matrixbg", GameColor.GRAY, "tiledark", "tiledarkoff");
 
     fun colorCopy() = Color(color)
 }

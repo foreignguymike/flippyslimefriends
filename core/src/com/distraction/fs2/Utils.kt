@@ -17,7 +17,7 @@ class Utils {
     companion object {
         fun max(f1: Float, f2: Float) = if (f2 > f1) f2 else f1
         fun dist(x1: Float, y1: Float, x2: Float, y2: Float) =
-            sqrt(1.0 * (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)).toFloat()
+            sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))
     }
 }
 
@@ -176,6 +176,10 @@ fun Vector2.diff(v2: Vector2) = (this.x - v2.x).absoluteValue + (this.y - v2.y).
 
 fun Rectangle.contains(v: Vector3) = contains(v.x, v.y)
 
+/**
+ * Move this toward pdest at dist amount.
+ * The dist is applied to x and y individually.
+ */
 fun Vector3.moveTo(pdest: Vector3, dist: Float) {
     if (x < pdest.x) {
         x += dist
@@ -203,4 +207,40 @@ fun Vector3.moveTo(pdest: Vector3, dist: Float) {
     }
 }
 
-fun Float.map(A: Float, B: Float, C: Float, D: Float) = (this - A) / ( B - A) * (D - C) + C
+/**
+ * Move this toward pdest at dist amount.
+ * The dist is applied to the direction of pdest.
+ */
+fun Vector3.moveToLinear(pdest: Vector3, dist: Float) {
+    val dx = pdest.x - x
+    val dy = pdest.y - y
+    val totalDist = sqrt(dx * dx + dy * dy)
+    val tx = (totalDist - dist) * (pdest.x - x) / totalDist
+    val ty = (totalDist - dist) * (pdest.y - y) / totalDist
+    if (x < pdest.x) {
+        x += tx
+        if (x > pdest.x) {
+            x = pdest.x
+        }
+    }
+    if (x > pdest.x) {
+        x += tx
+        if (x < pdest.x) {
+            x = pdest.x
+        }
+    }
+    if (y < pdest.y) {
+        y += ty
+        if (y > pdest.y) {
+            y = pdest.y
+        }
+    }
+    if (y > pdest.y) {
+        y += ty
+        if (y < pdest.y) {
+            y = pdest.y
+        }
+    }
+}
+
+fun Float.map(A: Float, B: Float, C: Float, D: Float) = (this - A) / (B - A) * (D - C) + C

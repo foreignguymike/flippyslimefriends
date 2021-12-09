@@ -420,7 +420,10 @@ class GridPanel : JPanel() {
                     JUMP -> "SuperJumpData(${it.row}, ${it.col})"
                     ICE -> "IceData(${it.row}, ${it.col})"
                     BUBBLE -> "BubbleData(${it.row}, ${it.col})"
-                    TELEPORT -> "teleport(${it.row}, ${it.col}, ${it.row2}, ${it.col2})"
+                    TELEPORT -> {
+                        "TeleportData(${it.row}, ${it.col}, ${it.row2}, ${it.col2})," + "\n" +
+                                "TeleportData(${it.row2}, ${it.col2}, ${it.row}, ${it.col})"
+                    }
                 }
             })}\n")
             sb.append("\t)\n")

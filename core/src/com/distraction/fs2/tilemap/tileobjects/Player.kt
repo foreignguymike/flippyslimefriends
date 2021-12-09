@@ -6,7 +6,7 @@ import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.data.Direction
-import kotlin.math.absoluteValue
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sin
 
@@ -39,6 +39,7 @@ class Player(
     private var justTeleported = false
     private var teleportSpeed = 0f
     private var direction = Direction.RIGHT
+    private var teleportTimer = 0f
 
     private var selected = false
     private var selectedTimer = 0f
@@ -248,9 +249,10 @@ class Player(
                     sliding = true
                 }
                 it is Teleport && !justTeleported -> {
+                    teleportTimer = 0f
                     teleportSpeed = Utils.max(
-                        (p.y - tileMap.toPosition(it.row2)).absoluteValue,
-                        (p.x - tileMap.toPosition(it.col2)).absoluteValue
+                        abs(p.y - tileMap.toPosition(it.row2)),
+                        abs(p.x - tileMap.toPosition(it.col2))
                     ) * 1.5f
                     moveTile(it.row2 - row, it.col2 - col)
                     teleporting = true
@@ -302,7 +304,8 @@ class Player(
         if (!bubbling) {
             // landed on illegal tile or another player
             if (!tileMap.isValidTile(row, col)
-                || players.any { it != this && it.row == row && it.col == col }) {
+                || players.any { it != this && it.row == row && it.col == col }
+            ) {
                 resetMovement()
                 moveListener.onIllegal()
                 return
@@ -354,7 +357,8 @@ class Player(
         }
 
         // handle arrows while blocks
-        if (atDestination() && tileMap.getTile(row, col)?.objects?.any { it is Arrow } == true && !bubbling) {
+        if (atDestination() &&
+            tileMap.getTile(row, col)?.objects?.any { it is Arrow } == true && !bubbling) {
             handleTileObjects(row, col)
         }
 
@@ -373,7 +377,17 @@ class Player(
             val dist = dt * (if (teleporting && justTeleported) teleportSpeed else speed)
             val multiplier =
                 if (superjump) SUPER_JUMP_MULTIPLIER else if (sliding) SLIDING_MULTIPLIER else 1f
-            p.moveTo(pdest, dist * multiplier)
+            if (teleporting) {
+                teleportTimer += dt
+                if (teleportTimer > TELEPORT_TIME_LIMIT) {
+                    p.x = pdest.x
+                    p.y = pdest.y
+                } else {
+                    p.moveToLinear(pdest, dist * multiplier)
+                }
+            } else {
+                p.moveTo(pdest, dist * multiplier)
+            }
         }
 
         // handle logic for player just finished moving (moving && atDestination())
@@ -441,6 +455,7 @@ class Player(
         const val BUBBLE_HEIGHT = 40f
         const val BUBBLE_HEIGHT_SPEED = 50f
         const val BUBBLE_DROP_SPEED = 300f
+        const val TELEPORT_TIME_LIMIT = 0.75f
 
         const val SUPER_JUMP_MULTIPLIER = 2f
         const val SLIDING_MULTIPLIER = 2.5f

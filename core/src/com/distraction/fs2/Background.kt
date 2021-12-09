@@ -1,7 +1,6 @@
 package com.distraction.fs2
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.tilemap.data.Area
 
@@ -55,7 +54,7 @@ class Background(context: Context, private val area: Area) {
     fun render(sb: SpriteBatch) {
         sb.color = color
         sb.draw(pixel, 0f, 0f, Constants.WIDTH, Constants.HEIGHT)
-        sb.color = area.bgColor
+        sb.color = area.bgIconColor
         bgs.forEach {
             sb.drawRotated(image, it.x, it.y, rot)
 //            sb.draw(

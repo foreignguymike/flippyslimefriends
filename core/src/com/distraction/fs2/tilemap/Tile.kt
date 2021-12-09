@@ -25,43 +25,45 @@ class Tile(
 
     // tile objects, use Tile.addObject() to add so that the objects are sorted
     val objects = arrayListOf<TileObject>()
-    val topObjects = arrayListOf<TileObject>()
-    val topObjectsToAdd = arrayListOf<TileObject>()
+    private val topObjects = arrayListOf<TileObject>()
+    private val topObjectsToAdd = arrayListOf<TileObject>()
 
     // moving tile params
     var path: List<PathPointData>? = null
-    set(value) {
-        field = value
-        if (value != null) {
-            if (area == Area.RUINS) {
-                bottomImage = context.getImage("${areaTileType[area]}glow")
+        set(value) {
+            field = value
+            if (value != null) {
+                if (area == Area.RUINS) {
+                    bottomImage = context.getImage("${area.tilesetOn}glow")
+                }
             }
         }
-    }
-    var pathIndex = 0
-    val speed = 100f
-    var stayTimer = 0f
+    private var pathIndex = 0
+    private val speed = 100f
+    private var stayTimer = 0f
     var lock = false
+
     var moving = false
     var moveListeners = ArrayList<TileMoveListener>()
-    var prevRow = row
-    var prevCol = col
+
+    private var prevRow = row
+    private var prevCol = col
 
     // position (in 2d cartesian)
     val p = Vector3()
 
     // isometric position (position converted to "3d" position)
-    val isop = Vector3()
+    private val isop = Vector3()
 
     // destination position
-    val pdest = Vector3()
+    private val pdest = Vector3()
 
-    var image = context.gameData.getTile(index)
-    var bottomImage =
-        areaTileType[area]?.let { context.getImage(it) } ?: run { context.getImage("tilegrass") }
+    private var image = context.gameData.getTile(index)
+    private var bottomImage = context.getImage(area.tilesetOn)
 
     init {
         tileMap.toPosition(row, col, p)
+        setType(TILE_OFF)
     }
 
     /**
@@ -70,16 +72,23 @@ class Tile(
      */
     fun toggle(): Boolean {
         when (index) {
-            0 -> setType(1)
-            1 -> setType(0)
+            TILE_OFF -> setType(TILE_ON)
+            TILE_ON -> setType(TILE_OFF)
             else -> return false
         }
         return true
     }
 
+    /**
+     * Sets the tile, the tile image, and tile bottom.
+     */
     fun setType(index: Int) {
         this.index = index
         this.image = context.gameData.getTile(index)
+        if (area == Area.MATRIX) {
+            bottomImage =
+                context.getImage(if (index == TILE_OFF) area.tilesetOff else area.tilesetOn)
+        }
     }
 
     fun addObject(tileObject: TileObject) {
@@ -204,12 +213,7 @@ class Tile(
             TeleportLight::class.java
         )
 
-        val areaTileType = mapOf(
-            Area.TUTORIAL to "tiletutorial",
-            Area.MEADOW to "tilegrass",
-            Area.TUNDRA to "tilesnow",
-            Area.RUINS to "tileruins",
-            Area.UNDERSEA to "tilesea"
-        )
+        private const val TILE_OFF = 0
+        private const val TILE_ON = 1
     }
 }

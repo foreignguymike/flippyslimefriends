@@ -169,6 +169,8 @@ class TilePathRenderer(
             return true
         }
 
+        override fun hashCode() = 0
+
     }
 
 }
