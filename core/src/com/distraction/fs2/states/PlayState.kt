@@ -50,13 +50,13 @@ class PlayState(context: Context, private val area: Area, private val level: Int
     }
 
     override fun onMoved() {
-        if (!tileMap.isFinished()) {
+        if (!tileMap.isFinished(players)) {
             hud.incrementMoves()
         }
     }
 
     override fun onTileToggled(tileMap: TileMap) {
-        if (tileMap.isFinished()) {
+        if (tileMap.isFinished(players)) {
             ignoreInput = true
             hud.hideInfo = true
             if (hud.getBest() < 0 || hud.getMoves() < hud.getBest()) {
@@ -77,7 +77,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
     }
 
     override fun onIllegal() {
-        if (!tileMap.isFinished() && !ignoreInput) {
+        if (!tileMap.isFinished(players) && !ignoreInput) {
             ignoreInput = true
             context.gsm.push(TransitionState(context, PlayState(context, area, level)))
         }

@@ -204,11 +204,7 @@ class Player(
         if (!bubbling) {
             // notify listeners
             moveListener.onMoved()
-
-            // if the map isn't finished, toggle the tile
-            if (!tileMap.isFinished()) {
-                tileMap.toggleTile(row, col)
-            }
+            tileMap.toggleTile(row, col)
         }
 
         // reset all movement flags
@@ -358,7 +354,8 @@ class Player(
 
         // handle arrows while blocks
         if (atDestination() &&
-            tileMap.getTile(row, col)?.objects?.any { it is Arrow } == true && !bubbling) {
+            tileMap.getTile(row, col)?.objects?.any { it is Arrow } == true && !bubbling
+        ) {
             handleTileObjects(row, col)
         }
 

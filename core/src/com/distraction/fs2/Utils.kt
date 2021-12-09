@@ -41,6 +41,10 @@ fun <T> MutableList<T>.mapInPlace(mapper: (T) -> (T)) {
     }
 }
 
+inline fun <reified R> Iterable<*>.findFirstInstance(func: (R) -> Unit) {
+    for (element in this) if (element is R) func(element)
+}
+
 fun AssetManager.getAtlas(): TextureAtlas = get("fs2.atlas", TextureAtlas::class.java)
 
 inline fun SpriteBatch.use(action: () -> Unit) {

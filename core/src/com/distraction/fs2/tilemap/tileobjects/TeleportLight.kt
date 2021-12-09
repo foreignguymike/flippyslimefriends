@@ -1,11 +1,11 @@
 package com.distraction.fs2.tilemap.tileobjects
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
 import com.distraction.fs2.tilemap.TileMap
+import com.distraction.fs2.tilemap.data.GameColor
 
 /**
  * Visual effects for Teleports.
@@ -16,7 +16,7 @@ class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) :
     TileObject(context, tileMap) {
     private val image = context.getImage("teleport")
     private val pixel = context.getImage("pixel")
-    private val color = Color.valueOf("AAE2FF30")
+    private val color = GameColor.BRIGHT_SKY_BLUE
     private val particles = arrayListOf<Vector3>()
     override var speed = 40f
 

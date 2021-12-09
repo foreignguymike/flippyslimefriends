@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
 import com.distraction.fs2.drawPadded
+import com.distraction.fs2.findFirstInstance
 import com.distraction.fs2.moveTo
 import com.distraction.fs2.tilemap.data.Area
 import com.distraction.fs2.tilemap.data.PathPointData
@@ -53,7 +54,7 @@ class Tile(
     val p = Vector3()
 
     // isometric position (position converted to "3d" position)
-    private val isop = Vector3()
+    val isop = Vector3()
 
     // destination position
     private val pdest = Vector3()
@@ -63,7 +64,7 @@ class Tile(
 
     init {
         tileMap.toPosition(row, col, p)
-        setType(TILE_OFF)
+        setType(index)
     }
 
     /**
@@ -88,6 +89,9 @@ class Tile(
         if (area == Area.MATRIX) {
             bottomImage =
                 context.getImage(if (index == TILE_OFF) area.tilesetOff else area.tilesetOn)
+        }
+        objects.findFirstInstance<FinishTile> {
+            it.active = index == TILE_ON
         }
     }
 

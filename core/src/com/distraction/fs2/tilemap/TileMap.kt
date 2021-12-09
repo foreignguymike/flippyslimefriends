@@ -23,6 +23,9 @@ class TileMap(
         ?: throw IllegalStateException("level not found [${area}][$level]")
     val startBubble = mapData.startBubble
 
+    // cache finish tiles here
+    private var finishTiles = mutableListOf<FinishTile>()
+
     val numRows = mapData.numRows
     val numCols = mapData.numCols
     val map = parseMapData(mapData.map)
@@ -38,16 +41,15 @@ class TileMap(
      * Convert map data to tiles
      */
     private fun parseMapData(map: IntArray): MutableList<Tile?> {
-        return MutableList(map.size) {
-            if (mapData.map[it] < 0) {
+        return MutableList(map.size) { index ->
+            if (mapData.map[index] < 0) {
                 null
             } else {
 
-                val row = it / numCols
-                val col = it % numCols
+                val row = index / numCols
+                val col = index % numCols
 
-                val index = map[it]
-                val tile = Tile(context, this, row, col, index, area).apply {
+                val tile = Tile(context, this, row, col, map[index], area).apply {
                     // add moving tiles
                     mapData.path?.forEach { ppd ->
                         if (row == ppd[0].tilePoint.row && col == ppd[0].tilePoint.col) {
@@ -59,7 +61,7 @@ class TileMap(
 
                 // add tile objects
                 mapData.objects
-                    .filter { objData -> objData.row == row && objData.col == col }
+                    .filter { it.row == row && it.col == col }
                     .map { objData ->
                         when (objData) {
                             is ArrowData -> Arrow(
@@ -90,10 +92,16 @@ class TileMap(
                                 tile.addTopObject(bubbleBase)
                                 currentTile = tile
                             }
+                            is FinishTileData -> FinishTile(context, this, row, col).apply {
+                                currentTile = tile
+                            }.also {
+                                finishTiles.add(it)
+                            }
                             else -> throw IllegalArgumentException("incorrect tile object data")
                         }
                     }
-                    .forEach { tileObject -> tile.addObject(tileObject) }
+                    .forEach { tile.addObject(it) }
+
                 tile
             }
         }.also {
@@ -146,7 +154,12 @@ class TileMap(
         return tile != null && !tile.moving && !tile.isBlocked()
     }
 
-    fun isFinished() = map.none { it?.index == 0 }
+    fun isFinished(players: List<Player>?) = map.none { it?.index == 0 } &&
+            if (finishTiles.isNotEmpty()) finishTiles.all { finishTile ->
+                finishTile.active && players?.any {
+                    it.row == finishTile.row && it.col == finishTile.col
+                } ?: false
+            } else true
 
     override fun onTileStartMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
         numTilesMoving++

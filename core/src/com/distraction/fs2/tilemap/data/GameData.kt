@@ -61,6 +61,7 @@ class ArrowData(row: Int, col: Int, val direction: Direction) : TileObjectData(r
 class SuperJumpData(row: Int, col: Int) : TileObjectData(row, col)
 class IceData(row: Int, col: Int) : TileObjectData(row, col)
 class BubbleData(row: Int, col: Int) : TileObjectData(row, col)
+class FinishTileData(row: Int, col: Int) : TileObjectData(row, col)
 class TeleportData(row: Int, col: Int, val destRow: Int, val destCol: Int) :
     TileObjectData(row, col)
 
