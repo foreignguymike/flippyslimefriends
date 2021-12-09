@@ -11,6 +11,7 @@ class TileLight(context: Context, tileMap: TileMap, row: Int, col: Int) : TileOb
     private var image = context.getImage("tilelight")
 
     init {
+        println("created tile light $this")
         setPositionFromTile(row, col)
         height = 0f
     }

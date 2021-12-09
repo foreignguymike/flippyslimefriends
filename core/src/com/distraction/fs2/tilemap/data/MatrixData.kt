@@ -6,16 +6,14 @@ object MatrixData {
 
     val data = listOf(
         MapData(
-            numRows = 3, numCols = 3,
+            numRows = 1, numCols = 5,
             map = intArrayOf(
-                0, 0, 0,
-                0, 0, 0,
-                0, 0, 0
+                0, 0, 0, 0, 0
             ),
             target = 8,
             playerPositions = listOf(TilePoint(0, 0)),
             objects = listOf(
-                FinishTileData(1, 1)
+                FinishTileData(0, 2)
             )
         ),
         MapData(

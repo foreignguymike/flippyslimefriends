@@ -204,7 +204,6 @@ class Tile(
     }
 
     fun renderTop(sb: SpriteBatch) {
-        tileMap.toIsometric(p.x, p.y, isop)
         topObjects.forEach { it.render(sb) }
     }
 

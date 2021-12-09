@@ -111,6 +111,8 @@ class TileMap(
         }
     }
 
+    private fun toIndex(row: Int, col: Int) = MathUtils.clamp(row * numCols + col, 0, map.size - 1)
+
     fun toggleTile(row: Int, col: Int) {
         getTile(row, col)?.let {
             if (it.toggle()) {
@@ -121,16 +123,6 @@ class TileMap(
             }
         }
     }
-
-    fun setTile(row: Int, col: Int, tile: Tile?) {
-        map[toIndex(row, col)] = tile
-    }
-
-    fun setTileType(row: Int, col: Int, index: Int) {
-        getTile(row, col)?.setType(index)
-    }
-
-    fun toIndex(row: Int, col: Int) = MathUtils.clamp(row * numCols + col, 0, map.size - 1)
 
     fun getTile(row: Int, col: Int) = map[toIndex(row, col)]
 
@@ -167,8 +159,8 @@ class TileMap(
 
     override fun onTileEndMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
         numTilesMoving--
-        setTile(oldRow, oldCol, null)
-        setTile(newRow, newCol, tile)
+        map[toIndex(oldRow, oldCol)] = null
+        map[toIndex(newRow, newCol)] = tile
     }
 
     fun update(dt: Float) {
@@ -208,6 +200,7 @@ class TileMap(
             item.renderTop(sb)
         }
         for (i in playerIndex until sortedPlayers.size) sortedPlayers[i].render(sb)
+        orderedMap[orderedMap.size - 1]?.renderTop(sb)
     }
 
     companion object {
