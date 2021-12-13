@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.states.GSM
-import com.distraction.fs2.states.PlayState
 import com.distraction.fs2.states.TitleState
 
 class FlippySlime2 : ApplicationAdapter() {
@@ -20,7 +19,6 @@ class FlippySlime2 : ApplicationAdapter() {
     }
 
     override fun render() {
-        clearScreen()
         gsm.update(Gdx.graphics.deltaTime)
         gsm.render(sb)
     }

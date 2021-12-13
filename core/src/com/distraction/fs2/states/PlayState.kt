@@ -20,10 +20,10 @@ class PlayState(context: Context, private val area: Area, private val level: Int
         Player(context, tileMap, this, it.row, it.col, tileMap.startBubble)
     }.also { players -> players.forEach { it.players = players } }
     private var playerIndex = 0
-    set(value) {
-        field = value
-        player = players[playerIndex]
-    }
+        set(value) {
+            field = value
+            player = players[playerIndex]
+        }
     private var player = players[0]
     private val sortedPlayers = players.toMutableList()
 

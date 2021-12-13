@@ -18,6 +18,7 @@ class TilePanel(private val clickTypeListener: ClickTypeListener) : JPanel(), Ac
     enum class ClickType(val tileType: Boolean = true) {
         TILE,
         ACTIVE,
+        GRAY,
         RIGHT,
         UP,
         DOWN,
@@ -25,7 +26,9 @@ class TilePanel(private val clickTypeListener: ClickTypeListener) : JPanel(), Ac
         JUMP,
         TELEPORT,
         ICE,
+        BLOCK,
         BUBBLE,
+        FINISH,
         CLEAR(false),
         DEACTIVATE(false)
     }

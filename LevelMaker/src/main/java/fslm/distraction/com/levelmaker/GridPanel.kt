@@ -11,13 +11,16 @@ class TileObjectData(val tileObject: Tile.TileObject, val row: Int, val col: Int
 
 class Tile(var row: Int, var col: Int, val rect: Rectangle = Rectangle(), tile: Boolean = false, active: Boolean = false, val objects: ArrayList<TileObject> = arrayListOf()) {
     enum class TileObject {
+        GRAY,
         RIGHT,
         UP,
         DOWN,
         LEFT,
         JUMP,
         ICE,
+        BLOCK,
         BUBBLE,
+        FINISH,
         TELEPORT;
 
         fun isArrow() = this == RIGHT || this == UP || this == DOWN || this == LEFT
@@ -49,6 +52,7 @@ class Tile(var row: Int, var col: Int, val rect: Rectangle = Rectangle(), tile: 
     private val iceColor = Color(176, 255, 241)
     private val teleportColor = Color(50, 150, 255)
     private val stroke3 = BasicStroke(3f)
+    private val finishColor = Color(230, 50, 50)
 
     fun tileObject(tileObject: TileObject) {
         if (!tile) {
@@ -108,6 +112,10 @@ class Tile(var row: Int, var col: Int, val rect: Rectangle = Rectangle(), tile: 
         g.stroke = stroke3
         for (tileObject in objects) {
             when (tileObject) {
+                GRAY -> {
+                    g.color = Color.DARK_GRAY
+                    g.fillRect(0, 0, 32, 32)
+                }
                 LEFT -> {
                     g.color = arrowColor
                     g.drawLine(rect.width / 4, rect.height / 2, 3 * rect.width / 4, 3 * rect.height / 4)
@@ -136,9 +144,18 @@ class Tile(var row: Int, var col: Int, val rect: Rectangle = Rectangle(), tile: 
                     g.color = iceColor
                     g.fillRect(rect.width / 4, rect.height / 4, rect.width / 2, rect.height / 2)
                 }
+                BLOCK -> {
+                    g.color = finishColor
+                    g.drawLine(rect.width / 4, rect.height / 4, 3 * rect.width / 4, 3 * rect.height / 4)
+                    g.drawLine(rect.width / 4, 3 * rect.height / 4, 3 * rect.width / 4, rect.height / 4)
+                }
                 BUBBLE -> {
                     g.color = iceColor
                     g.drawOval(rect.width / 4, rect.height / 4, rect.width / 2, rect.height / 2)
+                }
+                FINISH -> {
+                    g.color = finishColor
+                    g.fillRect(rect.width / 4, rect.height / 4, rect.width / 2, rect.height / 2)
                 }
                 else -> {
                 }
@@ -262,13 +279,16 @@ class GridPanel : JPanel() {
                                 }
 
                             }
+                            TilePanel.ClickType.GRAY -> tileObject(GRAY)
                             TilePanel.ClickType.RIGHT -> tileObject(RIGHT)
                             TilePanel.ClickType.UP -> tileObject(UP)
                             TilePanel.ClickType.DOWN -> tileObject(DOWN)
                             TilePanel.ClickType.LEFT -> tileObject(LEFT)
                             TilePanel.ClickType.JUMP -> tileObject(JUMP)
                             TilePanel.ClickType.ICE -> tileObject(ICE)
+                            TilePanel.ClickType.BLOCK -> tileObject(BLOCK)
                             TilePanel.ClickType.BUBBLE -> tileObject(BUBBLE)
+                            TilePanel.ClickType.FINISH -> tileObject(FINISH)
                             TilePanel.ClickType.TELEPORT -> {
                                 gridTele?.let {
                                     if (tile) {
@@ -382,7 +402,13 @@ class GridPanel : JPanel() {
                 val acol = col - minCol
                 grid.add(
                         if (tile.tile) {
-                            if (active && tile.active) '1' else '0'
+                            if (tile.objects.find { it == BLOCK } != null) {
+                                'b'
+                            } else if (tile.objects.find { it == GRAY } != null) {
+                                'g'
+                            } else {
+                                if (active && tile.active) '1' else '0'
+                            }
                         } else 'e'
                 )
                 for (tileObject in tile.objects) {
@@ -408,10 +434,10 @@ class GridPanel : JPanel() {
         sb.append("${grid.joinToString(", ", "\n", numCols)}\n")
         sb.append("\t),\n")
         sb.append("\ttarget = 0,\n")
-        sb.append("\tplayerPositions = listOf(TilePoint(0, 0)),\n")
+        sb.append("\tplayerPositions = listOf(TilePoint(0, 0))")
         if (objects.size > 0) {
-            sb.append("\tobjects = listOf(\n")
-            sb.append("\t\t${objects.joinToString(",\n", transform = {
+            sb.append(",\n\tobjects = listOf(\n")
+            sb.append("\t\t${objects.filterNot { it.tileObject == GRAY || it.tileObject == BLOCK }.joinToString(",\n", transform = {
                 when (it.tileObject) {
                     RIGHT -> "ArrowData(${it.row}, ${it.col}, Direction.RIGHT)"
                     UP -> "ArrowData(${it.row}, ${it.col}, Direction.UP)"
@@ -420,15 +446,17 @@ class GridPanel : JPanel() {
                     JUMP -> "SuperJumpData(${it.row}, ${it.col})"
                     ICE -> "IceData(${it.row}, ${it.col})"
                     BUBBLE -> "BubbleData(${it.row}, ${it.col})"
+                    FINISH -> "FinishTileData(${it.row}, ${it.col})"
                     TELEPORT -> {
                         "TeleportData(${it.row}, ${it.col}, ${it.row2}, ${it.col2})," + "\n" +
                                 "TeleportData(${it.row2}, ${it.col2}, ${it.row}, ${it.col})"
                     }
+                    else -> {""}
                 }
             })}\n")
-            sb.append("\t)\n")
+            sb.append("\t)")
         }
-        sb.append("\t)")
+        sb.append("\n\t)")
         return sb.toString()
     }
 }
@@ -458,7 +486,7 @@ fun <T, A : Appendable> Iterable<T>.joinTo(buffer: A, separator: CharSequence = 
 
 fun <T> Appendable.appendElement(element: T, transform: ((T) -> CharSequence)?) {
     when {
-        transform != null -> append(transform(element))
+        transform != null -> transform(element).let { if (it.isNotEmpty()) append(it) }
         element is CharSequence? -> append(element)
         element is Char -> append(element)
         else -> append(element.toString())

@@ -46,6 +46,50 @@ object MatrixData {
             )
         ),
         MapData(
+            numRows = 4, numCols = 4,
+            map = intArrayOf(
+                0, 0, 0, 0,
+                0, 0, e, 0,
+                0, e, 0, 0,
+                0, 0, 0, 0
+            ),
+            target = 0,
+            playerPositions = listOf(TilePoint(0, 0)),
+            objects = listOf(
+                FinishTileData(3, 3),
+                ArrowData(3, 1, Direction.RIGHT),
+                ArrowData(0, 2, Direction.LEFT)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(1, 1),
+                    StopPathPointData(1, 2)
+                ),
+                listOf(
+                    StopPathPointData(2, 2),
+                    StopPathPointData(2, 1)
+                )
+            )
+        ),
+        MapData(
+            numRows = 3, numCols = 4,
+            map = intArrayOf(
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0
+            ),
+            target = 19,
+            playerPositions = listOf(TilePoint(2, 0)),
+            objects = listOf(
+                ArrowData(1, 3, Direction.UP),
+                ArrowData(1, 2, Direction.DOWN),
+                ArrowData(1, 1, Direction.DOWN),
+                ArrowData(1, 0, Direction.UP),
+                TeleportData(2, 3, 0, 0),
+                TeleportData(0, 0, 2, 3)
+            )
+        ),
+        MapData(
             numRows = 5, numCols = 5,
             map = intArrayOf(
                 e, 0, 0, e, e,

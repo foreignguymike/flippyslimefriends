@@ -404,6 +404,7 @@ class Player(
 
     override fun render(sb: SpriteBatch) {
         tileMap.toIsometric(p.x, p.y, isop)
+        sb.resetColor()
         if (!teleporting) {
             if (bubbling) {
                 if (!dropping) {

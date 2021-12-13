@@ -126,6 +126,31 @@ object RuinsData {
             )
         ),
         MapData(
+            numRows = 4, numCols = 5,
+            map = intArrayOf(
+                0, 0, 0, e, e,
+                0, e, 0, 0, 0,
+                0, 0, 0, e, 0,
+                e, e, 0, 0, 0
+            ),
+            target = 13,
+            playerPositions = listOf(TilePoint(2, 0)),
+            objects = listOf(
+                ArrowData(1, 3, Direction.LEFT),
+                ArrowData(0, 1, Direction.RIGHT)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(2, 1),
+                    StopPathPointData(1, 1)
+                ),
+                listOf(
+                    StopPathPointData(3, 3),
+                    StopPathPointData(2, 3)
+                )
+            )
+        ),
+        MapData(
             numRows = 3, numCols = 4,
             map = intArrayOf(
                 e, 0, 0, e,
@@ -154,7 +179,7 @@ object RuinsData {
                 0, 0, 0
             ),
             target = 12,
-            playerPositions = listOf(TilePoint(0, 0)),
+            playerPositions = listOf(TilePoint(0, 1)),
             path = listOf(
                 listOf(
                     StopPathPointData(2, 0),
@@ -239,6 +264,29 @@ object RuinsData {
                 listOf(
                     StopPathPointData(3, 0),
                     StopPathPointData(3, 1)
+                )
+            )
+        ),
+        MapData(
+            numRows = 3, numCols = 5,
+            map = intArrayOf(
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0, 0, e, e, 0
+            ),
+            target = 18,
+            playerPositions = listOf(TilePoint(1, 2)),
+            objects = listOf(
+                ArrowData(1, 3, Direction.LEFT),
+                ArrowData(1, 1, Direction.RIGHT),
+                SuperJumpData(0, 2)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(2, 1),
+                    StopPathPointData(2, 2),
+                    StopPathPointData(2, 3),
+                    PathPointData(2, 2)
                 )
             )
         ),

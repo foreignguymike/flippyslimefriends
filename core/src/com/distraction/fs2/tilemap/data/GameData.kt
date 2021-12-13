@@ -78,6 +78,8 @@ class StopPathPointData(row: Int, col: Int) :
 }
 
 object GameColor {
+    // palette used is Journey by PineappleOnPizza
+    // downloaded from https://lospec.com/palette-list/journey
     val CALM_BLUE = Color(72f / 255f, 139f / 255f, 212f / 255f, 1f)
     val BRIGHT_SKY_BLUE = Color(176 / 255f, 255 / 255f, 241 / 255f, 1f)
     val SKY_BLUE = Color(120f / 255f, 215 / 255f, 1f, 1f)
@@ -95,13 +97,16 @@ object GameColor {
     val LIME_GREEN = Color(198 / 255f, 216 / 255f, 49 / 255f, 1f)
     val ORANGE = Color(255 / 255f, 184 / 255f, 74 / 255f, 1f)
     val TAN = Color(240 / 255f, 194 / 255f, 151 / 255f, 1f)
+    val DARK_BURGUNDY = Color(115 / 255f, 38 / 255f, 61 / 255f, 1f)
 
-    // grayscale
-    val BLACK = Color(0f, 0f, 0f, 255f)
+    // palette used is Optimized Grayscale 4 Palette by Yousurname
+    // downloaded from https://lospec.com/palette-list/optimized-grayscale-4
     val VERY_DARK_GRAY = Color(32 / 255f, 32 / 255f, 32 / 255f, 1f)
     val DARK_GRAY = Color(96 / 255f, 96 / 255f, 96 / 255f, 1f)
     val GRAY = Color(159 / 255f, 159 / 255f, 159 / 255f, 1f)
     val LIGHT_GRAY = Color(223 / 255f, 223 / 255f, 223 / 255f, 1f)
+
+    val BLACK = Color(0f, 0f, 0f, 255f)
     val WHITE = Color(1f, 1f, 1f, 1f)
 }
 

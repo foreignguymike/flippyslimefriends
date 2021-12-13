@@ -4,12 +4,15 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.Pixmap
+import com.badlogic.gdx.graphics.PixmapIO
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.utils.ScreenUtils
 import kotlin.math.absoluteValue
 import kotlin.math.sqrt
 
@@ -18,6 +21,16 @@ class Utils {
         fun max(f1: Float, f2: Float) = if (f2 > f1) f2 else f1
         fun dist(x1: Float, y1: Float, x2: Float, y2: Float) =
             sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))
+
+        fun takeScreenshot(name: String) {
+            val pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.backBufferWidth, Gdx.graphics.backBufferHeight, true)
+            for (i in 4 until pixels.size step 4) { pixels[i - 1] = 255.toByte() }
+            val pixmap = Pixmap(Gdx.graphics.backBufferWidth, Gdx.graphics.backBufferHeight, Pixmap.Format.RGBA8888)
+            pixmap.pixels.clear()
+            pixmap.pixels.put(pixels)
+            PixmapIO.writePNG(Gdx.files.external("$name.png"), pixmap);
+            pixmap.dispose();
+        }
     }
 }
 

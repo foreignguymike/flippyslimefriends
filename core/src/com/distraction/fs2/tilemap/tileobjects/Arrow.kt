@@ -24,7 +24,7 @@ class Arrow(context: Context, tileMap: TileMap, row: Int, col: Int, val directio
         tileMap.toIsometric(p.x, p.y, isop)
         val image = animation.getImage()
         when (direction) {
-            Direction.RIGHT -> sb.draw(image, isop.x - image.regionWidth / 2, isop.y - image.regionHeight / 2)
+            Direction.RIGHT -> sb.draw(image, isop.x - image.regionWidth / 2, isop.y - image.regionHeight / 2 - 1)
             Direction.DOWN -> sb.drawHFlip(image, isop.x + image.regionWidth / 2, isop.y - image.regionHeight / 2)
             Direction.UP -> sb.drawVFlip(image, isop.x - image.regionWidth / 2, isop.y + image.regionHeight / 2 + 1)
             Direction.LEFT -> sb.drawVHFlip(image, isop.x + image.regionWidth / 2, isop.y + image.regionHeight / 2 + 1)
