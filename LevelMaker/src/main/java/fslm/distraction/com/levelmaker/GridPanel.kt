@@ -63,6 +63,8 @@ class Tile(var row: Int, var col: Int, val rect: Rectangle = Rectangle(), tile: 
             return
         }
 
+        if (tileObject != BLOCK) objects.removeAll { it == BLOCK }
+
         when {
             tileObject.isArrow() -> objects.removeAll {
                 it.isArrow() || it == TELEPORT
@@ -73,6 +75,7 @@ class Tile(var row: Int, var col: Int, val rect: Rectangle = Rectangle(), tile: 
             tileObject == TELEPORT -> objects.removeAll {
                 it.isArrow() || it == JUMP
             }
+            tileObject == BLOCK -> objects.clear()
         }
         val index = if (tileObject.isArrow()) objects.size else 0
         objects.add(index, tileObject)

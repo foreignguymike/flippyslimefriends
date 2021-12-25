@@ -300,7 +300,10 @@ object RuinsData {
             ),
             target = 15,
             playerPositions = listOf(TilePoint(3, 0), TilePoint(3, 4)),
-            objects = listOf(ArrowData(1, 2, Direction.RIGHT)),
+            objects = listOf(
+                ArrowData(1, 2, Direction.RIGHT),
+                ArrowData(3, 2, Direction.RIGHT)
+            ),
             path = listOf(
                 listOf(
                     StopPathPointData(1, 2),

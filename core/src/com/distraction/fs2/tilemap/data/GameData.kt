@@ -95,6 +95,7 @@ object GameColor {
     val BLACK_1 = Color(5f / 255f, 9f / 255f, 20f / 255f, 1f)
     val BRIGHT_YELLOW = Color(248 / 255f, 255 / 255f, 184 / 255f, 1f)
     val LIME_GREEN = Color(198 / 255f, 216 / 255f, 49 / 255f, 1f)
+    val NEON_GREEN = Color(61 / 255f, 255 / 255f, 110 / 225f, 1f)
     val ORANGE = Color(255 / 255f, 184 / 255f, 74 / 255f, 1f)
     val TAN = Color(240 / 255f, 194 / 255f, 151 / 255f, 1f)
     val DARK_BURGUNDY = Color(115 / 255f, 38 / 255f, 61 / 255f, 1f)
@@ -123,7 +124,7 @@ enum class Area(
     TUNDRA("tundra", GameColor.LIGHT_GRAY_PURPLE, "tundrabg", GameColor.WHITE, "tilesnow"),
     RUINS("ruins", GameColor.TAN, "ruinsbg", GameColor.BRIGHT_YELLOW, "tileruins"),
     UNDERSEA("undersea", GameColor.DARK_BLUE, "underseabg", GameColor.CALM_BLUE, "tilesea"),
-    MATRIX("matrix", GameColor.BLACK, "matrixbg", GameColor.GRAY, "tiledark", "tiledarkoff");
+    MATRIX("matrix", GameColor.BLACK, "matrixbg", GameColor.NEON_GREEN, "tiledark", "tiledarkoff");
 
     fun colorCopy() = Color(color)
 }
