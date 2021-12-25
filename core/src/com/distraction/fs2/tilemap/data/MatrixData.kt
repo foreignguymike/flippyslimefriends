@@ -53,7 +53,7 @@ object MatrixData {
                 0, e, 0, 0,
                 0, 0, 0, 0
             ),
-            target = 0,
+            target = 17,
             playerPositions = listOf(TilePoint(0, 0)),
             objects = listOf(
                 FinishTileData(3, 3),

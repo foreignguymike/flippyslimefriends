@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.utils.ScreenUtils
+import java.util.*
 import kotlin.math.absoluteValue
 import kotlin.math.sqrt
 
@@ -22,7 +23,7 @@ class Utils {
         fun dist(x1: Float, y1: Float, x2: Float, y2: Float) =
             sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))
 
-        fun takeScreenshot(name: String) {
+        fun takeScreenshot(name: String = "FS2 ${UUID.randomUUID()}") {
             val pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.backBufferWidth, Gdx.graphics.backBufferHeight, true)
             for (i in 4 until pixels.size step 4) { pixels[i - 1] = 255.toByte() }
             val pixmap = Pixmap(Gdx.graphics.backBufferWidth, Gdx.graphics.backBufferHeight, Pixmap.Format.RGBA8888)

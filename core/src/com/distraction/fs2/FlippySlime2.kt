@@ -2,6 +2,7 @@ package com.distraction.fs2
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.states.GSM
 import com.distraction.fs2.states.TitleState
@@ -19,6 +20,7 @@ class FlippySlime2 : ApplicationAdapter() {
     }
 
     override fun render() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F8)) Utils.takeScreenshot()
         gsm.update(Gdx.graphics.deltaTime)
         gsm.render(sb)
     }
