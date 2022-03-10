@@ -3,7 +3,7 @@ package com.distraction.fs2
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 
 fun Char.intValue(): Int =
-    if (this !in '0'..'9') throw NumberFormatException() else toInt() - '0'.toInt()
+    if (this !in '0'..'9') throw NumberFormatException() else code - '0'.code
 
 class NumberFont(
     context: Context,
