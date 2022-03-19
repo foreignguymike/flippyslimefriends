@@ -12,7 +12,7 @@ object RuinsData {
                 0, e, 0,
                 0, e, 0
             ),
-            target = 4,
+            goal = 4,
             playerPositions = listOf(TilePoint(2, 0)),
             path = listOf(
                 listOf(
@@ -28,7 +28,7 @@ object RuinsData {
                 0, 0, 0,
                 e, 0, 0
             ),
-            target = 6,
+            goal = 6,
             playerPositions = listOf(TilePoint(0, 0)),
             path = listOf(
                 listOf(
@@ -50,7 +50,7 @@ object RuinsData {
                 0, 0, 0,
                 0, 0, 0
             ),
-            target = 10,
+            goal = 10,
             playerPositions = listOf(TilePoint(3, 2)),
             path = listOf(
                 listOf(
@@ -67,7 +67,7 @@ object RuinsData {
                 e, e, e, 0,
                 0, 0, 0, 0
             ),
-            target = 9,
+            goal = 9,
             playerPositions = listOf(TilePoint(0, 0)),
             objects = listOf(
                 SuperJumpData(1, 0),
@@ -91,7 +91,7 @@ object RuinsData {
                 0, 0, 0, 0, 0,
                 0, e, e, 0, 0
             ),
-            target = 10,
+            goal = 10,
             playerPositions = listOf(TilePoint(0, 0)),
             path = listOf(
                 listOf(
@@ -112,7 +112,7 @@ object RuinsData {
                 0, 0, 0, 0, e,
                 e, e, 0, 0, e
             ),
-            target = 11,
+            goal = 11,
             playerPositions = listOf(TilePoint(2, 3)),
             path = listOf(
                 listOf(
@@ -133,7 +133,7 @@ object RuinsData {
                 0, 0, 0, e, 0,
                 e, e, 0, 0, 0
             ),
-            target = 13,
+            goal = 13,
             playerPositions = listOf(TilePoint(2, 0)),
             objects = listOf(
                 ArrowData(1, 3, Direction.LEFT),
@@ -157,7 +157,7 @@ object RuinsData {
                 0, e, 0, 0,
                 0, 0, 0, 0
             ),
-            target = 10,
+            goal = 10,
             playerPositions = listOf(TilePoint(0, 1)),
             objects = listOf(
                 ArrowData(2, 3, Direction.LEFT),
@@ -178,7 +178,7 @@ object RuinsData {
                 0, e, 0,
                 0, 0, 0
             ),
-            target = 12,
+            goal = 12,
             playerPositions = listOf(TilePoint(0, 1)),
             path = listOf(
                 listOf(
@@ -201,7 +201,7 @@ object RuinsData {
                 0, 0, 0, 0,
                 e, 0, 0, 0
             ),
-            target = 15,
+            goal = 15,
             playerPositions = listOf(TilePoint(0, 0)),
             objects = listOf(
                 SuperJumpData(2, 2)
@@ -223,7 +223,7 @@ object RuinsData {
                 0, e, 0, 0,
                 0, 0, 0, e
             ),
-            target = 18,
+            goal = 18,
             playerPositions = listOf(TilePoint(3, 0)),
             objects = listOf(
                 SuperJumpData(2, 2)
@@ -246,7 +246,7 @@ object RuinsData {
                 0, 0, e, 0,
                 0, e, 0, 0
             ),
-            target = 16,
+            goal = 16,
             playerPositions = listOf(TilePoint(0, 0)),
             objects = listOf(
                 ArrowData(3, 3, Direction.LEFT),
@@ -274,7 +274,7 @@ object RuinsData {
                 0, 0, 0, 0, 0,
                 0, 0, e, e, 0
             ),
-            target = 18,
+            goal = 18,
             playerPositions = listOf(TilePoint(1, 2)),
             objects = listOf(
                 ArrowData(1, 3, Direction.LEFT),
@@ -298,7 +298,7 @@ object RuinsData {
                 0, 0, e, 0, 0,
                 0, 0, 0, 0, 0
             ),
-            target = 15,
+            goal = 15,
             playerPositions = listOf(TilePoint(3, 0), TilePoint(3, 4)),
             objects = listOf(
                 ArrowData(1, 2, Direction.RIGHT),

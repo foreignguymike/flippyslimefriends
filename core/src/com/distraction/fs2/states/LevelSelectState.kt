@@ -185,7 +185,7 @@ class LevelSelectState(
                 numberFont.render(sb, it.pos.x, it.pos.y - 5)
                 sb.resetColor()
                 sb.draw(
-                    if (best > 0 && best <= levelData[i].target) {
+                    if (best > 0 && best <= levelData[i].goal) {
                         diamond
                     } else {
                         diamondEmpty

@@ -13,7 +13,7 @@ object MeadowData {
                 0, 0, 0,
                 e, 0, 0
             ),
-            target = 6,
+            goal = 6,
             playerPositions = listOf(TilePoint(1, 0))
         ),
         MapData(
@@ -23,7 +23,7 @@ object MeadowData {
                 0, 0, e, 0,
                 e, 0, 0, 0
             ),
-            target = 8,
+            goal = 8,
             playerPositions = listOf(TilePoint(2, 1))
         ),
         MapData(
@@ -34,7 +34,7 @@ object MeadowData {
                 0, 0, 0,
                 0, 0, 0
             ),
-            target = 12,
+            goal = 12,
             playerPositions = listOf(TilePoint(1, 1))
         ),
         MapData(
@@ -44,7 +44,7 @@ object MeadowData {
                 0, 0, 0, 0,
                 e, e, 0, 0
             ),
-            target = 11,
+            goal = 11,
             playerPositions = listOf(TilePoint(1, 2))
         ),
         MapData(
@@ -54,7 +54,7 @@ object MeadowData {
                 0, 0, 0,
                 0, e, 0
             ),
-            target = 9,
+            goal = 9,
             playerPositions = listOf(TilePoint(1, 0))
         ),
         MapData(
@@ -65,7 +65,7 @@ object MeadowData {
                 0, 0, e,
                 0, 0, 0
             ),
-            target = 12,
+            goal = 12,
             playerPositions = listOf(TilePoint(2, 1))
         ),
         MapData(
@@ -76,7 +76,7 @@ object MeadowData {
                 0, 0, 0, 0,
                 0, 0, e, 0
             ),
-            target = 19,
+            goal = 19,
             playerPositions = listOf(TilePoint(2, 1))
         ),
         MapData(
@@ -86,7 +86,7 @@ object MeadowData {
                 0, 0, 0, 0,
                 e, 0, 0, 0
             ),
-            target = 10,
+            goal = 10,
             playerPositions = listOf(TilePoint(0, 3)),
             objects = listOf(
                 ArrowData(0, 0, Direction.RIGHT)
@@ -100,7 +100,7 @@ object MeadowData {
                 0, 0, 0,
                 0, 0, 0
             ),
-            target = 15,
+            goal = 15,
             playerPositions = listOf(TilePoint(2, 2)),
             objects = listOf(
                 ArrowData(1, 1, Direction.UP),
@@ -114,7 +114,7 @@ object MeadowData {
                 0, 0, 0, 0,
                 0, 0, 0, 0
             ),
-            target = 11,
+            goal = 11,
             playerPositions = listOf(TilePoint(1, 1)),
             objects = listOf(
                 ArrowData(2, 1, Direction.LEFT),
@@ -129,7 +129,7 @@ object MeadowData {
                 0, 0, 0,
                 0, 0, 0
             ),
-            target = 15,
+            goal = 15,
             playerPositions = listOf(TilePoint(3, 1)),
             objects = listOf(
                 ArrowData(1, 0, Direction.RIGHT),
@@ -145,7 +145,7 @@ object MeadowData {
                 0, 0, 0, 0,
                 0, 0, 0, 0
             ),
-            target = 19,
+            goal = 19,
             playerPositions = listOf(TilePoint(2, 2)),
             objects = listOf(
                 ArrowData(0, 2, Direction.RIGHT),
@@ -162,7 +162,7 @@ object MeadowData {
                 0, 0, 0, 0,
                 0, 0, 0, 0
             ),
-            target = 19,
+            goal = 19,
             playerPositions = listOf(TilePoint(3, 0)),
             objects = listOf(
                 ArrowData(0, 2, Direction.DOWN),
@@ -179,7 +179,7 @@ object MeadowData {
                 0, 0, 0, 0,
                 0, 0, 0, 0
             ),
-            target = 19,
+            goal = 19,
             playerPositions = listOf(TilePoint(3, 0)),
             objects = listOf(
                 ArrowData(0, 0, Direction.DOWN),
@@ -199,7 +199,7 @@ object MeadowData {
                 0, 0, 0, 0,
                 e, 0, 0, e
             ),
-            target = 23,
+            goal = 23,
             playerPositions = listOf(TilePoint(3, 0)),
             objects = listOf(
                 ArrowData(1, 1, Direction.DOWN),
@@ -215,7 +215,7 @@ object MeadowData {
                 0, 0, e, 0, 0,
                 0, 0, 0, 0, 0
             ),
-            target = 13,
+            goal = 13,
             playerPositions = listOf(TilePoint(0, 0)),
             objects = listOf(
                 SuperJumpData(0, 2),
@@ -231,7 +231,7 @@ object MeadowData {
                 0, 0, 0,
                 e, 0, 0
             ),
-            target = 18,
+            goal = 18,
             playerPositions = listOf(TilePoint(2, 1)),
             objects = listOf(
                 SuperJumpData(2, 0),
@@ -247,7 +247,7 @@ object MeadowData {
                 0, 0, e, 0, 0,
                 e, e, e, 0, e
             ),
-            target = 17,
+            goal = 17,
             playerPositions = listOf(TilePoint(1, 0)),
             objects = listOf(
                 SuperJumpData(1, 3),
@@ -262,7 +262,7 @@ object MeadowData {
                 0, 0, 0,
                 0, 0, 0,
                 0, 0, 0
-            ), target = 16,
+            ), goal = 16,
             playerPositions = listOf(TilePoint(4, 1)),
             objects = listOf(
                 ArrowData(1, 1, Direction.RIGHT),
@@ -278,7 +278,7 @@ object MeadowData {
                 0, 0, e,
                 0, 0, 0
             ),
-            target = 18,
+            goal = 18,
             playerPositions = listOf(TilePoint(2, 1)),
             objects = listOf(
                 ArrowData(3, 1, Direction.UP),
@@ -293,7 +293,7 @@ object MeadowData {
                 0, 0, g, 0, 0,
                 e, 0, 0, 0, e
             ),
-            target = 19,
+            goal = 19,
             playerPositions = listOf(TilePoint(1, 0)),
             objects = listOf(
                 SuperJumpData(1, 3),
@@ -311,7 +311,7 @@ object MeadowData {
                 0, 0, 0, 0, 0,
                 e, 0, 0, 0, e
             ),
-            target = 24,
+            goal = 24,
             playerPositions = listOf(TilePoint(4, 2)),
             objects = listOf(
                 ArrowData(2, 3, Direction.DOWN),
@@ -328,7 +328,7 @@ object MeadowData {
                 0, 0, 0, 0,
                 0, 0, 0, e,
                 0, 0, 0, e
-            ), target = 19,
+            ), goal = 19,
             playerPositions = listOf(TilePoint(2, 0)),
             objects = listOf(
                 ArrowData(1, 1, Direction.UP),
@@ -345,7 +345,7 @@ object MeadowData {
                 e, 0, 0, 0, e,
                 0, 0, 0, 0, 0
             ),
-            target = 21,
+            goal = 21,
             playerPositions = listOf(TilePoint(2, 2)),
             objects = listOf(
                 ArrowData(3, 4, Direction.UP),
@@ -362,7 +362,7 @@ object MeadowData {
                 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0
-            ), target = 28,
+            ), goal = 28,
             playerPositions = listOf(TilePoint(4, 2)),
             objects = listOf(
                 SuperJumpData(1, 1),
@@ -377,7 +377,7 @@ object MeadowData {
                 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0
-            ), target = 27,
+            ), goal = 27,
             playerPositions = listOf(TilePoint(3, 5)),
             objects = listOf(
                 SuperJumpData(0, 4),
@@ -395,7 +395,7 @@ object MeadowData {
                 0, 0, 0, e, 0, 0, 0, e,
                 e, 0, 0, e, 0, 0, e, e,
                 e, e, 0, e, e, e, e, e
-            ), target = 30,
+            ), goal = 30,
             playerPositions = listOf(TilePoint(5, 2)),
             objects = listOf(
                 SuperJumpData(3, 2),
@@ -410,7 +410,7 @@ object MeadowData {
                 0, 0, 0, 0, 0,
                 0, 0, e, 0, 0,
                 e, 0, 0, 0, e
-            ), target = 28,
+            ), goal = 28,
             playerPositions = listOf(TilePoint(2, 4)),
             objects = listOf(
                 SuperJumpData(2, 2),
@@ -430,7 +430,7 @@ object MeadowData {
                 0, 0, 0, 0, e,
                 e, 0, 0, e, e
             ),
-            target = 23,
+            goal = 23,
             playerPositions = listOf(TilePoint(6, 0)),
             objects = listOf(
                 ArrowData(5, 3, Direction.UP),
@@ -447,7 +447,7 @@ object MeadowData {
                 0, e, 0, e, 0,
                 0, 0, 0, 0, 0,
                 0, 0, e, e, e
-            ), target = 15,
+            ), goal = 15,
             playerPositions = listOf(TilePoint(4, 0), TilePoint(0, 4)),
             objects = listOf(
                 ArrowData(2, 2, Direction.UP)
@@ -459,7 +459,7 @@ object MeadowData {
                 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0
             ),
-            target = 16,
+            goal = 16,
             playerPositions = listOf(TilePoint(0, 3), TilePoint(1, 3)),
             objects = listOf(
                 ArrowData(1, 5, Direction.RIGHT),
@@ -475,7 +475,7 @@ object MeadowData {
                 e, 0, 0, 0, 0,
                 0, 0, e, 0, e,
                 0, 0, 0, 0, 0
-            ), target = 15,
+            ), goal = 15,
             playerPositions = listOf(TilePoint(2, 0), TilePoint(2, 1)),
             objects = listOf(
                 ArrowData(3, 2, Direction.LEFT),
@@ -489,7 +489,7 @@ object MeadowData {
                 0, 0, 0, 0,
                 0, 0, 0, 0
             ),
-            target = 10,
+            goal = 10,
             playerPositions = listOf(TilePoint(0, 3), TilePoint(2, 3)),
             objects = listOf(
                 ArrowData(2, 1, Direction.UP),
@@ -504,7 +504,7 @@ object MeadowData {
                 0, 0, 0, 0, 0, e,
                 0, 0, 0, 0, e, e
             ),
-            target = 18,
+            goal = 18,
             playerPositions = listOf(TilePoint(3, 0), TilePoint(0, 5)),
             objects = listOf(
                 ArrowData(3, 2, Direction.UP),
@@ -520,7 +520,7 @@ object MeadowData {
                 0, 0, 0, 0,
                 0, 0, 0, 0
             ),
-            target = 25,
+            goal = 23,
             playerPositions = listOf(TilePoint(2, 0)),
             objects = listOf(
                 ArrowData(3, 1, Direction.RIGHT),
@@ -540,7 +540,7 @@ object MeadowData {
                 e, 0, 0, e, 0,
                 e, e, 0, 0, 0
             ),
-            target = 26,
+            goal = 26,
             playerPositions = listOf(TilePoint(0, 0)),
             objects = listOf(
                 ArrowData(2, 1, Direction.RIGHT),
@@ -557,7 +557,7 @@ object MeadowData {
                 0, 0, 0, 0, 0, 0,
                 0, 0, 0, e, e, e
             ),
-            target = 25,
+            goal = 25,
             playerPositions = listOf(TilePoint(0, 2)),
             objects = listOf(
                 SuperJumpData(1, 2),
@@ -574,7 +574,7 @@ object MeadowData {
                 0, e, e, e, 0,
                 0, 0, 0, 0, 0
             ),
-            target = 25,
+            goal = 23,
             playerPositions = listOf(TilePoint(0, 0), TilePoint(0, 4)),
             objects = listOf(
                 SuperJumpData(0, 2),
@@ -591,7 +591,7 @@ object MeadowData {
                 0, 0, 0, 0, 0,
                 e, 0, 0, 0, e
             ),
-            target = 28,
+            goal = 28,
             playerPositions = listOf(TilePoint(2, 2)),
             objects = listOf(
                 ArrowData(3, 2, Direction.RIGHT),
@@ -609,7 +609,7 @@ object MeadowData {
                 0, 0, e, 0, 0,
                 0, 0, 0, 0, 0
             ),
-            target = 29,
+            goal = 29,
             playerPositions = listOf(TilePoint(0, 2)),
             objects = listOf(
                 SuperJumpData(1, 1),
@@ -626,7 +626,7 @@ object MeadowData {
                 0, e, 0, e, e,
                 0, 0, 0, e, e
             ),
-            target = 27,
+            goal = 27,
             playerPositions = listOf(TilePoint(0, 2)),
             objects = listOf(
                 ArrowData(4, 2, Direction.UP),
@@ -645,7 +645,7 @@ object MeadowData {
                 e, 0, 0, 0, e,
                 e, e, 0, e, e
             ),
-            target = 21,
+            goal = 21,
             playerPositions = listOf(TilePoint(0, 2), TilePoint(6, 2)),
             objects = listOf(
                 ArrowData(4, 1, Direction.RIGHT),
@@ -662,7 +662,7 @@ object MeadowData {
                 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, e
             ),
-            target = 28,
+            goal = 28,
             playerPositions = listOf(TilePoint(4, 0)),
             objects = listOf(
                 ArrowData(4, 4, Direction.UP),
@@ -681,7 +681,7 @@ object MeadowData {
                 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0
             ),
-            target = 37,
+            goal = 37,
             playerPositions = listOf(TilePoint(5, 1)),
             objects = listOf(
                 ArrowData(5, 2, Direction.LEFT),
@@ -701,7 +701,7 @@ object MeadowData {
                 e, e, 0, 0, 0, 0, 0,
                 e, e, e, 0, e, e, e
             ),
-            target = 33,
+            goal = 33,
             playerPositions = listOf(TilePoint(6, 3)),
             objects = listOf(
                 ArrowData(5, 6, Direction.UP),

@@ -13,7 +13,7 @@ object TutorialData {
                 0, e, 0,
                 0, 0, 0
             ),
-            target = 7,
+            goal = 7,
             playerPositions = listOf(TilePoint(0, 0))
         ),
         MapData(
@@ -23,7 +23,7 @@ object TutorialData {
                 0, 0, 0,
                 e, e, 0
             ),
-            target = 6,
+            goal = 6,
             playerPositions = listOf(TilePoint(1, 0))
         ),
         MapData(
@@ -33,7 +33,7 @@ object TutorialData {
                 0, g, 0,
                 0, g, 0
             ),
-            target = 7,
+            goal = 7,
             playerPositions = listOf(TilePoint(0, 1))
         ),
         MapData(
@@ -43,7 +43,7 @@ object TutorialData {
                 0, e, 0,
                 0, 0, 0
             ),
-            target = 6,
+            goal = 6,
             playerPositions = listOf(TilePoint(0, 0), TilePoint(2, 2))
         )
     )

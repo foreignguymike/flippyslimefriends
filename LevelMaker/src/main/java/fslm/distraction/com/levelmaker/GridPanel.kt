@@ -356,7 +356,7 @@ class GridPanel : JPanel() {
     0, 0, 0, 0,
     0, 0, 0, 0
     ),
-    target = 19,
+    goal = 19,
     playerPositions = listOf(TilePoint(3, 3)),
     objects = listOf(
     ArrowData(1, 0, Direction.RIGHT),
@@ -436,7 +436,7 @@ class GridPanel : JPanel() {
         sb.append("\tmap = intArrayOf(\n")
         sb.append("${grid.joinToString(", ", "\n", numCols)}\n")
         sb.append("\t),\n")
-        sb.append("\ttarget = 0,\n")
+        sb.append("\tgoal = 0,\n")
         sb.append("\tplayerPositions = listOf(TilePoint(0, 0))")
         if (objects.size > 0) {
             sb.append(",\n\tobjects = listOf(\n")

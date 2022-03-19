@@ -107,8 +107,8 @@ class HUD(
         )
     )
 
-    fun setTarget(target: Int) {
-        labels[0].font.num = target
+    fun setGoal(goal: Int) {
+        labels[0].font.num = goal
     }
 
     fun setBest(best: Int) {

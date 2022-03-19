@@ -49,7 +49,7 @@ class MapData(
     val numRows: Int,
     val numCols: Int,
     val map: IntArray,
-    val target: Int,
+    val goal: Int,
     val playerPositions: List<TilePoint>,
     val objects: List<TileObjectData> = listOf(),
     val path: List<List<PathPointData>>? = null,

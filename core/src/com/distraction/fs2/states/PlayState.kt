@@ -39,7 +39,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
         camera.position.set(-100f, player.isop.y + cameraOffset.y, 0f)
         camera.update()
 
-        hud.setTarget(tileMap.mapData.target)
+        hud.setGoal(tileMap.mapData.goal)
         context.scoreHandler.scores[area]?.let {
             hud.setBest(it[level])
         }

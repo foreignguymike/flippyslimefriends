@@ -10,7 +10,7 @@ object MatrixData {
             map = intArrayOf(
                 0, 0, 0, 0, 0
             ),
-            target = 8,
+            goal = 8,
             playerPositions = listOf(TilePoint(0, 0)),
             objects = listOf(
                 FinishTileData(0, 2)
@@ -22,7 +22,7 @@ object MatrixData {
                 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0
             ),
-            target = 12,
+            goal = 12,
             playerPositions = listOf(TilePoint(1, 0), TilePoint(0, 4)),
             objects = listOf(
                 ArrowData(1, 2, Direction.LEFT),
@@ -38,7 +38,7 @@ object MatrixData {
                 0, e, 0, e, 0,
                 0, 0, 0, 0, 0
             ),
-            target = 11,
+            goal = 11,
             playerPositions = listOf(TilePoint(1, 0)),
             objects = listOf(
                 TeleportData(0, 1, 1, 4),
@@ -53,7 +53,7 @@ object MatrixData {
                 0, e, 0, 0,
                 0, 0, 0, 0
             ),
-            target = 17,
+            goal = 17,
             playerPositions = listOf(TilePoint(0, 0)),
             objects = listOf(
                 FinishTileData(3, 3),
@@ -78,7 +78,7 @@ object MatrixData {
                 0, 0, 0, 0,
                 0, 0, 0, 0
             ),
-            target = 19,
+            goal = 19,
             playerPositions = listOf(TilePoint(2, 0)),
             objects = listOf(
                 ArrowData(1, 3, Direction.UP),
@@ -98,7 +98,7 @@ object MatrixData {
                 0, e, 0, 0, 0,
                 e, 0, e, 0, e
             ),
-            target = 17,
+            goal = 17,
             playerPositions = listOf(TilePoint(1, 3)),
             objects = listOf(
                 ArrowData(4, 3, Direction.LEFT),

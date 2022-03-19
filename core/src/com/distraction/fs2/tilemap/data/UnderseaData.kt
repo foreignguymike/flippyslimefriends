@@ -12,7 +12,7 @@ object UnderseaData {
                 e, e, e,
                 0, 0, 0
             ),
-            target = 5,
+            goal = 5,
             playerPositions = listOf(TilePoint(0, 0)),
             objects = listOf(BubbleData(0, 2))
         ),
@@ -23,7 +23,7 @@ object UnderseaData {
                 0, 0, 0, 0,
                 0, 0, 0, 0
             ),
-            target = 12,
+            goal = 12,
             playerPositions = listOf(TilePoint(0, 0)),
             objects = listOf(
                 ArrowData(1, 2, Direction.UP),
@@ -40,7 +40,7 @@ object UnderseaData {
                 0, e, 0,
                 0, 0, 0
             ),
-            target = 13,
+            goal = 13,
             playerPositions = listOf(TilePoint(0, 0)),
             startBubble = true
         ),
@@ -52,7 +52,7 @@ object UnderseaData {
                 0, e, e, 0, 0,
                 e, e, 0, 0, e
             ),
-            target = 13,
+            goal = 13,
             playerPositions = listOf(TilePoint(1, 2)),
             startBubble = true,
             objects = listOf(
@@ -67,7 +67,7 @@ object UnderseaData {
                 0, 0, 0, 0,
                 0, 0, 0, 0
             ),
-            target = 16,
+            goal = 16,
             playerPositions = listOf(TilePoint(0, 0)),
             startBubble = true,
             objects = listOf(
@@ -83,7 +83,7 @@ object UnderseaData {
                 0, 0, 0,
                 0, 0, 0
             ),
-            target = 16,
+            goal = 16,
             playerPositions = listOf(TilePoint(2, 1)),
             startBubble = true,
             objects = listOf(
@@ -102,7 +102,7 @@ object UnderseaData {
                 e, 0, 0, 0,
                 e, e, 0, 0
             ),
-            target = 12,
+            goal = 12,
             playerPositions = listOf(TilePoint(2, 1)),
             objects = listOf(
                 BubbleData(1, 2)
@@ -117,7 +117,7 @@ object UnderseaData {
                 0, 0, 0,
                 0, 0, 0
             ),
-            target = 21,
+            goal = 21,
             playerPositions = listOf(TilePoint(2, 1)),
             startBubble = true,
             objects = listOf(
