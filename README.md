@@ -6,7 +6,7 @@ Sequel to Flippy Slime (https://github.com/foreignguymike/Sandbox) <br>
 
 ![tundra](https://i.imgur.com/hiVd6T2.png)
 
-![ruins](https://i.imgur.com/usuyevj.png)
+![ruins](https://i.imgur.com/205GqfI.png)
 
 ![undersea](https://i.imgur.com/p3YDDeC.png)
 
