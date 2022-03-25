@@ -95,7 +95,7 @@ class TilePathRenderer(
         timer += dt
 
         for (i in renderList.indices) {
-            renderList[i].alpha = MathUtils.sin((i * -0.2f + timer) * MathUtils.PI) * 0.375f + 0.5f
+            renderList[i].alpha = MathUtils.sin((i * -0.2f + timer) * 1.5f * MathUtils.PI) * 0.375f + 0.5f
         }
         renderCenters.forEach { it.alpha = (renderList[0].alpha + 1) / 2f }
     }

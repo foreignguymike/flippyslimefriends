@@ -1,6 +1,7 @@
 package com.distraction.fs2.tilemap.data
 
 import com.distraction.fs2.tilemap.data.GameData.Companion.e
+import com.distraction.fs2.tilemap.data.GameData.Companion.g
 
 object MatrixData {
 
@@ -112,6 +113,25 @@ object MatrixData {
                 SuperJumpData(4, 3),
                 TeleportData(0, 2, 2, 4),
                 TeleportData(2, 4, 0, 2)
+            )
+        ),
+        MapData(
+            numRows = 1, numCols = 6,
+            map = intArrayOf(
+                0, 0, g, e, 0, 0
+            ),
+            goal = 8,
+            playerPositions = listOf(TilePoint(0, 1), TilePoint(0, 4)),
+            objects = listOf(
+                FinishTileData(0, 1),
+                SuperJumpData(0, 2),
+                FinishTileData(0, 4)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(0, 2),
+                    StopPathPointData(0, 3)
+                )
             )
         )
     )

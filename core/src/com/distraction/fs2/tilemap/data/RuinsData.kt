@@ -208,6 +208,36 @@ object RuinsData {
             )
         ),
         MapData(
+            numRows = 5, numCols = 4,
+            map = intArrayOf(
+                e, 0, 0, 0,
+                e, 0, 0, e,
+                e, 0, 0, e,
+                e, 0, 0, e,
+                0, 0, 0, e
+            ),
+            goal = 11,
+            playerPositions = listOf(TilePoint(0, 1)),
+            objects = listOf(
+                ArrowData(4, 0, Direction.RIGHT),
+                ArrowData(2, 2, Direction.UP),
+                ArrowData(2, 1, Direction.DOWN),
+                ArrowData(0, 3, Direction.LEFT),
+                SuperJumpData(0, 3),
+                SuperJumpData(4, 0)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(0, 3),
+                    StopPathPointData(1, 3)
+                ),
+                listOf(
+                    StopPathPointData(4, 0),
+                    StopPathPointData(3, 0)
+                )
+            )
+        ),
+        MapData(
             numRows = 5, numCols = 5,
             map = intArrayOf(
                 e, e, e, e, e,
@@ -322,7 +352,7 @@ object RuinsData {
                 0, 0, 0,
                 e, 0, 0
             ),
-            goal = 13,
+            goal = 9,
             playerPositions = listOf(TilePoint(3, 2)),
             objects = listOf(
                 ArrowData(2, 1, Direction.UP),
@@ -393,6 +423,28 @@ object RuinsData {
             )
         ),
         MapData(
+            numRows = 4, numCols = 4,
+            map = intArrayOf(
+                e, 0, 0, 0,
+                0, e, e, 0,
+                0, 0, 0, 0,
+                0, 0, 0, e
+            ),
+            goal = 14,
+            playerPositions = listOf(TilePoint(3, 0), TilePoint(0, 3)),
+            objects = listOf(
+                IceData(2, 2)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(2, 2),
+                    StopPathPointData(1, 2),
+                    StopPathPointData(1, 1),
+                    PathPointData(1, 2)
+                )
+            )
+        ),
+        MapData(
             numRows = 5, numCols = 5,
             map = intArrayOf(
                 e, e, 0, e, e,
@@ -401,7 +453,7 @@ object RuinsData {
                 e, 0, 0, 0, e,
                 e, e, e, e, e
             ),
-            goal = 11,
+            goal = 12,
             playerPositions = listOf(TilePoint(3, 1), TilePoint(3, 3)),
             objects = listOf(
                 ArrowData(2, 3, Direction.DOWN),
@@ -480,7 +532,7 @@ object RuinsData {
                 0, e, 0,
                 0, 0, 0
             ),
-            goal = 17,
+            goal = 15,
             playerPositions = listOf(TilePoint(3, 1), TilePoint(0, 1)),
             objects = listOf(
                 ArrowData(0, 2, Direction.DOWN),
@@ -491,6 +543,37 @@ object RuinsData {
                 listOf(
                     StopPathPointData(1, 1),
                     StopPathPointData(2, 1)
+                )
+            )
+        ),
+        MapData(
+            numRows = 4, numCols = 5,
+            map = intArrayOf(
+                e, e, e, 0, e,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                e, 0, e, e, e
+            ),
+            goal = 14,
+            playerPositions = listOf(TilePoint(1, 0), TilePoint(2, 4)),
+            objects = listOf(
+                ArrowData(2, 3, Direction.DOWN),
+                ArrowData(2, 1, Direction.DOWN),
+                ArrowData(1, 3, Direction.UP),
+                ArrowData(1, 1, Direction.UP),
+                SuperJumpData(1, 2),
+                SuperJumpData(2, 2)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(3, 1),
+                    StopPathPointData(3, 2),
+                    StopPathPointData(3, 3)
+                ),
+                listOf(
+                    StopPathPointData(0, 3),
+                    StopPathPointData(0, 2),
+                    StopPathPointData(0, 1)
                 )
             )
         ),
@@ -520,6 +603,39 @@ object RuinsData {
                 listOf(
                     StopPathPointData(3, 0),
                     StopPathPointData(3, 1)
+                )
+            )
+        ),
+        MapData(
+            numRows = 5, numCols = 3,
+            map = intArrayOf(
+                e, 0, e,
+                0, 0, 0,
+                0, 0, 0,
+                0, 0, 0,
+                e, 0, e
+            ),
+            goal = 18,
+            playerPositions = listOf(TilePoint(1, 0)),
+            objects = listOf(
+                ArrowData(4, 1, Direction.UP),
+                ArrowData(2, 2, Direction.UP),
+                ArrowData(2, 1, Direction.DOWN),
+                ArrowData(2, 0, Direction.UP),
+                ArrowData(0, 1, Direction.DOWN),
+                SuperJumpData(0, 1),
+                SuperJumpData(4, 1)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(0, 1),
+                    StopPathPointData(0, 2),
+                    StopPathPointData(0, 0)
+                ),
+                listOf(
+                    StopPathPointData(4, 1),
+                    StopPathPointData(4, 2),
+                    StopPathPointData(4, 0)
                 )
             )
         ),
@@ -653,6 +769,62 @@ object RuinsData {
             )
         ),
         MapData(
+            numRows = 3, numCols = 5,
+            map = intArrayOf(
+                0, 0, 0, 0, 0,
+                0, 0, e, 0, 0,
+                0, 0, 0, 0, 0
+            ),
+            goal = 16,
+            playerPositions = listOf(TilePoint(1, 0), TilePoint(1, 3)),
+            objects = listOf(
+                ArrowData(2, 2, Direction.LEFT),
+                ArrowData(2, 1, Direction.LEFT),
+                ArrowData(1, 1, Direction.RIGHT),
+                ArrowData(0, 2, Direction.LEFT),
+                ArrowData(0, 1, Direction.LEFT),
+                SuperJumpData(1, 1)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(1, 1),
+                    StopPathPointData(1, 2)
+                )
+            )
+        ),
+        MapData(
+            numRows = 5, numCols = 4,
+            map = intArrayOf(
+                0, 0, 0, 0,
+                0, e, e, 0,
+                0, 0, 0, 0,
+                0, e, e, 0,
+                0, 0, 0, 0
+            ),
+            goal = 18,
+            playerPositions = listOf(TilePoint(0, 0), TilePoint(0, 3)),
+            objects = listOf(
+                ArrowData(4, 2, Direction.RIGHT),
+                ArrowData(4, 1, Direction.RIGHT),
+                ArrowData(2, 3, Direction.UP),
+                ArrowData(2, 0, Direction.UP),
+                ArrowData(0, 2, Direction.RIGHT),
+                ArrowData(0, 1, Direction.RIGHT)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(2, 1),
+                    StopPathPointData(1, 1),
+                    StopPathPointData(3, 1)
+                ),
+                listOf(
+                    StopPathPointData(2, 2),
+                    StopPathPointData(1, 2),
+                    StopPathPointData(3, 2)
+                )
+            )
+        ),
+        MapData(
             numRows = 5, numCols = 4,
             map = intArrayOf(
                 e, 0, 0, e,
@@ -711,6 +883,33 @@ object RuinsData {
         MapData(
             numRows = 4, numCols = 3,
             map = intArrayOf(
+                0, e, e,
+                0, 0, 0,
+                0, 0, 0,
+                e, e, 0
+            ),
+            goal = 10,
+            playerPositions = listOf(TilePoint(2, 0), TilePoint(1, 2)),
+            objects = listOf(
+                ArrowData(2, 2, Direction.UP),
+                ArrowData(1, 0, Direction.DOWN),
+                IceData(1, 1),
+                IceData(2, 1)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(0, 0),
+                    StopPathPointData(0, 2)
+                ),
+                listOf(
+                    StopPathPointData(3, 2),
+                    StopPathPointData(3, 0)
+                )
+            )
+        ),
+        MapData(
+            numRows = 4, numCols = 3,
+            map = intArrayOf(
                 0, 0, 0,
                 0, e, e,
                 e, e, e,
@@ -734,6 +933,118 @@ object RuinsData {
             )
         ),
         MapData(
+            numRows = 4, numCols = 4,
+            map = intArrayOf(
+                0, 0, 0, e,
+                0, 0, 0, e,
+                0, e, 0, 0,
+                0, 0, 0, e
+            ),
+            goal = 15,
+            playerPositions = listOf(TilePoint(0, 1)),
+            objects = listOf(
+                SuperJumpData(1, 1)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(2, 3),
+                    StopPathPointData(1, 3)
+                ),
+                listOf(
+                    StopPathPointData(1, 1),
+                    StopPathPointData(2, 1)
+                )
+            )
+        ),
+        MapData(
+            numRows = 4, numCols = 4,
+            map = intArrayOf(
+                0, 0, 0, 0,
+                0, e, e, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0
+            ),
+            goal = 12,
+            playerPositions = listOf(TilePoint(0, 0), TilePoint(3, 3)),
+            objects = listOf(
+                ArrowData(2, 3, Direction.UP),
+                ArrowData(2, 0, Direction.UP),
+                ArrowData(1, 3, Direction.UP),
+                ArrowData(1, 0, Direction.UP),
+                IceData(0, 1),
+                IceData(0, 2),
+                IceData(3, 1),
+                IceData(3, 2)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(2, 1),
+                    StopPathPointData(1, 1)
+                ),
+                listOf(
+                    StopPathPointData(2, 2),
+                    StopPathPointData(1, 2)
+                )
+            )
+        ),
+        MapData(
+            numRows = 4, numCols = 5,
+            map = intArrayOf(
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0, e, 0, e, 0,
+                e, 0, 0, 0, e
+            ),
+            goal = 17,
+            playerPositions = listOf(TilePoint(2, 2)),
+            objects = listOf(
+                ArrowData(3, 2, Direction.RIGHT),
+                ArrowData(1, 3, Direction.LEFT),
+                ArrowData(1, 2, Direction.LEFT),
+                ArrowData(1, 1, Direction.LEFT),
+                SuperJumpData(0, 2)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(2, 2),
+                    StopPathPointData(2, 3),
+                    StopPathPointData(2, 1)
+                )
+            )
+        ),
+        MapData(
+            numRows = 5, numCols = 4,
+            map = intArrayOf(
+                0, 0, 0, 0,
+                0, e, e, 0,
+                0, e, 0, 0,
+                0, e, 0, 0,
+                0, 0, 0, 0
+            ),
+            goal = 15,
+            playerPositions = listOf(TilePoint(4, 3)),
+            objects = listOf(
+                ArrowData(4, 0, Direction.RIGHT),
+                ArrowData(0, 3, Direction.LEFT),
+                SuperJumpData(3, 2),
+                SuperJumpData(2, 2)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(3, 2),
+                    StopPathPointData(3, 1),
+                    StopPathPointData(2, 1),
+                    PathPointData(3, 1)
+                ),
+                listOf(
+                    StopPathPointData(2, 2),
+                    StopPathPointData(1, 2),
+                    StopPathPointData(1, 1),
+                    PathPointData(1, 2)
+                )
+            )
+        ),
+        MapData(
             numRows = 4, numCols = 5,
             map = intArrayOf(
                 e, e, 0, e, e,
@@ -751,6 +1062,113 @@ object RuinsData {
                 listOf(
                     StopPathPointData(1, 2),
                     StopPathPointData(2, 2)
+                )
+            )
+        ),
+        MapData(
+            numRows = 5, numCols = 5,
+            map = intArrayOf(
+                e, e, 0, e, e,
+                e, 0, 0, 0, e,
+                0, 0, e, 0, 0,
+                e, 0, e, 0, e,
+                e, e, 0, e, e
+            ),
+            goal = 13,
+            playerPositions = listOf(TilePoint(2, 0), TilePoint(2, 4)),
+            objects = listOf(
+                ArrowData(1, 2, Direction.RIGHT)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(1, 2),
+                    StopPathPointData(2, 2),
+                    StopPathPointData(3, 2),
+                    StopPathPointData(2, 2)
+                )
+            )
+        ),
+        MapData(
+            numRows = 5, numCols = 4,
+            map = intArrayOf(
+                0, e, e, e,
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, e, e, e
+            ),
+            goal = 16,
+            playerPositions = listOf(TilePoint(3, 0), TilePoint(1, 3)),
+            objects = listOf(
+                ArrowData(3, 2, Direction.RIGHT),
+                ArrowData(3, 1, Direction.RIGHT),
+                ArrowData(1, 2, Direction.RIGHT),
+                ArrowData(1, 1, Direction.RIGHT),
+                SuperJumpData(2, 0),
+                SuperJumpData(2, 3)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(0, 0),
+                    StopPathPointData(0, 3)
+                ),
+                listOf(
+                    StopPathPointData(4, 0),
+                    StopPathPointData(4, 3)
+                )
+            )
+        ),
+        MapData(
+            numRows = 6, numCols = 4,
+            map = intArrayOf(
+                e, 0, 0, e,
+                0, 0, 0, 0,
+                e, 0, e, e,
+                e, e, e, 0,
+                0, 0, 0, 0,
+                e, 0, 0, e
+            ),
+            goal = 22,
+            playerPositions = listOf(TilePoint(0, 1), TilePoint(0, 2)),
+            objects = listOf(
+                ArrowData(4, 2, Direction.LEFT),
+                ArrowData(1, 1, Direction.RIGHT),
+                SuperJumpData(2, 1),
+                SuperJumpData(3, 3)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(2, 1),
+                    StopPathPointData(2, 2)
+                ),
+                listOf(
+                    StopPathPointData(3, 3),
+                    StopPathPointData(3, 0)
+                )
+            )
+        ),
+        MapData(
+            numRows = 5, numCols = 5,
+            map = intArrayOf(
+                0, e, e, e, 0,
+                0, 0, 0, 0, 0,
+                0, 0, e, 0, 0,
+                0, 0, e, 0, 0,
+                0, e, e, e, 0
+            ),
+            goal = 31,
+            playerPositions = listOf(TilePoint(2, 0), TilePoint(2, 4)),
+            objects = listOf(
+                ArrowData(3, 1, Direction.UP),
+                ArrowData(2, 1, Direction.RIGHT),
+                ArrowData(1, 1, Direction.DOWN),
+                SuperJumpData(1, 2)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(1, 2),
+                    StopPathPointData(2, 2),
+                    StopPathPointData(3, 2)
                 )
             )
         )

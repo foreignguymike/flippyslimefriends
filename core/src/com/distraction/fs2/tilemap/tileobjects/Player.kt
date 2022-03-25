@@ -60,6 +60,10 @@ class Player(
         pdest.set(p)
 
         currentTile = tileMap.getTile(row, col)
+        currentTile?.let { tile ->
+            tile.lock = false
+            tile.moveListeners.add(this)
+        }
 
         animationSet.addAnimation(
             "idle",
