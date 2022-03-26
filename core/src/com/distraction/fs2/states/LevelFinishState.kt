@@ -1,6 +1,7 @@
 package com.distraction.fs2.states
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -122,41 +123,48 @@ class LevelFinishState(
         camera.update()
     }
 
+    private fun goToNextLevel() {
+        if (level < context.gameData.getMapData(area).size - 1) {
+            ignoreInput = true
+            context.gsm.push(
+                TransitionState(
+                    context,
+                    PlayState(context, area, level + 1),
+                    2
+                )
+            )
+        }
+    }
+
+    private fun backToLevelSelect() {
+        ignoreInput = true
+        context.gsm.push(
+            TransitionState(
+                context,
+                LevelSelectState(context, area, level),
+                2
+            )
+        )
+    }
+
+    private fun restart() {
+        ignoreInput = true
+        context.gsm.push(TransitionState(context, PlayState(context, area, level), 2))
+    }
+
     private fun handleInput() {
         if (Gdx.input.justTouched()) {
             unprojectTouch()
             when {
-                nextButton.containsPoint(touchPoint.x, touchPoint.y) -> {
-                    if (level < context.gameData.getMapData(area).size - 1) {
-                        ignoreInput = true
-                        context.gsm.push(
-                            TransitionState(
-                                context,
-                                PlayState(context, area, level + 1),
-                                2
-                            )
-                        )
-                    }
-                }
-                backButton.containsPoint(touchPoint.x, touchPoint.y) -> {
-                    ignoreInput = true
-                    context.gsm.push(
-                        TransitionState(
-                            context,
-                            LevelSelectState(
-                                context,
-                                area,
-                                level
-                            ),
-                            2
-                        )
-                    )
-                }
-                restartButton.containsPoint(touchPoint.x, touchPoint.y) -> {
-                    ignoreInput = true
-                    context.gsm.push(TransitionState(context, PlayState(context, area, level), 2))
-                }
+                nextButton.containsPoint(touchPoint.x, touchPoint.y) -> goToNextLevel()
+                backButton.containsPoint(touchPoint.x, touchPoint.y) -> backToLevelSelect()
+                restartButton.containsPoint(touchPoint.x, touchPoint.y) -> restart()
             }
+        }
+        when {
+            Gdx.input.isKeyPressed(Input.Keys.ENTER) -> goToNextLevel()
+            Gdx.input.isKeyPressed(Input.Keys.ESCAPE) -> backToLevelSelect()
+            Gdx.input.isKeyJustPressed(Input.Keys.R) -> restart()
         }
     }
 

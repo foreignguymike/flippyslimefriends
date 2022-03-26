@@ -115,7 +115,7 @@ class Player(
     }
 
     fun dropBubble() {
-        if (bubbling) {
+        if (canDrop && atDestination()) {
             dropping = true
         }
     }
@@ -246,7 +246,7 @@ class Player(
                     superjump = true
                 }
                 it is Ice -> {
-                    sliding = true
+                    if (!dropping) sliding = true
                 }
                 it is Teleport && !justTeleported -> {
                     teleportTimer = 0f
@@ -315,6 +315,7 @@ class Player(
         if (!bubbling) {
             handleTileObjects(row, col)
         }
+        dropping = false
         updateCanDrop()
     }
 
@@ -348,12 +349,10 @@ class Player(
         selectedTimer += dt
 
         // handle dropping
-        if (dropping) {
-            if (p.z == BASELINE) {
-                dropping = false
-                bubbling = false
-                handleReachedDestination()
-            }
+        if (dropping && p.z == BASELINE) {
+//            dropping = false
+            bubbling = false
+            handleReachedDestination()
         }
 
         // handle arrows while blocks

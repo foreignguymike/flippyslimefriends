@@ -1,6 +1,7 @@
 package com.distraction.fs2.states
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -13,7 +14,7 @@ import kotlin.math.abs
 class LevelSelectState(
     context: Context,
     private val area: Area,
-    private val level: Int = -1
+    private var level: Int = -1
 ) : GameState(context) {
 
     private val diamond = context.getImage("leveldiamondicon")
@@ -91,6 +92,30 @@ class LevelSelectState(
         }
     }
 
+    private fun incrementLevel() {
+        if (level < numLevels) {
+            level++
+            page = level / pageSize
+            updateNavButtons()
+            levelSelectedBorder.setPosition(
+                if (level < 0) 0f else levels[level].pos.x,
+                if (level < 0) 0f else levels[level].pos.y
+            )
+        }
+    }
+
+    private fun decrementLevel() {
+        if (level > 0) {
+            level--
+            page = level / pageSize
+            updateNavButtons()
+            levelSelectedBorder.setPosition(
+                if (level < 0) 0f else levels[level].pos.x,
+                if (level < 0) 0f else levels[level].pos.y
+            )
+        }
+    }
+
     private fun updateNavButtons() {
         if (page >= maxPages - 1) {
             rightButton.lerpTo(Constants.WIDTH + 50f, rightButton.pos.y, 8f)
@@ -106,34 +131,47 @@ class LevelSelectState(
 
     private fun getCamPosition() = Constants.WIDTH * page + Constants.WIDTH / 2
 
+    private fun back() {
+        ignoreInput = true
+        context.gsm.push(
+            TransitionState(
+                context,
+                AreaSelectState(context, area.ordinal)
+            )
+        )
+    }
+
+    private fun goToLevel(level: Int) {
+        ignoreInput = true
+        context.gsm.push(TransitionState(context, PlayState(context, area, level)))
+    }
+
     private fun handleInput() {
         if (Gdx.input.justTouched()) {
             if (abs(getCamPosition() - camera.position.x) < 10) {
                 unprojectTouch()
                 levels.forEachIndexed { i, it ->
                     if (it.containsPoint(touchPoint.x, touchPoint.y) && i < numLevels) {
-                        ignoreInput = true
-                        context.gsm.push(TransitionState(context, PlayState(context, area, i)))
-                        return@forEachIndexed
+                        goToLevel(i)
                     }
                 }
             }
 
             unprojectTouch(staticCam)
             if (backButton.containsPoint(touchPoint.x, touchPoint.y)) {
-                ignoreInput = true
-                context.gsm.push(
-                    TransitionState(
-                        context,
-                        AreaSelectState(context, area.ordinal)
-                    )
-                )
+                back()
             }
             if (leftButton.containsPoint(touchPoint.x, touchPoint.y)) {
                 decrementPage()
             } else if (rightButton.containsPoint(touchPoint.x, touchPoint.y)) {
                 incrementPage()
             }
+        }
+        when {
+            Gdx.input.isKeyJustPressed(Input.Keys.ENTER) -> goToLevel(level)
+            Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) -> incrementLevel()
+            Gdx.input.isKeyJustPressed(Input.Keys.LEFT) -> decrementLevel()
+            Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) -> back()
         }
     }
 
