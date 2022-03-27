@@ -125,7 +125,9 @@ object MatrixData {
             objects = listOf(
                 FinishTileData(0, 1),
                 SuperJumpData(0, 2),
-                FinishTileData(0, 4)
+                FinishTileData(0, 4),
+                ArrowData(0, 0, Direction.RIGHT),
+                ArrowData(0, 5, Direction.LEFT)
             ),
             path = listOf(
                 listOf(

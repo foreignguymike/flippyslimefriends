@@ -110,8 +110,11 @@ class Player(
     }
 
     private fun updateCanDrop() {
-        canDrop =
-            !moving && bubbling && p.z == BASELINE + BUBBLE_HEIGHT && tileMap.isValidTile(row, col)
+        canDrop = !moving
+                && bubbling
+                && p.z == BASELINE + BUBBLE_HEIGHT
+                && tileMap.isValidTile(row, col)
+                && !isTileBlocked(row, col)
     }
 
     fun dropBubble() {
@@ -151,6 +154,9 @@ class Player(
             ) {
                 return
             }
+
+            // cannot run into other floating slimes
+            if (getPlayers(row + drow, col + dcol).any { it.bubbling } ) return
         }
 
         // valid tiles start here
@@ -188,7 +194,10 @@ class Player(
      */
     private fun isTileBlocked(row: Int, col: Int) =
         tileMap.getTile(row, col)?.isBlocked() == true
-                || players.any { it.row == row && it.col == col }
+                || getPlayers(row, col).any { it != this }
+
+    private fun getPlayers(row: Int, col: Int) =
+        players.filter { it.row == row && it.col == col }
 
     private fun getRemainingDistance() = Utils.dist(pdest.x, pdest.y, p.x, p.y)
 
