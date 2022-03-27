@@ -156,7 +156,7 @@ class Player(
             }
 
             // cannot run into other floating slimes
-            if (getPlayers(row + drow, col + dcol).any { it.bubbling } ) return
+            if (getPlayers(row + drow, col + dcol).any { it.bubbling }) return
         }
 
         // valid tiles start here
@@ -194,7 +194,7 @@ class Player(
      */
     private fun isTileBlocked(row: Int, col: Int) =
         tileMap.getTile(row, col)?.isBlocked() == true
-                || getPlayers(row, col).any { it != this }
+                || getPlayers(row, col).any { it != this && !it.bubbling }
 
     private fun getPlayers(row: Int, col: Int) =
         players.filter { it.row == row && it.col == col }
@@ -312,9 +312,7 @@ class Player(
     private fun handleReachedDestination() {
         if (!bubbling) {
             // landed on illegal tile or another player
-            if (!tileMap.isValidTile(row, col)
-                || players.any { it != this && it.row == row && it.col == col }
-            ) {
+            if (!tileMap.isValidTile(row, col) || isTileBlocked(row, col)) {
                 resetMovement()
                 moveListener.onIllegal()
                 return
@@ -325,7 +323,7 @@ class Player(
             handleTileObjects(row, col)
         }
         dropping = false
-        updateCanDrop()
+        players.forEach { it.updateCanDrop() }
     }
 
     private fun updateAnimations(dt: Float) {
@@ -359,7 +357,6 @@ class Player(
 
         // handle dropping
         if (dropping && p.z == BASELINE) {
-//            dropping = false
             bubbling = false
             handleReachedDestination()
         }

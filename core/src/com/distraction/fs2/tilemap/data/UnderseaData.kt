@@ -313,20 +313,6 @@ object UnderseaData {
                 SuperJumpData(2, 2),
                 IceData(2, 3)
             )
-        ),
-        MapData(
-            numRows = 4, numCols = 3,
-            map = intArrayOf(
-                0, 0, 0,
-                0, 0, 0,
-                0, 0, 0,
-                0, 0, 0
-            ),
-            goal = 0,
-            playerPositions = listOf(TilePoint(0, 0), TilePoint(1, 0)),
-            objects = listOf(
-                BubbleData(2, 1)
-            )
         )
     )
 }
