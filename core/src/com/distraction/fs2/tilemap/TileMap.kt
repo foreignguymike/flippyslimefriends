@@ -33,7 +33,7 @@ class TileMap(
     // when there are moving tiles, the map must be sorted
     // orderedMap is used to determine rendering order
     private var numTilesMoving = 0
-    private val orderedMap = map.sortedBy { it?.isop?.y }.toMutableList()
+    private val orderedMap = map.filterNotNull().sortedBy { it?.isop?.y }.toMutableList()
 
     private var tilePathRenderer: TilePathRenderer? = null
 

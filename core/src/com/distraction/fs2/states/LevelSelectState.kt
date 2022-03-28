@@ -92,9 +92,9 @@ class LevelSelectState(
         }
     }
 
-    private fun incrementLevel() {
-        if (level < numLevels) {
-            level++
+    private fun incrementLevel(amount: Int = 1) {
+        if (level + amount < numLevels) {
+            level += amount
             page = level / pageSize
             updateNavButtons()
             levelSelectedBorder.setPosition(
@@ -104,9 +104,9 @@ class LevelSelectState(
         }
     }
 
-    private fun decrementLevel() {
-        if (level > 0) {
-            level--
+    private fun decrementLevel(amount: Int = 1) {
+        if (level - amount >= 0) {
+            level -= amount
             page = level / pageSize
             updateNavButtons()
             levelSelectedBorder.setPosition(
@@ -171,6 +171,8 @@ class LevelSelectState(
             Gdx.input.isKeyJustPressed(Input.Keys.ENTER) -> goToLevel(level)
             Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) -> incrementLevel()
             Gdx.input.isKeyJustPressed(Input.Keys.LEFT) -> decrementLevel()
+            Gdx.input.isKeyJustPressed(Input.Keys.DOWN) -> incrementLevel(numCols)
+            Gdx.input.isKeyJustPressed(Input.Keys.UP) -> decrementLevel(numCols)
             Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) -> back()
         }
     }

@@ -62,7 +62,11 @@ class Player(
         currentTile = tileMap.getTile(row, col)
         currentTile?.let { tile ->
             tile.lock = false
-            tile.moveListeners.add(this)
+        }
+        tileMap.map.forEach {
+            if (it?.isMovingTile() == true) {
+                it.moveListeners.add(this)
+            }
         }
 
         animationSet.addAnimation(
@@ -119,6 +123,8 @@ class Player(
 
     fun dropBubble() {
         if (canDrop && atDestination()) {
+            tileMap.getTile(row, col)?.lock = true
+//            currentTile?.lock = true
             dropping = true
         }
     }
@@ -183,7 +189,6 @@ class Player(
         // unsub to the current tile's listener
         // will sub to the destination tile's listener later in handleJustMoved()
         // also lock the destination tile to prevent the tile from moving while the player is moving towards it
-        currentTile?.moveListeners?.remove(this)
         tileMap.getTile(row, col)?.let { tile ->
             tile.lock = true
         }
@@ -230,7 +235,6 @@ class Player(
         currentTile = tileMap.getTile(row, col)
         currentTile?.let { tile ->
             tile.lock = false
-            tile.moveListeners.add(this)
         }
     }
 
@@ -347,9 +351,23 @@ class Player(
         animationSet.update(dt)
     }
 
+    override fun onTileStartMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
+        if (row == oldRow && col == oldCol) {
+            updateCanDrop()
+        }
+    }
+
     override fun onTileEndMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
-        super.setPositionFromTile(newRow, newCol)
-        pdest.set(p)
+        // stick player on moving tile if not bubbling
+        if (!bubbling) {
+            if (currentTile == tile) {
+                super.setPositionFromTile(newRow, newCol)
+                pdest.set(p)
+            }
+        }
+        if (row == newRow && col == newCol) {
+            updateCanDrop()
+        }
     }
 
     override fun update(dt: Float) {
@@ -368,13 +386,15 @@ class Player(
             handleTileObjects(row, col)
         }
 
-        // stick the player on moving tiles
-        currentTile?.let {
-            if (!moving && it.moving) {
-                p.set(it.p.x, it.p.y, p.z)
-                pdest.set(p)
-                updateAnimations(dt)
-                return
+        // stick the player on moving tiles if player is not in bubble
+        if (!bubbling) {
+            currentTile?.let {
+                if (!moving && it.moving) {
+                    p.set(it.p.x, it.p.y, p.z)
+                    pdest.set(p)
+                    updateAnimations(dt)
+                    return
+                }
             }
         }
 

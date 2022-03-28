@@ -134,6 +134,7 @@ class Tile(
                 stayTimer += dt
                 if (stayTimer >= it[pathIndex].time && !lock) {
                     goNext()
+                    moving = true
                     moveListeners.forEach { ml ->
                         ml.onTileStartMove(
                             this,
@@ -143,7 +144,6 @@ class Tile(
                             col
                         )
                     }
-                    moving = true
                     stayTimer = 0f
                 }
             } else {
@@ -157,6 +157,7 @@ class Tile(
                 if (p.x == pdest.x && p.y == pdest.y) {
                     row = it[pathIndex].tilePoint.row
                     col = it[pathIndex].tilePoint.col
+                    moving = false
                     moveListeners.forEach { ml ->
                         ml.onTileEndMove(
                             this,
@@ -166,7 +167,6 @@ class Tile(
                             col
                         )
                     }
-                    moving = false
                     prevRow = row
                     prevCol = col
 

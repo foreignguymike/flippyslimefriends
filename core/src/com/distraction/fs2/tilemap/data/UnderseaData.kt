@@ -220,23 +220,6 @@ object UnderseaData {
         MapData(
             numRows = 4, numCols = 4,
             map = intArrayOf(
-                0, 0, 0, e,
-                0, 0, 0, 0,
-                0, 0, 0, 0,
-                e, 0, 0, e
-            ),
-            goal = 17,
-            playerPositions = listOf(TilePoint(0, 0)),
-            startBubble = true,
-            objects = listOf(
-                ArrowData(3, 2, Direction.UP),
-                ArrowData(2, 3, Direction.LEFT),
-                SuperJumpData(1, 1)
-            )
-        ),
-        MapData(
-            numRows = 4, numCols = 4,
-            map = intArrayOf(
                 e, 0, 0, 0,
                 0, 0, 0, 0,
                 0, b, 0, 0,
@@ -295,6 +278,25 @@ object UnderseaData {
             )
         ),
         MapData(
+            numRows = 3, numCols = 5,
+            map = intArrayOf(
+                e, 0, 0, 0, e,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0
+            ),
+            goal = 13,
+            playerPositions = listOf(TilePoint(0, 0), TilePoint(1, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(2, 3, Direction.RIGHT),
+                ArrowData(2, 1, Direction.RIGHT),
+                ArrowData(1, 3, Direction.LEFT),
+                ArrowData(1, 1, Direction.LEFT),
+                SuperJumpData(1, 2),
+                SuperJumpData(2, 2)
+            )
+        ),
+        MapData(
             numRows = 4, numCols = 4,
             map = intArrayOf(
                 e, 0, 0, 0,
@@ -312,6 +314,25 @@ object UnderseaData {
                 IceData(2, 1),
                 SuperJumpData(2, 2),
                 IceData(2, 3)
+            )
+        ),
+        MapData(
+            numRows = 3, numCols = 4,
+            map = intArrayOf(
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0
+            ),
+            goal = 16,
+            playerPositions = listOf(TilePoint(0, 0), TilePoint(1, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(2, 2, Direction.LEFT),
+                ArrowData(2, 1, Direction.LEFT),
+                ArrowData(1, 2, Direction.LEFT),
+                ArrowData(1, 1, Direction.LEFT),
+                ArrowData(0, 2, Direction.LEFT),
+                ArrowData(0, 1, Direction.LEFT)
             )
         )
     )
