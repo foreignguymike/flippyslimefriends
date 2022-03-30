@@ -2,6 +2,7 @@ package com.distraction.fs2.tilemap.data
 
 import com.distraction.fs2.tilemap.data.GameData.Companion.b
 import com.distraction.fs2.tilemap.data.GameData.Companion.e
+import com.distraction.fs2.tilemap.data.GameData.Companion.g
 
 object UnderseaData {
 
@@ -31,6 +32,27 @@ object UnderseaData {
                 ArrowData(1, 1, Direction.DOWN)
             ),
             startBubble = true
+        ),
+        MapData(
+            numRows = 5, numCols = 3,
+            map = intArrayOf(
+                e, e, 0,
+                e, 0, 0,
+                0, 0, 0,
+                0, 0, e,
+                0, e, e
+            ),
+            goal = 9,
+            playerPositions = listOf(TilePoint(0, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(3, 0, Direction.UP),
+                ArrowData(2, 1, Direction.UP),
+                ArrowData(1, 2, Direction.UP),
+                BubbleData(0, 2),
+                BubbleData(1, 1),
+                BubbleData(2, 0)
+            )
         ),
         MapData(
             numRows = 5, numCols = 3,
@@ -128,6 +150,41 @@ object UnderseaData {
             )
         ),
         MapData(
+            numRows = 3, numCols = 3,
+            map = intArrayOf(
+                0, 0, 0,
+                0, 0, 0,
+                0, 0, 0
+            ),
+            goal = 9,
+            playerPositions = listOf(TilePoint(0, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(2, 1, Direction.RIGHT),
+                ArrowData(1, 1, Direction.RIGHT),
+                ArrowData(0, 1, Direction.RIGHT),
+                BubbleData(0, 2)
+            )
+        ),
+        MapData(
+            numRows = 4, numCols = 3,
+            map = intArrayOf(
+                0, e, e,
+                0, 0, 0,
+                0, 0, 0,
+                0, e, e
+            ),
+            goal = 8,
+            playerPositions = listOf(TilePoint(0, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(3, 0, Direction.UP),
+                ArrowData(0, 0, Direction.DOWN),
+                SuperJumpData(0, 0),
+                SuperJumpData(3, 0)
+            )
+        ),
+        MapData(
             numRows = 3, numCols = 4,
             map = intArrayOf(
                 0, 0, 0, 0,
@@ -143,6 +200,50 @@ object UnderseaData {
                 SuperJumpData(1, 1),
                 BubbleData(2, 1),
                 SuperJumpData(2, 2)
+            )
+        ),
+        MapData(
+            numRows = 4, numCols = 3,
+            map = intArrayOf(
+                0, 0, e,
+                0, 0, e,
+                0, 0, e,
+                0, 0, 0
+            ),
+            goal = 9,
+            playerPositions = listOf(TilePoint(0, 0)),
+            startBubble = true,
+            objects = listOf(
+                SuperJumpData(1, 0),
+                SuperJumpData(1, 1),
+                SuperJumpData(2, 0),
+                SuperJumpData(2, 1),
+                BubbleData(3, 2)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(3, 2),
+                    StopPathPointData(0, 2)
+                )
+            )
+        ),
+        MapData(
+            numRows = 3, numCols = 5,
+            map = intArrayOf(
+                0, 0, 0, e, e,
+                0, 0, 0, 0, 0,
+                e, e, 0, 0, 0
+            ),
+            goal = 13,
+            playerPositions = listOf(TilePoint(0, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(2, 3, Direction.RIGHT),
+                ArrowData(1, 3, Direction.RIGHT),
+                ArrowData(1, 1, Direction.LEFT),
+                ArrowData(0, 1, Direction.LEFT),
+                BubbleData(0, 0),
+                BubbleData(2, 4)
             )
         ),
         MapData(
@@ -172,7 +273,7 @@ object UnderseaData {
                 0, 0, 0, 0,
                 0, 0, 0, 0
             ),
-            goal = 11,
+            goal = 12,
             playerPositions = listOf(TilePoint(0, 0)),
             startBubble = true,
             objects = listOf(
@@ -249,6 +350,23 @@ object UnderseaData {
                 IceData(1, 2),
                 IceData(2, 1),
                 IceData(2, 2)
+            )
+        ),
+        MapData(
+            numRows = 3, numCols = 5,
+            map = intArrayOf(
+                e, 0, 0, 0, e,
+                0, 0, g, 0, 0,
+                e, 0, 0, 0, e
+            ),
+            goal = 13,
+            playerPositions = listOf(TilePoint(0, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(2, 2, Direction.LEFT),
+                ArrowData(1, 1, Direction.UP),
+                ArrowData(0, 2, Direction.RIGHT),
+                BubbleData(1, 2)
             )
         ),
         MapData(

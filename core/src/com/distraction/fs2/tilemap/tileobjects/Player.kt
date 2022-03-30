@@ -358,8 +358,8 @@ class Player(
     }
 
     override fun onTileEndMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
-        // stick player on moving tile if not bubbling
-        if (!bubbling) {
+        // stick player on moving tile if not bubbling and player is not already moving
+        if (!moving && !bubbling) {
             if (currentTile == tile) {
                 super.setPositionFromTile(newRow, newCol)
                 pdest.set(p)
@@ -386,7 +386,7 @@ class Player(
             handleTileObjects(row, col)
         }
 
-        // stick the player on moving tiles if player is not in bubble
+        // stick the player on moving tiles if player is not in bubble or not moving
         if (!bubbling) {
             currentTile?.let {
                 if (!moving && it.moving) {

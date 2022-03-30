@@ -18,6 +18,7 @@ class Bubble(context: Context, tileMap: TileMap, row: Int, col: Int) :
     }
 
     override fun update(dt: Float) {
+        bubbleBase.setPosition(p.x, p.y)
     }
 
     override fun render(sb: SpriteBatch) {
