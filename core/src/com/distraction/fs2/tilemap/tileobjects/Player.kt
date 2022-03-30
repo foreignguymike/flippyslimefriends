@@ -104,7 +104,9 @@ class Player(
     override fun setPositionFromTile(row: Int, col: Int) {
         super.setPositionFromTile(row, col)
         if (!bubbling) {
-            tileMap.toggleTile(row, col)
+            if (!tileMap.isFinished(players)) {
+                tileMap.toggleTile(row, col)
+            }
         }
     }
 
@@ -222,7 +224,9 @@ class Player(
         if (!bubbling) {
             // notify listeners
             moveListener.onMoved()
-            tileMap.toggleTile(row, col)
+            if (!tileMap.isFinished(players)) {
+                tileMap.toggleTile(row, col)
+            }
         }
 
         // reset all movement flags

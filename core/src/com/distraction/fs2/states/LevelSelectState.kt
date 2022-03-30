@@ -97,10 +97,7 @@ class LevelSelectState(
             level += amount
             page = level / pageSize
             updateNavButtons()
-            levelSelectedBorder.setPosition(
-                if (level < 0) 0f else levels[level].pos.x,
-                if (level < 0) 0f else levels[level].pos.y
-            )
+            updateLevelSelectedBorder()
         }
     }
 
@@ -109,10 +106,7 @@ class LevelSelectState(
             level -= amount
             page = level / pageSize
             updateNavButtons()
-            levelSelectedBorder.setPosition(
-                if (level < 0) 0f else levels[level].pos.x,
-                if (level < 0) 0f else levels[level].pos.y
-            )
+            updateLevelSelectedBorder()
         }
     }
 
@@ -129,6 +123,13 @@ class LevelSelectState(
         }
     }
 
+    private fun updateLevelSelectedBorder() {
+        levelSelectedBorder.setPosition(
+            if (level < 0) 0f else levels[level].pos.x,
+            if (level < 0) 0f else levels[level].pos.y
+        )
+    }
+
     private fun getCamPosition() = Constants.WIDTH * page + Constants.WIDTH / 2
 
     private fun back() {
@@ -142,6 +143,8 @@ class LevelSelectState(
     }
 
     private fun goToLevel(level: Int) {
+        this.level = level
+        updateLevelSelectedBorder()
         ignoreInput = true
         context.gsm.push(TransitionState(context, PlayState(context, area, level)))
     }

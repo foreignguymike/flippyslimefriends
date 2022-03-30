@@ -169,6 +169,29 @@ object UnderseaData {
         MapData(
             numRows = 4, numCols = 3,
             map = intArrayOf(
+                0, 0, 0,
+                0, e, e,
+                0, 0, 0,
+                0, 0, 0
+            ),
+            goal = 12,
+            playerPositions = listOf(TilePoint(0, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(2, 2, Direction.UP),
+                ArrowData(2, 0, Direction.UP),
+                BubbleData(0, 1)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(1, 0),
+                    StopPathPointData(1, 2)
+                )
+            )
+        ),
+        MapData(
+            numRows = 4, numCols = 3,
+            map = intArrayOf(
                 0, e, e,
                 0, 0, 0,
                 0, 0, 0,
@@ -267,6 +290,34 @@ object UnderseaData {
             )
         ),
         MapData(
+            numRows = 4, numCols = 4,
+            map = intArrayOf(
+                0, e, e, e,
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                e, e, e, 0
+            ),
+            goal = 10,
+            playerPositions = listOf(TilePoint(0, 0)),
+            startBubble = true,
+            objects = listOf(
+                IceData(1, 1),
+                IceData(1, 2),
+                IceData(2, 1),
+                IceData(2, 2)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(0, 0),
+                    StopPathPointData(0, 3)
+                ),
+                listOf(
+                    StopPathPointData(3, 3),
+                    StopPathPointData(3, 0)
+                )
+            )
+        ),
+        MapData(
             numRows = 3, numCols = 4,
             map = intArrayOf(
                 0, 0, 0, 0,
@@ -281,6 +332,54 @@ object UnderseaData {
                 ArrowData(1, 1, Direction.RIGHT),
                 SuperJumpData(0, 1),
                 SuperJumpData(2, 2)
+            )
+        ),
+        MapData(
+            numRows = 5, numCols = 4,
+            map = intArrayOf(
+                e, 0, e, e,
+                0, 0, e, e,
+                0, 0, 0, e,
+                0, 0, 0, 0,
+                e, 0, 0, e
+            ),
+            goal = 12,
+            playerPositions = listOf(TilePoint(0, 0)),
+            startBubble = true,
+            objects = listOf(
+                IceData(2, 1),
+                IceData(2, 2),
+                IceData(3, 1),
+                IceData(3, 2)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(0, 1),
+                    PathPointData(0, 2),
+                    StopPathPointData(1, 2),
+                    PathPointData(1, 3),
+                    StopPathPointData(2, 3),
+                    PathPointData(0, 3),
+                    PathPointData(0, 1)
+                )
+            )
+        ),
+        MapData(
+            numRows = 4, numCols = 4,
+            map = intArrayOf(
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0
+            ),
+            goal = 16,
+            playerPositions = listOf(TilePoint(0, 0), TilePoint(1, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(2, 2, Direction.RIGHT),
+                ArrowData(2, 1, Direction.LEFT),
+                ArrowData(1, 2, Direction.RIGHT),
+                ArrowData(1, 1, Direction.LEFT)
             )
         ),
         MapData(
@@ -333,6 +432,52 @@ object UnderseaData {
                 IceData(1, 1),
                 IceData(1, 2),
                 IceData(2, 2)
+            )
+        ),
+        MapData(
+            numRows = 4, numCols = 4,
+            map = intArrayOf(
+                e, e, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, e
+            ),
+            goal = 13,
+            playerPositions = listOf(TilePoint(0, 0)),
+            startBubble = true,
+            objects = listOf(
+                SuperJumpData(1, 2),
+                SuperJumpData(2, 1),
+                IceData(2, 2)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(1, 0),
+                    PathPointData(0, 0),
+                    StopPathPointData(0, 1),
+                    PathPointData(0, 0)
+                )
+            )
+        ),
+        MapData(
+            numRows = 4, numCols = 4,
+            map = intArrayOf(
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0, 0
+            ),
+            goal = 16,
+            playerPositions = listOf(TilePoint(0, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(2, 3, Direction.UP),
+                ArrowData(1, 3, Direction.UP),
+                ArrowData(0, 2, Direction.RIGHT),
+                ArrowData(0, 1, Direction.RIGHT),
+                BubbleData(0, 3),
+                IceData(1, 2),
+                IceData(2, 1)
             )
         ),
         MapData(
@@ -435,6 +580,24 @@ object UnderseaData {
             )
         ),
         MapData(
+            numRows = 5, numCols = 3,
+            map = intArrayOf(
+                e, 0, 0,
+                0, 0, 0,
+                0, 0, 0,
+                0, 0, 0,
+                0, 0, e
+            ),
+            goal = 13,
+            playerPositions = listOf(TilePoint(0, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(3, 1, Direction.LEFT),
+                ArrowData(2, 1, Direction.RIGHT),
+                ArrowData(1, 1, Direction.LEFT)
+            )
+        ),
+        MapData(
             numRows = 3, numCols = 4,
             map = intArrayOf(
                 0, 0, 0, 0,
@@ -451,6 +614,84 @@ object UnderseaData {
                 ArrowData(1, 1, Direction.LEFT),
                 ArrowData(0, 2, Direction.LEFT),
                 ArrowData(0, 1, Direction.LEFT)
+            )
+        ),
+        MapData(
+            numRows = 5, numCols = 4,
+            map = intArrayOf(
+                e, 0, 0, e,
+                e, 0, 0, e,
+                e, 0, 0, e,
+                0, 0, 0, 0,
+                e, 0, 0, e
+            ),
+            goal = 16,
+            playerPositions = listOf(TilePoint(0, 0), TilePoint(1, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(3, 2, Direction.UP),
+                ArrowData(3, 1, Direction.UP),
+                ArrowData(1, 2, Direction.DOWN),
+                ArrowData(1, 1, Direction.DOWN),
+                IceData(2, 1),
+                IceData(2, 2)
+            ),
+            path = listOf(
+                listOf(
+                    StopPathPointData(3, 0),
+                    StopPathPointData(2, 0),
+                    StopPathPointData(1, 0),
+                    StopPathPointData(2, 0)
+                ),
+                listOf(
+                    StopPathPointData(3, 3),
+                    StopPathPointData(2, 3),
+                    StopPathPointData(1, 3),
+                    StopPathPointData(2, 3)
+                )
+            )
+        ),
+        MapData(
+            numRows = 4, numCols = 4,
+            map = intArrayOf(
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                0, 0, e, 0,
+                0, 0, 0, 0
+            ),
+            goal = 15,
+            playerPositions = listOf(TilePoint(0, 0), TilePoint(1, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(3, 2, Direction.RIGHT),
+                ArrowData(2, 3, Direction.UP),
+                ArrowData(2, 1, Direction.RIGHT),
+                ArrowData(1, 2, Direction.LEFT),
+                ArrowData(1, 0, Direction.DOWN),
+                ArrowData(0, 1, Direction.RIGHT),
+                IceData(1, 1),
+                SuperJumpData(1, 2),
+                SuperJumpData(2, 1)
+            )
+        ),
+        MapData(
+            numRows = 3, numCols = 5,
+            map = intArrayOf(
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0
+            ),
+            goal = 19,
+            playerPositions = listOf(TilePoint(0, 0), TilePoint(1, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(2, 3, Direction.UP),
+                ArrowData(2, 1, Direction.UP),
+                ArrowData(0, 3, Direction.DOWN),
+                ArrowData(0, 1, Direction.DOWN),
+                IceData(1, 1),
+                IceData(1, 2),
+                IceData(1, 3)
             )
         )
     )
