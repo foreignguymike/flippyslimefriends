@@ -17,4 +17,19 @@ class Context {
 
     fun getImage(key: String): TextureRegion = assets.getAtlas().findRegion(key) ?: error("image $key not found")
     fun getImage(key: String, index: Int): TextureRegion = assets.getAtlas().findRegion(key, index) ?: error("image ${key}_$index not found")
+
+    init {
+        // sanity checks
+
+        // check all levels have goals
+        gameData.mapData.forEach { pair ->
+            val area = pair.key
+            val levels = pair.value
+            levels.forEachIndexed { index, level ->
+                if (level.goal == 0) {
+                    throw IllegalStateException("level $area-${index + 1} has 0 goal")
+                }
+            }
+        }
+    }
 }

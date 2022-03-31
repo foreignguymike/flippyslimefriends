@@ -393,7 +393,7 @@ object TundraData {
                 0, 0, 0, 0,
                 g, 0, 0, g
             ),
-            goal = 19,
+            goal = 17,
             playerPositions = listOf(TilePoint(0, 1)),
             objects = listOf(
                 IceData(1, 1),
@@ -492,7 +492,7 @@ object TundraData {
                 0, 0, 0, 0,
                 0, 0, 0, e
             ),
-            goal = 0,
+            goal = 14,
             playerPositions = listOf(TilePoint(0, 2), TilePoint(0, 3)),
             objects = listOf(
                 ArrowData(2, 2, Direction.RIGHT),
@@ -529,7 +529,7 @@ object TundraData {
                 0, 0, 0,
                 0, 0, 0
             ),
-            goal = 21,
+            goal = 17,
             playerPositions = listOf(TilePoint(6, 0), TilePoint(6, 2)),
             objects = listOf(
                 IceData(1, 0),

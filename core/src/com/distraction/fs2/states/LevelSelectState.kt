@@ -172,10 +172,34 @@ class LevelSelectState(
         }
         when {
             Gdx.input.isKeyJustPressed(Input.Keys.ENTER) -> goToLevel(level)
-            Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) -> incrementLevel()
-            Gdx.input.isKeyJustPressed(Input.Keys.LEFT) -> decrementLevel()
-            Gdx.input.isKeyJustPressed(Input.Keys.DOWN) -> incrementLevel(numCols)
-            Gdx.input.isKeyJustPressed(Input.Keys.UP) -> decrementLevel(numCols)
+            Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) -> {
+                val amount = if (level % numCols == numCols - 1) {
+                    pageSize - numCols + 1
+                } else {
+                    1
+                }
+                if (level + amount < numLevels) {
+                    incrementLevel(amount)
+                }
+            }
+            Gdx.input.isKeyJustPressed(Input.Keys.LEFT) -> {
+                val amount = if (level % numCols == 0) {
+                    pageSize - numCols + 1
+                } else {
+                    1
+                }
+                decrementLevel(amount)
+            }
+            Gdx.input.isKeyJustPressed(Input.Keys.DOWN) -> {
+                if (level % pageSize < pageSize - numCols) {
+                    incrementLevel(numCols)
+                }
+            }
+            Gdx.input.isKeyJustPressed(Input.Keys.UP) -> {
+                if (level % pageSize >= numCols) {
+                    decrementLevel(numCols)
+                }
+            }
             Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) -> back()
         }
     }

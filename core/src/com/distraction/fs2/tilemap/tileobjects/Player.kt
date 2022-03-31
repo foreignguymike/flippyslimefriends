@@ -126,7 +126,6 @@ class Player(
     fun dropBubble() {
         if (canDrop && atDestination()) {
             tileMap.getTile(row, col)?.lock = true
-//            currentTile?.lock = true
             dropping = true
         }
     }
@@ -188,11 +187,11 @@ class Player(
         moving = true
         justTeleported = false
 
-        // unsub to the current tile's listener
-        // will sub to the destination tile's listener later in handleJustMoved()
-        // also lock the destination tile to prevent the tile from moving while the player is moving towards it
-        tileMap.getTile(row, col)?.let { tile ->
-            tile.lock = true
+        // lock the destination tile to prevent the tile from moving while the player is moving towards it
+        if (!bubbling) {
+            tileMap.getTile(row, col)?.let { tile ->
+                tile.lock = true
+            }
         }
     }
 

@@ -940,7 +940,7 @@ object RuinsData {
                 0, e, 0, 0,
                 0, 0, 0, e
             ),
-            goal = 15,
+            goal = 13,
             playerPositions = listOf(TilePoint(0, 1)),
             objects = listOf(
                 SuperJumpData(1, 1)
@@ -1097,7 +1097,7 @@ object RuinsData {
                 0, 0, 0, 0,
                 0, e, e, e
             ),
-            goal = 16,
+            goal = 12,
             playerPositions = listOf(TilePoint(3, 0), TilePoint(1, 3)),
             objects = listOf(
                 ArrowData(3, 2, Direction.RIGHT),

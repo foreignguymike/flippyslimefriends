@@ -1,6 +1,7 @@
 package com.distraction.fs2.states
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.data.GameColor
@@ -18,14 +19,19 @@ class TitleState(context: Context) : GameState(context) {
         title.lerpTo(Constants.WIDTH / 2f, Constants.HEIGHT / 2f)
     }
 
+    private fun goToAreaSelect() {
+        ignoreInput = true
+        context.gsm.push(TransitionState(context, AreaSelectState(context)))
+    }
+
     private fun handleInput() {
         if (Gdx.input.justTouched()) {
             unprojectTouch()
             if (playButton.containsPoint(touchPoint.x, touchPoint.y)) {
-                ignoreInput = true
-                context.gsm.push(TransitionState(context, AreaSelectState(context)))
+                goToAreaSelect()
             }
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToAreaSelect()
     }
 
     override fun update(dt: Float) {

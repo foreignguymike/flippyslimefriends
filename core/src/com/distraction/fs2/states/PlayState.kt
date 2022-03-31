@@ -95,7 +95,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
         }
     }
 
-    private fun switchPlayer(di: Int) {
+    private fun switchPlayer(di: Int = 1) {
         playerIndex = (playerIndex + di).pmod(players.size)
         hud.currentPlayer = playerIndex
         if (players.size > 1) {
@@ -121,17 +121,14 @@ class PlayState(context: Context, private val area: Area, private val level: Int
     private fun handleInput() {
         unprojectTouch()
         hud.handleInput()
-        when {
-            Gdx.input.isKeyPressed(Input.Keys.RIGHT) -> player.moveTile(0, 1)
-            Gdx.input.isKeyPressed(Input.Keys.LEFT) -> player.moveTile(0, -1)
-            Gdx.input.isKeyPressed(Input.Keys.UP) -> player.moveTile(-1, 0)
-            Gdx.input.isKeyPressed(Input.Keys.DOWN) -> player.moveTile(1, 0)
-            Gdx.input.isKeyJustPressed(Input.Keys.R) -> onIllegal()
-            Gdx.input.isKeyJustPressed(Input.Keys.A) -> switchPlayer(1)
-            Gdx.input.isKeyJustPressed(Input.Keys.D) -> switchPlayer(-1)
-            Gdx.input.isKeyJustPressed(Input.Keys.SPACE) -> player.dropBubble()
-            Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) -> back()
-        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) player.moveTile(0, 1)
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) player.moveTile(0, -1)
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) player.moveTile(-1, 0)
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) player.moveTile(1, 0)
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) onIllegal()
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) switchPlayer()
+        if (Gdx.input.isKeyJustPressed(Input.Keys.D)) player.dropBubble()
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) back()
     }
 
     override fun update(dt: Float) {
