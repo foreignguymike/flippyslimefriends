@@ -139,7 +139,6 @@ class Sunglasses(player: Player) : Accessory(player) {
     private val imageR = player.context.getImage("sunglasses_r")
 
     override fun update(dt: Float) {
-        println("current animation ${animationSet.currentAnimationKey}")
         when (animationSet.currentAnimationKey) {
             Player.IDLE -> {
                 offset.set(-11f, if (animationSet.currentAnimation.currentFrame() == 0) 8f else 7f)

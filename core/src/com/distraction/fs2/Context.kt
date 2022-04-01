@@ -8,10 +8,6 @@ import com.distraction.fs2.tilemap.data.GameData
 
 class Context {
     val assets = AssetManager().apply {
-        setErrorListener { asset, throwable ->
-            println("asset error: ${asset.fileName}, ${throwable.message}")
-        }
-        println("trying to load assets")
         load("fs2.atlas", TextureAtlas::class.java)
         finishLoading()
     }
@@ -19,8 +15,11 @@ class Context {
     val gameData = GameData(this)
     val scoreHandler = ScoreHandler(this).apply { load() }
 
-    fun getImage(key: String): TextureRegion = assets.getAtlas().findRegion(key) ?: error("image $key not found")
-    fun getImage(key: String, index: Int): TextureRegion = assets.getAtlas().findRegion(key, index) ?: error("image ${key}_$index not found")
+    fun getImage(key: String): TextureRegion =
+        assets.getAtlas().findRegion(key) ?: error("image $key not found")
+
+    fun getImage(key: String, index: Int): TextureRegion =
+        assets.getAtlas().findRegion(key, index) ?: error("image ${key}_$index not found")
 
     init {
         // sanity checks
