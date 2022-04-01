@@ -143,10 +143,12 @@ class LevelSelectState(
     }
 
     private fun goToLevel(level: Int) {
-        this.level = level
-        updateLevelSelectedBorder()
-        ignoreInput = true
-        context.gsm.push(TransitionState(context, PlayState(context, area, level)))
+        if (level in 0 until numLevels) {
+            this.level = level
+            updateLevelSelectedBorder()
+            ignoreInput = true
+            context.gsm.push(TransitionState(context, PlayState(context, area, level)))
+        }
     }
 
     private fun handleInput() {

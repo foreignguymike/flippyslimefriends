@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2
 import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.data.Area
-import com.distraction.fs2.tilemap.tileobjects.Player
+import com.distraction.fs2.tilemap.tileobjects.player.Player
 
 class PlayState(context: Context, private val area: Area, private val level: Int) :
     GameState(context), Player.MoveListener,

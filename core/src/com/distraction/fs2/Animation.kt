@@ -12,6 +12,8 @@ class Animation(
     private var frameIndex = 0
     private var playCount = 0
 
+    fun currentFrame() = frameIndex
+
     fun reset() {
         time = 0f
         frameIndex = 0

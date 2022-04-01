@@ -1,4 +1,4 @@
-package com.distraction.fs2.tilemap.tileobjects
+package com.distraction.fs2.tilemap.tileobjects.player
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
@@ -6,6 +6,7 @@ import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
 import com.distraction.fs2.tilemap.data.Direction
+import com.distraction.fs2.tilemap.tileobjects.*
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sin
@@ -26,7 +27,7 @@ class Player(
 
     var players = listOf<Player>()
 
-    private val animationSet = AnimationSet()
+    val playerRenderer = PlayerRenderer()
 
     override var speed = TileMap.TILE_SIZE * 1.85f
 
@@ -44,13 +45,12 @@ class Player(
     private var selected = false
     private var selectedTimer = 0f
 
+    val forward get() = direction == Direction.RIGHT || direction == Direction.DOWN
+    val right get() = direction == Direction.RIGHT || direction == Direction.UP
+
     var bubbling = false
     var dropping = false
 
-    private val pointerImage = context.getImage("slimepointer")
-    private val bubble = BreathingImage(context.getImage("bubble"), interval = 2f, offset = 0.03f)
-    private val bubblex = BreathingImage(context.getImage("bubbledropx"))
-    private val bubbleo = BreathingImage(context.getImage("bubbledropo"))
     var canDrop = false
 
     init {
@@ -71,37 +71,6 @@ class Player(
                 it.moveListeners.add(this)
             }
         }
-
-        animationSet.addAnimation(
-            "idle",
-            Animation(context.getImage("playeridle").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0], 0.5f)
-        )
-        animationSet.addAnimation(
-            "idler",
-            Animation(context.getImage("playeridler").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0], 0.5f)
-        )
-        animationSet.addAnimation(
-            "jump",
-            Animation(context.getImage("playerjump").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0], 0.1f, 1)
-        )
-        animationSet.addAnimation(
-            "jumpr",
-            Animation(
-                context.getImage("playerjumpr").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0],
-                0.1f,
-                1
-            )
-        )
-        animationSet.addAnimation(
-            "crouch",
-            Animation(context.getImage("playercrouch").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0], 0.1f)
-        )
-        animationSet.addAnimation(
-            "crouchr",
-            Animation(context.getImage("playercrouchr").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0], 0.1f)
-        )
-
-        animationSet.setAnimation("idle")
     }
 
     fun showSelected(selected: Boolean) {
@@ -325,27 +294,6 @@ class Player(
         players.forEach { it.updateCanDrop() }
     }
 
-    private fun updateAnimations(dt: Float) {
-        if (sliding) {
-            animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "crouch" else "crouchr")
-        } else if (dropping) {
-            animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "jump" else "jumpr")
-        } else if (atDestination()) {
-            if ((animationSet.currentAnimationKey == "jump" || animationSet.currentAnimationKey == "jumpr")) {
-                animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "crouch" else "crouchr")
-            } else if (animationSet.currentAnimation.hasPlayedOnce()) {
-                animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "idle" else "idler")
-            }
-        } else {
-            if ((animationSet.currentAnimationKey == "idle" || animationSet.currentAnimationKey == "idler")) {
-                animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "crouch" else "crouchr")
-            } else {
-                animationSet.setAnimation(if (direction == Direction.RIGHT || direction == Direction.DOWN) "jump" else "jumpr")
-            }
-        }
-        animationSet.update(dt)
-    }
-
     override fun onTileStartMove(tile: Tile, oldRow: Int, oldCol: Int, newRow: Int, newCol: Int) {
         if (row == oldRow && col == oldCol) {
             updateCanDrop()
@@ -356,7 +304,7 @@ class Player(
         // stick player on moving tile if not bubbling and player is not already moving
         if (!moving && !bubbling) {
             if (currentTile == tile) {
-                super.setPositionFromTile(newRow, newCol)
+                setPositionFromTile(newRow, newCol)
                 pdest.set(p)
             }
         }
@@ -387,7 +335,7 @@ class Player(
                 if (!moving && it.moving) {
                     p.set(it.p.x, it.p.y, p.z)
                     pdest.set(p)
-                    updateAnimations(dt)
+                    playerRenderer.update(dt)
                     return
                 }
             }
@@ -418,56 +366,11 @@ class Player(
         }
 
         updateBounceHeight(dt)
-        updateAnimations(dt)
-        if (bubbling) {
-            bubble.update(dt)
-            bubbleo.update(dt)
-            bubblex.update(dt)
-        }
+        playerRenderer.update(dt)
     }
 
     override fun render(sb: SpriteBatch) {
-        tileMap.toIsometric(p.x, p.y, isop)
-        sb.resetColor()
-        if (!teleporting) {
-            if (bubbling) {
-                if (!dropping) {
-                    bubble.setPosition(isop.x, isop.y + p.z + 10)
-                    bubble.render(sb)
-                }
-                if (p.z == BASELINE + BUBBLE_HEIGHT) {
-                    if (canDrop) {
-                        bubbleo.setPosition(isop.x, isop.y)
-                        bubbleo.render(sb)
-                    } else {
-                        bubblex.setPosition(isop.x, isop.y)
-                        bubblex.render(sb)
-                    }
-                }
-            }
-            if (direction == Direction.RIGHT || direction == Direction.UP) {
-                sb.draw(
-                    animationSet.getImage(),
-                    isop.x - animationSet.getImage().regionWidth / 2,
-                    isop.y + p.z
-                )
-            } else {
-                sb.draw(
-                    animationSet.getImage(),
-                    isop.x + animationSet.getImage().regionWidth / 2,
-                    isop.y + p.z,
-                    -animationSet.getImage().regionWidth * 1f,
-                    animationSet.getImage().regionHeight * 1f
-                )
-            }
-            if (selected && selectedTimer < 3 && (selectedTimer * 10).toInt() % 5 < 3) {
-                sb.draw(
-                    pointerImage,
-                    isop.x - pointerImage.regionWidth / 2,
-                    isop.y + p.z - 20f + 2 * sin(3 * selectedTimer)
-                )
-            }
-        }
+        playerRenderer.render(sb)
     }
 
     companion object {
@@ -481,6 +384,163 @@ class Player(
 
         const val SUPER_JUMP_MULTIPLIER = 2f
         const val SLIDING_MULTIPLIER = 2.5f
+
+        const val IDLE = "idle"
+        const val IDLER = "idler"
+        const val JUMP = "jump"
+        const val JUMPR = "jumpr"
+        const val CROUCH = "crouch"
+        const val CROUCHR = "crouchr"
+    }
+
+    inner class PlayerRenderer {
+
+        private val pointerImage = context.getImage("slimepointer")
+        private val bubble =
+            BreathingImage(context.getImage("bubble"), interval = 2f, offset = 0.03f)
+        private val bubblex = BreathingImage(context.getImage("bubbledropx"))
+        private val bubbleo = BreathingImage(context.getImage("bubbledropo"))
+
+        val animationSet = AnimationSet()
+        private val accessories = listOf(SantaHat(this@Player))
+
+        init {
+            animationSet.addAnimation(
+                IDLE,
+                Animation(
+                    context.getImage("playeridle").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0],
+                    0.5f
+                )
+            )
+            animationSet.addAnimation(
+                IDLER,
+                Animation(
+                    context.getImage("playeridler").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0],
+                    0.5f
+                )
+            )
+            animationSet.addAnimation(
+                JUMP,
+                Animation(
+                    context.getImage("playerjump").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0],
+                    0.1f,
+                    1
+                )
+            )
+            animationSet.addAnimation(
+                JUMPR,
+                Animation(
+                    context.getImage("playerjumpr").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0],
+                    0.1f,
+                    1
+                )
+            )
+            animationSet.addAnimation(
+                CROUCH,
+                Animation(
+                    context.getImage("playercrouch").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0],
+                    0.1f
+                )
+            )
+            animationSet.addAnimation(
+                CROUCHR,
+                Animation(
+                    context.getImage("playercrouchr").split(SPRITE_WIDTH, SPRITE_HEIGHT)[0],
+                    0.1f
+                )
+            )
+
+            animationSet.setAnimation(IDLE)
+        }
+
+        private fun updateAnimations(dt: Float) {
+            if (sliding) {
+                animationSet.setAnimation(if (forward) CROUCH else CROUCHR)
+            } else if (dropping) {
+                animationSet.setAnimation(if (forward) JUMP else JUMPR)
+            } else if (atDestination()) {
+                if ((animationSet.currentAnimationKey == JUMP || animationSet.currentAnimationKey == JUMPR)) {
+                    animationSet.setAnimation(if (forward) CROUCH else CROUCHR)
+                } else if (animationSet.currentAnimation.hasPlayedOnce()) {
+                    animationSet.setAnimation(if (forward) IDLE else IDLER)
+                }
+            } else { // jumping
+                if ((animationSet.currentAnimationKey == IDLE || animationSet.currentAnimationKey == IDLER)) {
+                    println("hi")
+                    animationSet.setAnimation(if (forward) CROUCH else CROUCHR)
+                } else if ((animationSet.currentAnimationKey == CROUCH || animationSet.currentAnimationKey == CROUCHR)
+                    && animationSet.currentAnimation.hasPlayedOnce()
+                ) {
+                    println("hi2")
+                    animationSet.setAnimation(if (forward) JUMP else JUMPR)
+                }
+            }
+            animationSet.update(dt)
+            accessories.forEach { it.update(dt) }
+        }
+
+        fun update(dt: Float) {
+            updateAnimations(dt)
+            if (bubbling) {
+                bubble.update(dt)
+                bubbleo.update(dt)
+                bubblex.update(dt)
+            }
+        }
+
+        fun render(sb: SpriteBatch) {
+            tileMap.toIsometric(p.x, p.y, isop)
+            sb.resetColor()
+            if (!teleporting) {
+                if (bubbling) {
+                    if (!dropping) {
+                        bubble.setPosition(isop.x, isop.y + p.z + 10)
+                        bubble.render(sb)
+                    }
+                    if (p.z == BASELINE + BUBBLE_HEIGHT) {
+                        if (canDrop) {
+                            bubbleo.setPosition(isop.x, isop.y)
+                            bubbleo.render(sb)
+                        } else {
+                            bubblex.setPosition(isop.x, isop.y)
+                            bubblex.render(sb)
+                        }
+                    }
+                }
+                if (forward) {
+                    accessories.forEach { it.renderBehind(sb) }
+                } else {
+                    accessories.forEach { it.renderFront(sb) }
+                }
+                if (right) {
+                    sb.draw(
+                        animationSet.getImage(),
+                        isop.x - animationSet.getImage().regionWidth / 2,
+                        isop.y + p.z
+                    )
+                } else {
+                    sb.draw(
+                        animationSet.getImage(),
+                        isop.x + animationSet.getImage().regionWidth / 2,
+                        isop.y + p.z,
+                        -animationSet.getImage().regionWidth * 1f,
+                        animationSet.getImage().regionHeight * 1f
+                    )
+                }
+                if (forward) {
+                    accessories.forEach { it.renderFront(sb) }
+                } else {
+                    accessories.forEach { it.renderBehind(sb) }
+                }
+                if (selected && selectedTimer < 3 && (selectedTimer * 10).toInt() % 5 < 3) {
+                    sb.draw(
+                        pointerImage,
+                        isop.x - pointerImage.regionWidth / 2,
+                        isop.y + p.z - 20f + 2 * sin(3 * selectedTimer)
+                    )
+                }
+            }
+        }
     }
 
 }

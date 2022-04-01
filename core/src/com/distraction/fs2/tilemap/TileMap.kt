@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector3
 import com.distraction.fs2.Context
 import com.distraction.fs2.tilemap.data.*
 import com.distraction.fs2.tilemap.tileobjects.*
+import com.distraction.fs2.tilemap.tileobjects.player.Player
 
 class TileMap(
     private val context: Context,
