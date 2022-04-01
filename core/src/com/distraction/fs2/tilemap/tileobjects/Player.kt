@@ -56,6 +56,9 @@ class Player(
     init {
         this.bubbling = bubbling
         setPositionFromTile(startRow, startCol)
+        if (!bubbling) {
+            tileMap.toggleTile(row, col)
+        }
         p.z = BASELINE
         pdest.set(p)
 
@@ -99,13 +102,6 @@ class Player(
         )
 
         animationSet.setAnimation("idle")
-    }
-
-    override fun setPositionFromTile(row: Int, col: Int) {
-        super.setPositionFromTile(row, col)
-        if (!bubbling) {
-            tileMap.toggleTile(row, col)
-        }
     }
 
     fun showSelected(selected: Boolean) {

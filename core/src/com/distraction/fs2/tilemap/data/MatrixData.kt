@@ -137,6 +137,21 @@ object MatrixData {
             )
         ),
         MapData(
+            numRows = 4, numCols = 3,
+            map = intArrayOf(
+                0, g, 0,
+                0, 0, 0,
+                0, 0, 0,
+                0, 0, 0
+            ),
+            goal = 18,
+            playerPositions = listOf(TilePoint(3, 1)),
+            objects = listOf(
+                ArrowData(2, 1, Direction.UP),
+                FinishTileData(1, 1)
+            )
+        ),
+        MapData(
             numRows = 4, numCols = 4,
             map = intArrayOf(
                 0, 0, 0, e,

@@ -50,9 +50,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
     }
 
     override fun onMoved() {
-        if (!tileMap.isFinished(players)) {
-            hud.incrementMoves()
-        }
+        hud.incrementMoves()
     }
 
     override fun onTileToggled(tileMap: TileMap) {
