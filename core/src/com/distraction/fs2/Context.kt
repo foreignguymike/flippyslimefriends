@@ -8,6 +8,10 @@ import com.distraction.fs2.tilemap.data.GameData
 
 class Context {
     val assets = AssetManager().apply {
+        setErrorListener { asset, throwable ->
+            println("asset error: ${asset.fileName}, ${throwable.message}")
+        }
+        println("trying to load assets")
         load("fs2.atlas", TextureAtlas::class.java)
         finishLoading()
     }
