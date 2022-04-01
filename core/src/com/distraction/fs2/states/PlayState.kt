@@ -56,7 +56,7 @@ class PlayState(context: Context, private val area: Area, private val level: Int
     }
 
     override fun onTileToggled(tileMap: TileMap) {
-        if (tileMap.isFinished(players)) {
+        if (tileMap.isFinished(players) && !ignoreInput) {
             ignoreInput = true
             hud.hideInfo = true
             if (hud.getBest() < 0 || hud.getMoves() < hud.getBest()) {

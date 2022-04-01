@@ -39,7 +39,7 @@ object MatrixData {
                 0, e, 0, e, 0,
                 0, 0, 0, 0, 0
             ),
-            goal = 11,
+            goal = 12,
             playerPositions = listOf(TilePoint(1, 0)),
             objects = listOf(
                 TeleportData(0, 1, 1, 4),
@@ -134,6 +134,25 @@ object MatrixData {
                     StopPathPointData(0, 2),
                     StopPathPointData(0, 3)
                 )
+            )
+        ),
+        MapData(
+            numRows = 4, numCols = 4,
+            map = intArrayOf(
+                0, 0, 0, e,
+                e, 0, 0, 0,
+                e, 0, 0, 0,
+                e, e, e, 0
+            ),
+            goal = 18,
+            playerPositions = listOf(TilePoint(0, 0)),
+            startBubble = true,
+            objects = listOf(
+                ArrowData(2, 2, Direction.RIGHT),
+                ArrowData(1, 2, Direction.RIGHT),
+                FinishTileData(1, 1),
+                TeleportData(3, 3, 0, 0),
+                TeleportData(0, 0, 3, 3)
             )
         )
     )
