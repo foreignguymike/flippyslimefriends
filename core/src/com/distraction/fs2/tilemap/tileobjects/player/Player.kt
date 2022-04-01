@@ -402,7 +402,11 @@ class Player(
         private val bubbleo = BreathingImage(context.getImage("bubbledropo"))
 
         val animationSet = AnimationSet()
-        private val accessories = listOf(SantaHat(this@Player))
+        private val accessories = listOf(
+//            HeadBubble(this@Player),
+            SantaHat(this@Player),
+            Fish(this@Player)
+        )
 
         init {
             animationSet.addAnimation(
@@ -466,12 +470,10 @@ class Player(
                 }
             } else { // jumping
                 if ((animationSet.currentAnimationKey == IDLE || animationSet.currentAnimationKey == IDLER)) {
-                    println("hi")
                     animationSet.setAnimation(if (forward) CROUCH else CROUCHR)
                 } else if ((animationSet.currentAnimationKey == CROUCH || animationSet.currentAnimationKey == CROUCHR)
                     && animationSet.currentAnimation.hasPlayedOnce()
                 ) {
-                    println("hi2")
                     animationSet.setAnimation(if (forward) JUMP else JUMPR)
                 }
             }
