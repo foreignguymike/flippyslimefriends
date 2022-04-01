@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
+import com.distraction.fs2.Animation
 import com.distraction.fs2.drawHFlip
 
 abstract class Accessory(val player: Player) {
@@ -76,12 +77,12 @@ class SantaHat(player: Player) : Accessory(player) {
 }
 
 class Fish(player: Player) : Accessory(player) {
-    val image = player.context.getImage("fish")
-    var time = 0f
-    var right = false
-    var cosx = 0f
-    var siny = 0f
-    var flipping = 0f
+    private val animation = Animation(player.context.getImage("fish").split(14, 7)[0], 0.25f)
+    private var time = 0f
+    private var right = false
+    private var cosx = 0f
+    private var siny = 0f
+    private var flipping = 0f
 
     override fun update(dt: Float) {
         time += dt
@@ -91,42 +92,43 @@ class Fish(player: Player) : Accessory(player) {
         offset.x = 30 * cosx
         offset.y = 10 * siny + 7
         right = siny < 0f
+        animation.update(dt)
     }
 
     override fun renderBehind(sb: SpriteBatch) {
 //        if (player.forward && !right) {
-//            sb.drawHFlip(image, isop.x + offset.x + 12, isop.y + player.p.z + offset.y)
+//            sb.drawHFlip(animation.getImage(), isop.x + offset.x + 12, isop.y + player.p.z + offset.y)
 //        } else if (!player.forward && right) {
-//            sb.draw(image, isop.x + offset.x, isop.y + player.p.z + offset.y)
+//            sb.draw(animation.getImage(), isop.x + offset.x, isop.y + player.p.z + offset.y)
 //        }
 
         // this looks kinda better
         if (player.forward && !right || !player.forward && right) {
             sb.draw(
-                image,
+                animation.getImage(),
                 isop.x + offset.x,
                 isop.y + player.p.z + offset.y,
-                image.regionWidth * flipping,
-                image.regionHeight * 1f
+                animation.getImage().regionWidth * flipping,
+                animation.getImage().regionHeight * 1f
             )
         }
     }
 
     override fun renderFront(sb: SpriteBatch) {
 //        if (player.forward && right) {
-//            sb.draw(image, isop.x + offset.x, isop.y + player.p.z + offset.y)
+//            sb.draw(animation.getImage(), isop.x + offset.x, isop.y + player.p.z + offset.y)
 //        } else if (!player.forward && !right) {
-//            sb.drawHFlip(image, isop.x + offset.x + 12, isop.y + player.p.z + offset.y)
+//            sb.drawHFlip(animation.getImage(), isop.x + offset.x + 12, isop.y + player.p.z + offset.y)
 //        }
 
         // this looks kinda better
         if (player.forward && right || !player.forward && !right) {
             sb.draw(
-                image,
+                animation.getImage(),
                 isop.x + offset.x,
                 isop.y + player.p.z + offset.y,
-                image.regionWidth * flipping,
-                image.regionHeight * 1f
+                animation.getImage().regionWidth * flipping,
+                animation.getImage().regionHeight * 1f
             )
         }
     }
