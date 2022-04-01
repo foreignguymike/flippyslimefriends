@@ -181,7 +181,7 @@ finishtileoff
   index: -1
 finishtileon
   rotate: false
-  xy: 1282, 46
+  xy: 1230, 46
   size: 50, 25
   orig: 50, 25
   offset: 0, 0
@@ -209,7 +209,7 @@ head_bubble
   index: -1
 ice
   rotate: false
-  xy: 1230, 46
+  xy: 1282, 46
   size: 50, 25
   orig: 50, 25
   offset: 0, 0
@@ -227,20 +227,6 @@ infobox
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
-  index: 0
-infobox
-  rotate: false
-  xy: 2039, 101
-  size: 7, 7
-  orig: 7, 7
-  offset: 0, 0
-  index: 5
-infobox
-  rotate: false
-  xy: 2039, 101
-  size: 7, 7
-  orig: 7, 7
-  offset: 0, 0
   index: 2
 infobox
   rotate: false
@@ -249,6 +235,20 @@ infobox
   orig: 7, 7
   offset: 0, 0
   index: 7
+infobox
+  rotate: false
+  xy: 2039, 101
+  size: 7, 7
+  orig: 7, 7
+  offset: 0, 0
+  index: 0
+infobox
+  rotate: false
+  xy: 2039, 101
+  size: 7, 7
+  orig: 7, 7
+  offset: 0, 0
+  index: 5
 infobox
   rotate: false
   xy: 1717, 74
@@ -328,7 +328,7 @@ matrixbg
   index: -1
 meadow
   rotate: false
-  xy: 339, 11
+  xy: 456, 11
   size: 115, 115
   orig: 115, 115
   offset: 0, 0
@@ -409,21 +409,21 @@ num2
   size: 6, 11
   orig: 6, 11
   offset: 0, 0
-  index: 7
+  index: 8
 num2
   rotate: false
   xy: 1831, 47
   size: 6, 11
   orig: 6, 11
   offset: 0, 0
-  index: 8
+  index: 9
 num2
   rotate: false
   xy: 787, 15
   size: 6, 11
   orig: 6, 11
   offset: 0, 0
-  index: 9
+  index: 7
 num2
   rotate: false
   xy: 787, 2
@@ -437,14 +437,14 @@ num3
   size: 11, 17
   orig: 11, 17
   offset: 0, 0
-  index: 2
+  index: 5
 num3
   rotate: false
   xy: 1811, 41
   size: 11, 17
   orig: 11, 17
   offset: 0, 0
-  index: 6
+  index: 2
 num3
   rotate: false
   xy: 1139, 30
@@ -479,7 +479,7 @@ num3
   size: 11, 17
   orig: 11, 17
   offset: 0, 0
-  index: 5
+  index: 6
 num3
   rotate: false
   xy: 753, 9
@@ -524,14 +524,14 @@ play
   index: -1
 playercrouch
   rotate: false
-  xy: 1747, 13
+  xy: 1779, 13
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
   index: -1
 playercrouchr
   rotate: false
-  xy: 1779, 13
+  xy: 1747, 13
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
@@ -634,6 +634,20 @@ starfinish
   orig: 89, 88
   offset: 0, 0
   index: -1
+sunglasses
+  rotate: false
+  xy: 233, 2
+  size: 22, 7
+  orig: 22, 7
+  offset: 0, 0
+  index: -1
+sunglasses_r
+  rotate: false
+  xy: 2039, 93
+  size: 7, 6
+  orig: 7, 6
+  offset: 0, 0
+  index: -1
 superjump
   rotate: false
   xy: 1941, 66
@@ -664,21 +678,21 @@ tileblocked
   index: -1
 tiledark
   rotate: false
-  xy: 1355, 73
+  xy: 1231, 73
   size: 60, 53
   orig: 60, 53
   offset: 0, 0
   index: -1
 tiledarkoff
   rotate: false
-  xy: 1479, 73
+  xy: 1417, 73
   size: 60, 53
   orig: 60, 53
   offset: 0, 0
   index: -1
 tilegrass
   rotate: false
-  xy: 1417, 73
+  xy: 1479, 73
   size: 60, 53
   orig: 60, 53
   offset: 0, 0
@@ -762,7 +776,7 @@ tileperm3
   index: -1
 tileruins
   rotate: false
-  xy: 1231, 73
+  xy: 1293, 73
   size: 60, 53
   orig: 60, 53
   offset: 0, 0
@@ -783,7 +797,7 @@ tilesea
   index: -1
 tilesnow
   rotate: false
-  xy: 1293, 73
+  xy: 1355, 73
   size: 60, 53
   orig: 60, 53
   offset: 0, 0
@@ -804,7 +818,7 @@ title
   index: -1
 tundra
   rotate: false
-  xy: 456, 11
+  xy: 222, 11
   size: 115, 115
   orig: 115, 115
   offset: 0, 0
@@ -818,7 +832,7 @@ tundrabg
   index: -1
 tutorial
   rotate: false
-  xy: 222, 11
+  xy: 339, 11
   size: 115, 115
   orig: 115, 115
   offset: 0, 0

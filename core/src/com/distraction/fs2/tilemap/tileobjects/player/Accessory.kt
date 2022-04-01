@@ -133,3 +133,32 @@ class Fish(player: Player) : Accessory(player) {
         }
     }
 }
+
+class Sunglasses(player: Player) : Accessory(player) {
+    private val image = player.context.getImage("sunglasses")
+    private val imageR = player.context.getImage("sunglasses_r")
+
+    override fun update(dt: Float) {
+        println("current animation ${animationSet.currentAnimationKey}")
+        when (animationSet.currentAnimationKey) {
+            Player.IDLE -> {
+                offset.set(-11f, if (animationSet.currentAnimation.currentFrame() == 0) 8f else 7f)
+            }
+            Player.IDLER -> {
+                offset.set(5f, if (animationSet.currentAnimation.currentFrame() == 0) 12f else 11f)
+            }
+            Player.CROUCH -> offset.set(-11f, 5f)
+            Player.CROUCHR -> offset.set(5f, 8f)
+            Player.JUMP -> offset.set(-11f, 12f)
+            Player.JUMPR -> offset.set(5f, 12f)
+        }
+    }
+
+    override fun renderBehind(sb: SpriteBatch) {
+        if (!player.forward) normalRender(sb, imageR)
+    }
+
+    override fun renderFront(sb: SpriteBatch) {
+        if (player.forward) normalRender(sb, image)
+    }
+}

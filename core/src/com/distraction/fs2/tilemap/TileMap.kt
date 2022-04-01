@@ -11,7 +11,7 @@ import com.distraction.fs2.tilemap.tileobjects.player.Player
 class TileMap(
     private val context: Context,
     private val tileListener: TileListener,
-    private val area: Area,
+    val area: Area,
     level: Int
 ) :
     Tile.TileMoveListener {

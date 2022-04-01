@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.MathUtils
 import com.distraction.fs2.*
 import com.distraction.fs2.tilemap.Tile
 import com.distraction.fs2.tilemap.TileMap
+import com.distraction.fs2.tilemap.data.Area
 import com.distraction.fs2.tilemap.data.Direction
 import com.distraction.fs2.tilemap.tileobjects.*
 import kotlin.math.abs
@@ -402,11 +403,16 @@ class Player(
         private val bubbleo = BreathingImage(context.getImage("bubbledropo"))
 
         val animationSet = AnimationSet()
-        private val accessories = listOf(
-//            HeadBubble(this@Player),
-            SantaHat(this@Player),
-            Fish(this@Player)
-        )
+        private val accessories = arrayListOf<Accessory>().apply {
+            when (tileMap.area) {
+                Area.UNDERSEA -> add(Fish(this@Player))
+                Area.TUNDRA -> add(SantaHat(this@Player))
+                Area.MATRIX -> add(Sunglasses(this@Player))
+                else -> {}
+            }
+
+            if (none { it is SantaHat }) add(HeadBubble(this@Player))
+        }
 
         init {
             animationSet.addAnimation(
@@ -458,22 +464,21 @@ class Player(
         }
 
         private fun updateAnimations(dt: Float) {
+            val key = animationSet.currentAnimationKey
             if (sliding) {
                 animationSet.setAnimation(if (forward) CROUCH else CROUCHR)
             } else if (dropping) {
                 animationSet.setAnimation(if (forward) JUMP else JUMPR)
             } else if (atDestination()) {
-                if ((animationSet.currentAnimationKey == JUMP || animationSet.currentAnimationKey == JUMPR)) {
+                if ((key == JUMP || key == JUMPR)) {
                     animationSet.setAnimation(if (forward) CROUCH else CROUCHR)
                 } else if (animationSet.currentAnimation.hasPlayedOnce()) {
                     animationSet.setAnimation(if (forward) IDLE else IDLER)
                 }
             } else { // jumping
-                if ((animationSet.currentAnimationKey == IDLE || animationSet.currentAnimationKey == IDLER)) {
+                if (key == IDLE || key == IDLER) {
                     animationSet.setAnimation(if (forward) CROUCH else CROUCHR)
-                } else if ((animationSet.currentAnimationKey == CROUCH || animationSet.currentAnimationKey == CROUCHR)
-                    && animationSet.currentAnimation.hasPlayedOnce()
-                ) {
+                } else if (animationSet.currentAnimationKey == CROUCH || animationSet.currentAnimationKey == CROUCHR) {
                     animationSet.setAnimation(if (forward) JUMP else JUMPR)
                 }
             }
