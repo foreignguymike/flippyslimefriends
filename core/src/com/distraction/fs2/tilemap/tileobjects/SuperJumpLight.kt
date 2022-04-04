@@ -15,11 +15,11 @@ class SuperJumpLight(context: Context, tileMap: TileMap, row: Int, col: Int) :
     private val image = context.getImage("superjump")
     private val duration = 1.0f
     private var time = 0f
-    override var speed = 15f
 
     init {
         setPositionFromTile(row, col)
         p.z = 0f
+        speed = 15f
     }
 
     override fun update(dt: Float) {

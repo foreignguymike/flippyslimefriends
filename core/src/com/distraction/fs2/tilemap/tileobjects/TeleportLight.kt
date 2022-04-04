@@ -18,7 +18,6 @@ class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) :
     private val pixel = context.getImage("pixel")
     private val color = GameColor.BRIGHT_SKY_BLUE
     private val particles = arrayListOf<Vector3>()
-    override var speed = 40f
 
     private val interval = 0.1f
     private var time = interval
@@ -27,6 +26,7 @@ class TeleportLight(context: Context, tileMap: TileMap, row: Int, col: Int) :
         setPositionFromTile(row, col)
         p.z = 8f
         height = 32f
+        speed = 40f
     }
 
     override fun update(dt: Float) {

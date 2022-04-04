@@ -5,8 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
 import com.distraction.fs2.Constants
 import com.distraction.fs2.FlippySlime2
 
-object DesktopLauncher {
-    @JvmStatic
+class DesktopLauncherOld {
     fun main(arg: Array<String>) {
         val config = LwjglApplicationConfiguration()
         config.forceExit = false

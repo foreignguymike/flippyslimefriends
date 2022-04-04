@@ -18,7 +18,7 @@ abstract class TileObject(val context: Context, val tileMap: TileMap) {
     val pdest = Vector3()
 
     // speed
-    open var speed = 0f
+    var speed = 0f
 
     // current tile position
     var currentTile: Tile? = null

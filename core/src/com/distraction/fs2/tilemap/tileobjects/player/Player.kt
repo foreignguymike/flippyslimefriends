@@ -30,8 +30,6 @@ class Player(
 
     val playerRenderer = PlayerRenderer()
 
-    override var speed = TileMap.TILE_SIZE * 1.85f
-
     private val jumpHeight = 40f
     private var totalDist = 0f
     private var moving = false
@@ -62,6 +60,7 @@ class Player(
         }
         p.z = BASELINE
         pdest.set(p)
+        speed = TileMap.TILE_SIZE * 1.85f
 
         currentTile = tileMap.getTile(row, col)
         currentTile?.let { tile ->
